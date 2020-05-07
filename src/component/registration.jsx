@@ -68,54 +68,54 @@ class Registration extends Component {
                 if (res.user) {
                   this.setState({
                     snackbarOpen: true,
-                    SnackbarMsg: "Registration Successful"
+                    snackbarMessage: "Registration Successful"
                   })
                   this.props.history.push("/login");
                 }
                 else {
                   this.setState({
                     snackbarOpen: true,
-                    SnackbarMsg: "Some problem occured while Registration"
+                    snackbarMessage: "Some problem occured while Registration"
                   })
                 }
 
               }).catch(err => {
                 this.setState({
                   snackbarOpen: true,
-                  SnackbarMsg: err
+                  snackbarMessage: err
                 })
               }
               )
             } else {
               this.setState({
                 snackbarOpen: true,
-                SnackbarMsg: "Invalid password"
+                snackbarMessage: "Invalid password"
               })
             }
           } else {
             this.setState({
               snackbarOpen: true,
-              SnackbarMsg: "Invalid e-mail"
+              snackbarMessage: "Invalid e-mail"
             })
           }
         }
         else {
           this.setState({
             snackbarOpen: true,
-            SnackbarMsg: "lastName cant contain numbers or special characters"
+            snackbarMessage: "lastName cant contain numbers or special characters"
           })
         }
       } else {
         this.setState({
           snackbarOpen: true,
-          SnackbarMsg: "firstName cant contain numbers or special characters"
+          snackbarMessage: "firstName cant contain numbers or special characters"
         })
       }
     }
     else {
       this.setState({
         snackbarOpen: true,
-        SnackbarMsg: "plzs fill all the fields"
+        snackbarMessage: "plzs fill all the fields"
       })
     }
   }
@@ -151,7 +151,7 @@ class Registration extends Component {
               }}
               autoHideDuration={3000}
               open={this.state.snackbarOpen}
-              message={<span id="message-id">{this.state.SnackbarMsg}</span>}
+              message={<span id="message-id">{this.state.snackbarMessage}</span>}
               action={
                 <IconButton size="small" aria-label="close" color="secondary" onClick={this.handleClose}>
                   <CloseIcon fontSize="small" />
