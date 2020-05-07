@@ -1,0 +1,38 @@
+.registration_Container {
+  background-color: white;
+  box-shadow: 0px 0px 10px 2px;
+  width: 30em;
+  padding: 50px;
+  height: 70vh;
+
+}
+
+.app_name {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+}
+.text_Div {
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.setMargin {
+  margin-Left: 20px;
+}
+.registration_Form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.set_Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
