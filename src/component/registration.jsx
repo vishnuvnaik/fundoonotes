@@ -170,7 +170,8 @@ class Registration extends Component {
               />
             </div>
           </div>
-          <div className="email">
+
+          <div className= "email">
             <TextField
               required
               label="email"
