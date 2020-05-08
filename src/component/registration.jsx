@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import "./CSS/registration.css";
+//import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
-import { TextField, Button, Card, IconButton } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Card,
+  IconButton,
+  Snackbar,
+} from "@material-ui/core";
 import userRegistration from "../services/userServices";
-import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
+// import Snackbar from "@material-ui/core/Snackbar";
+// import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
 class Registration extends Component {
@@ -18,7 +25,6 @@ class Registration extends Component {
       rePassword: "",
       snackbarOpen: false,
       snackbarMessage: "",
-      alertMsgType: "error",
       service: "",
     };
   }
@@ -171,7 +177,7 @@ class Registration extends Component {
             </div>
           </div>
 
-          <div className= "email">
+          <div className="email">
             <TextField
               required
               label="email"
@@ -218,6 +224,26 @@ class Registration extends Component {
             </Button>
           </div>
         </Card>
+        {/*  <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={5}
+          message={this.state.snackbarMessage}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="secondary"
+              onClick={this.handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        ></Snackbar>
+       */}
       </div>
     );
   }
