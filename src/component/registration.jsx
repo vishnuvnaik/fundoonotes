@@ -59,6 +59,7 @@ class Registration extends Component {
               this.state.password.length < 17
             ) {
               const data = {
+                service: "advance",
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email,
@@ -117,6 +118,7 @@ class Registration extends Component {
         snackbarOpen: true,
         snackbarMessage: "please fill all the fields",
       });
+      console.log("fill all fields");
     }
   };
   handleClose = () => {
@@ -127,7 +129,7 @@ class Registration extends Component {
   render() {
     return (
       <div className="registration_Form">
-        <Card class="registration_Container">
+        <Card className="registration_Container">
           <Typography className="app_name" variant="h5" color="textSecondary">
             <span style={{ color: "red" }}>F</span>
             <span style={{ color: "blue" }}>U</span>
@@ -143,25 +145,7 @@ class Registration extends Component {
           >
             <strong>Create Your Fundoo Account</strong>
           </Typography>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            autoHideDuration={3000}
-            open={this.state.snackbarOpen}
-            message={this.state.snackbarMessage}
-            action={
-              <IconButton
-                size="small"
-                aria-label="close"
-                color="secondary"
-                onClick={this.handleClose}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            }
-          />
+
           <div className="text_Div">
             <div>
               <TextField
@@ -186,7 +170,7 @@ class Registration extends Component {
               />
             </div>
           </div>
-          <div>
+          <div className="email">
             <TextField
               required
               label="email"
