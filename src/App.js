@@ -1,10 +1,7 @@
 import React from "react";
 import "./App.css";
 import Registration from "./component/registration";
-import {
-  BrowserRouter as Router,
-  Route, Switch
-} from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
   render() {
@@ -14,7 +11,7 @@ class App extends React.Component {
           <Route path="/registration" component={Registration}></Route>
         </Switch>
       </Router>
-    )
+    );
   }
 }
 
