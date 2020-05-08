@@ -4,7 +4,6 @@
   width: 30em;
   padding: 50px;
   height: 70vh;
-
 }
 
 .app_name {
@@ -13,9 +12,8 @@
   display: flex;
   justify-content: center;
   align-content: center;
-
 }
-.register_title{
+.register_title {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
@@ -26,7 +24,12 @@
   margin-bottom: 40px;
 }
 .setMargin {
-  margin-Left: 20px;
+  margin-left: 20px;
+}
+.email {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
 }
 .registration_Form {
   display: flex;
@@ -45,7 +48,7 @@
   margin-left: 100px;
   margin-right: 80px;
 }
-.login-btn{
+.login-btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
