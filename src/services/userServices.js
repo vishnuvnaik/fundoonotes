@@ -23,4 +23,15 @@ export async function login(loginData) {
   } catch (error) {}
 }
 
+export async function forgotPassword(data) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.forgotPassword,
+      data
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 export default userRegistration;
