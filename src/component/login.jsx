@@ -50,11 +50,12 @@ class Login extends React.Component {
           login(data)
             .then((res) => {
               console.log("Hello", res);
-              if (res.user) {
+              if (res.status == 200) {
                 this.setState({
                   snackbarOpen: true,
                   SnackbarMsg: "Login Successful",
                 });
+                localStorage.setItem("token", res.data.id);
                 this.props.history.push("/home");
                 console.log(this.state);
               } else {
