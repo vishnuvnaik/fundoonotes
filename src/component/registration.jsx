@@ -173,7 +173,7 @@ class Registration extends Component {
             onClose={() => this.setState({ snackbarOpen: false })}
             message={this.state.snackbarMessage}
           ></Snackbar>
-          <div className="text_Div">
+          <div className="firstAndPass">
             <div>
               <TextField
                 required
@@ -185,7 +185,7 @@ class Registration extends Component {
                 onChange={this.onchangeFirstName}
               />
             </div>
-            <div className="setMargin">
+            <div className="lastAndRePass">
               <TextField
                 fullWidth
                 required
@@ -209,7 +209,7 @@ class Registration extends Component {
               onChange={this.onchangeEmail}
             />
           </div>
-          <div className="text_Div">
+          <div className="firstAndPass">
             <div>
               <TextField
                 required
@@ -221,7 +221,7 @@ class Registration extends Component {
                 onChange={this.onchangePassword}
               />
             </div>
-            <div className="setMargin">
+            <div className="lastAndRePass">
               <TextField
                 required
                 label="Re-enter password"
