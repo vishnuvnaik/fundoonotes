@@ -89,26 +89,24 @@ class ForgetPassword extends React.Component {
           <div className="login"> Find Your Email</div>
           <div className="enterEmail">Enter your registered EMail</div>
           <Snackbar
-            id="snackbar_color"
+            // id="snackbar_color"
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "center",
             }}
             autoHideDuration={3000}
             open={this.state.snackbarOpen}
-            message={<span id="message-id">{this.state.snackbarMsg}</span>}
-            action={
-              <React.Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="secondary"
-                  onClick={this.handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
+            message={this.state.snackbarMsg}
+            // action={[
+            //   <IconButton
+            //     size="small"
+            //     aria-label="close"
+            //     color="secondary"
+            //     onClick={this.handleClose}
+            //   >
+            //     <CloseIcon fontSize="small" />
+            //   </IconButton>
+            // ]}
           />
 
           <div className="set_Div" data-test="EMAIL">
