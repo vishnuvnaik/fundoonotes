@@ -114,7 +114,7 @@ class Login extends React.Component {
             message={this.state.snackbarMessage}
           ></Snackbar>
 
-          <div className="set_Div" data-test="EMAIL">
+          <div className="emailAndPass" data-test="EMAIL">
             <TextField
               required
               variant="outlined"
@@ -126,7 +126,7 @@ class Login extends React.Component {
               onChange={this.onchangeEmail}
             />
           </div>
-          <div className="set_Div">
+          <div className="emailAndPass">
             <TextField
               required
               variant="outlined"
