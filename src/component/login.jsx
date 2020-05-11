@@ -14,21 +14,28 @@ class Login extends React.Component {
       password: "",
       snackbarMessage: "",
       snackbarOpen: false,
+      errs: {},
     };
   }
 
   onSubmit = () => {
+    let errs = {};
+    let formIsValid = true;
     const errors = this.validate(this.state);
     if (errors.email || this.state.Email === "") {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: "Enter proper email-ID.   ",
       });
+      formIsValid = false;
+      errs["email"] = "* required  valid mail id";
     } else if (this.state.password === "") {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: "Enter password",
       });
+      formIsValid = false;
+      errs["password"] = "* required  valid password";
     } else {
       let sendData = {
         email: this.state.Email,
@@ -75,7 +82,7 @@ class Login extends React.Component {
       });
     }
   };
-  
+
   forget = (reason) => {
     if (reason === "clickaway") {
       return;
@@ -114,6 +121,8 @@ class Login extends React.Component {
               label="email"
               type="text"
               value={this.state.Email}
+              error={this.state.errs["email"]}
+              helperText={this.state.errs["email"]}
               onChange={this.onchangeEmail}
             />
           </div>
@@ -124,6 +133,8 @@ class Login extends React.Component {
               label="password"
               type="password"
               value={this.state.password}
+              error={this.state.errs["password"]}
+              helperText={this.state.errs["password"]}
               onChange={this.onchangePassword}
             />
           </div>
