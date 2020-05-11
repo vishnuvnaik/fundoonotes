@@ -29,108 +29,120 @@ class Registration extends Component {
     };
   }
 
-  handleFName = (event) => {
-    this.setState({ firstName: event.target.value });
-  };
-  handleLName = (event) => {
-    this.setState({ lastName: event.target.value });
-  };
-  handleEmail = (event) => {
-    this.setState({ email: event.target.value });
-  };
-  handlePassword = (event) => {
-    this.setState({ password: event.target.value });
-  };
-  handleCheckPassword = (event) => {
-    this.setState({ rePassword: event.target.value });
-  };
-  validation = () => {
-    if (
-      this.state.firstName !== "" &&
-      this.state.lastName !== "" &&
-      this.state.email !== "" &&
-      this.state.password !== "" &&
-      this.state.rePassword !== ""
-    ) {
-      if (/^[a-zA-Z]{2,12}$/i.test(this.state.firstName)) {
-        if (/^[a-zA-Z]{2,12}$/i.test(this.state.lastName)) {
-          if (
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-              this.state.email
-            )
-          ) {
-            if (
-              this.state.password === this.state.rePassword &&
-              this.state.password.length > 5 &&
-              this.state.password.length < 17
-            ) {
-              const data = {
-                service: "advance",
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password,
-              };
-              userRegistration(data)
-                .then((res) => {
-                  if (res.user) {
-                    this.setState({
-                      snackbarOpen: true,
-                      snackbarMessage: "Registration Successful",
-                    });
-                    this.props.history.push("/login");
-                  } else {
-                    this.setState({
-                      snackbarOpen: true,
-                      snackbarMessage:
-                        "Some problem occured while Registration",
-                    });
-                  }
-                })
-                .catch((err) => {
-                  this.setState({
-                    snackbarOpen: true,
-                    snackbarMessage: err,
-                  });
-                });
-            } else {
-              this.setState({
-                snackbarOpen: true,
-                snackbarMessage: "Invalid password",
-              });
-            }
+  onSubmit = () => {
+    const errors = this.validate(this.state);
+    if (errors.email || this.state.email === "") {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Enter proper email-ID.   ",
+      });
+    } else if (this.state.password === "") {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Enter correct password",
+      });
+    } else {
+      let data = {
+        service: "advance",
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password,
+      };
+
+      userRegistration(data)
+        .then((res) => {
+          if (res.user) {
+            this.setState({
+              snackbarOpen: true,
+              snackbarMessage: "Registration Successful",
+            });
+            this.props.history.push("/login");
           } else {
             this.setState({
               snackbarOpen: true,
-              snackbarMessage: "Invalid e-mail",
+              snackbarMessage: "Some problem occured while Registration",
             });
           }
-        } else {
+        })
+        .catch((err) => {
           this.setState({
             snackbarOpen: true,
-            snackbarMessage:
-              "lastName cant contain numbers or special characters",
+            snackbarMessage: err,
           });
-        }
-      } else {
-        this.setState({
-          snackbarOpen: true,
-          snackbarMessage:
-            "firstName cant contain numbers or special characters",
         });
-      }
+    }
+  };
+
+  validate = (data) => {
+    const errors = {};
+    if (!/([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(data.email))
+      errors.email = "Invalid email";
+    return errors;
+  };
+
+  onchangeFirstName = (event) => {
+    if (/^[a-zA-Z]*$/.test(event.target.value)) {
+      this.setState({ firstName: event.target.value });
     } else {
       this.setState({
         snackbarOpen: true,
-        snackbarMessage: "please fill all the fields",
+        snackbarMessage: "Enter only alphabets   ",
       });
-      console.log("fill all fields");
     }
   };
-  handleClose = () => {
-    this.setState({
-      snackbarOpen: false,
-    });
+
+  onchangeLastName = (event) => {
+    if (/^[a-zA-Z]*$/.test(event.target.value)) {
+      this.setState({ lastName: event.target.value });
+    } else {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Enter only alphabets.   ",
+      });
+    }
+  };
+
+  onchangeEmail = (event) => {
+    this.setState({ email: event.target.value });
+  };
+
+  onchangePassword = (event) => {
+    if (event.target.value.match("^[A-Za-z0-9]*$") != null) {
+      this.setState({ password: event.target.value });
+    } else {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "enter correct password",
+      });
+    }
+  };
+
+  onchangeRePassword = async (event) => {
+    await this.setState({ rePassword: event.target.value });
+    this.checkPassword();
+  };
+
+  checkPassword() {
+    if (this.state.password === this.state.rePassword) {
+      this.setState({ snackbarOpen: true, snackbarMessage: "done" });
+    } else {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "enter same password",
+      });
+    }
+  }
+
+  SnackbarClose = (e) => {
+    this.setState({ snackbarOpen: false });
+  };
+
+  handleCloseSnackbar = () => {
+    this.setState({ snackbarOpen: false });
+  };
+  loginPage = () => {
+    this.props.history.push("/login");
   };
   render() {
     return (
@@ -151,7 +163,16 @@ class Registration extends Component {
           >
             <strong>Create Your Fundoo Account</strong>
           </Typography>
-
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            open={this.state.snackbarOpen}
+            autoHideDuration={3000}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.state.snackbarMessage}
+          ></Snackbar>
           <div className="text_Div">
             <div>
               <TextField
@@ -161,7 +182,7 @@ class Registration extends Component {
                 label="firstname"
                 type="text"
                 value={this.state.firstName}
-                onChange={this.handleFName}
+                onChange={this.onchangeFirstName}
               />
             </div>
             <div className="setMargin">
@@ -172,7 +193,7 @@ class Registration extends Component {
                 variant="outlined"
                 type="text"
                 value={this.state.lastName}
-                onChange={this.handleLName}
+                onChange={this.onchangeLastName}
               />
             </div>
           </div>
@@ -185,7 +206,7 @@ class Registration extends Component {
               variant="outlined"
               type="text"
               value={this.state.email}
-              onChange={this.handleEmail}
+              onChange={this.onchangeEmail}
             />
           </div>
           <div className="text_Div">
@@ -197,7 +218,7 @@ class Registration extends Component {
                 variant="outlined"
                 type="password"
                 value={this.state.password}
-                onChange={this.handlePassword}
+                onChange={this.onchangePassword}
               />
             </div>
             <div className="setMargin">
@@ -208,7 +229,7 @@ class Registration extends Component {
                 variant="outlined"
                 type="password"
                 value={this.state.rePassword}
-                onChange={this.handleCheckPassword}
+                onChange={this.onchangeRePassword}
               />
             </div>
           </div>
@@ -218,32 +239,12 @@ class Registration extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              onClick={this.validation}
+              onClick={this.onSubmit}
             >
               SUBMIT
             </Button>
           </div>
         </Card>
-        {/*  <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          open={this.state.snackbarOpen}
-          autoHideDuration={5}
-          message={this.state.snackbarMessage}
-          action={
-            <IconButton
-              size="small"
-              aria-label="close"
-              color="secondary"
-              onClick={this.handleClose}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          }
-        ></Snackbar>
-       */}
       </div>
     );
   }
