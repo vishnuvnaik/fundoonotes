@@ -14,64 +14,58 @@ class ForgetPassword extends React.Component {
       email: "",
       snackbarMsg: "",
       snackbarOpen: false,
+      errs: {},
     };
   }
-  handleOnChange = (event) => {
-    this.setState({ email: event.target.value });
-  };
-  validation = () => {
-    if (this.state.email !== "") {
-      if (
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)
-      ) {
-        const data = {
-          email: this.state.email,
-        };
-        forgotPassword(data)
-          .then((res) => {
-            if (res === undefined) {
-              this.setState({
-                snackbarOpen: true,
-                snackbarMsg: "Check your E-Mail",
-              });
-              setTimeout(() => {
-                this.props.history.push("/login");
-              }, 2000);
-              return;
-            } else {
-              this.setState({
-                snackbarOpen: true,
-                snackbarMsg: "Invalid Email-ID",
-              });
-            }
-          })
-          .catch((err) => {
-            this.setState({
-              snackbarOpen: true,
-              snackbarMsg: err,
-            });
-          });
-      } else {
-        this.setState({
-          snackbarOpen: true,
-          snackbarMsg: "Invalid E-mail",
-        });
-      }
-    } else {
+  onSubmit = () => {
+    let errs = {};
+    let formIsValid = true;
+    const errors = this.validate(this.state);
+    if (errors.email || this.state.email === "") {
       this.setState({
         snackbarOpen: true,
-        snackbarMsg: "Enter Your E-Mail",
+        snackbarMsg: "Enter proper email-ID.   ",
       });
+      formIsValid = false;
+      errs["email"] = "* required  valid mail id";
+    } else {
+      let sendData = {
+        email: this.state.email,
+      };
+
+      forgotPassword(sendData)
+        .then((response) => {
+          if (response === undefined) {
+            this.setState({
+              snackbarOpen: true,
+              snackbarMsg: "Check your E-Mail",
+            });
+            this.props.history.push("/login");
+          } else {
+            this.setState({
+              snackbarOpen: true,
+              snackbarMsg: "Invalid Email-ID",
+            });
+          }
+        })
+        .catch((err) => {
+          this.setState({
+            snackbarOpen: true,
+            snackbarMsg: err,
+          });
+        });
     }
   };
-  handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
 
-    this.setState({
-      snackbarOpen: false,
-    });
+  validate = (data) => {
+    const errors = {};
+    if (!/([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(data.email))
+      errors.email = "Invalid email";
+    return errors;
+  };
+
+  onchangeEmail = (event) => {
+    this.setState({ email: event.target.value });
   };
 
   render() {
@@ -88,28 +82,6 @@ class ForgetPassword extends React.Component {
           </Typography>
           <div className="login"> Find Your Email</div>
           <div className="enterEmail">Enter your registered EMail</div>
-
-          <div className="set_Div" data-test="EMAIL">
-            <TextField
-              required
-              variant="outlined"
-              label="email"
-              type="text"
-              value={this.state.email}
-              onChange={this.handleOnChange}
-            />
-          </div>
-          <div className="set_Button">
-            <Button
-              id="styled_component"
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={this.validation}
-            >
-              NEXT
-            </Button>
-          </div>
           <Snackbar
             // id="snackbar_color"
             anchorOrigin={{
@@ -130,6 +102,30 @@ class ForgetPassword extends React.Component {
               </IconButton>,
             ]}
           />
+
+          <div className="set_Div" data-test="EMAIL">
+            <TextField
+              required
+              variant="outlined"
+              label="email"
+              type="text"
+              value={this.state.email}
+              error={this.state.errs["email"]}
+              helperText={this.state.errs["email"]}
+              onChange={this.onchangeEmail}
+            />
+          </div>
+          <div className="set_Button">
+            <Button
+              id="styled_component"
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={this.onSubmit}
+            >
+              NEXT
+            </Button>
+          </div>
         </Card>
       </div>
     );
