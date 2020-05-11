@@ -22,7 +22,7 @@ class Login extends React.Component {
     let errs = {};
     let formIsValid = true;
     const errors = this.validate(this.state);
-    if (errors.email || this.state.Email === "") {
+    if (errors.email || this.state.email === "") {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: "Enter proper email-ID.   ",
@@ -69,7 +69,7 @@ class Login extends React.Component {
   };
 
   onchangeEmail = (event) => {
-    this.setState({ Email: event.target.value });
+    this.setState({ email: event.target.value });
   };
 
   onchangePassword = (event) => {
@@ -120,9 +120,10 @@ class Login extends React.Component {
               variant="outlined"
               label="email"
               type="text"
-              value={this.state.Email}
+              value={this.state.email}
               error={this.state.errs["email"]}
               helperText={this.state.errs["email"]}
+              variant="outlined"
               onChange={this.onchangeEmail}
             />
           </div>
