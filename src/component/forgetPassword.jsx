@@ -88,26 +88,6 @@ class ForgetPassword extends React.Component {
           </Typography>
           <div className="login"> Find Your Email</div>
           <div className="enterEmail">Enter your registered EMail</div>
-          <Snackbar
-            // id="snackbar_color"
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            autoHideDuration={3000}
-            open={this.state.snackbarOpen}
-            message={this.state.snackbarMsg}
-            // action={[
-            //   <IconButton
-            //     size="small"
-            //     aria-label="close"
-            //     color="secondary"
-            //     onClick={this.handleClose}
-            //   >
-            //     <CloseIcon fontSize="small" />
-            //   </IconButton>
-            // ]}
-          />
 
           <div className="set_Div" data-test="EMAIL">
             <TextField
@@ -130,6 +110,26 @@ class ForgetPassword extends React.Component {
               NEXT
             </Button>
           </div>
+          <Snackbar
+            // id="snackbar_color"
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            autoHideDuration={3000}
+            open={this.state.snackbarOpen}
+            message={this.state.snackbarMsg}
+            action={[
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="secondary"
+                onClick={this.handleClose}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>,
+            ]}
+          />
         </Card>
       </div>
     );
