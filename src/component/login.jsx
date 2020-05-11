@@ -12,81 +12,77 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
-      SnackbarMsg: "",
+      snackbarMessage: "",
       snackbarOpen: false,
     };
   }
-  handleEmail = (event) => {
-    this.setState({ email: event.target.value });
-  };
-  handlePassword = (event) => {
-    this.setState({ password: event.target.value });
-  };
-  handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
 
-    this.setState({
-      snackbarOpen: false,
-    });
+  onSubmit = () => {
+    const errors = this.validate(this.state);
+    if (errors.email || this.state.Email === "") {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Enter proper email-ID.   ",
+      });
+    } else if (this.state.password === "") {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Enter password",
+      });
+    } else {
+      let sendData = {
+        email: this.state.Email,
+        password: this.state.password,
+      };
+
+      login(sendData)
+        .then((response) => {
+          if (response.status === 200) {
+            this.setState({
+              snackbarOpen: true,
+              snackbarMessage: "Login Succesfully.",
+            });
+            this.props.history.push("/home");
+          } else {
+            this.setState({
+              snackbarOpen: true,
+              snackbarMessage: "Enter correct credentials",
+            });
+          }
+        })
+        .catch();
+    }
   };
+
+  validate = (data) => {
+    const errors = {};
+    if (!/([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(data.Email))
+      errors.email = "Invalid email";
+    return errors;
+  };
+
+  onchangeEmail = (event) => {
+    this.setState({ Email: event.target.value });
+  };
+
+  onchangePassword = (event) => {
+    if (event.target.value.match("^[A-Za-z0-9]*$") != null) {
+      this.setState({ password: event.target.value });
+    } else {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "enter correct password",
+      });
+    }
+  };
+  
   forget = (reason) => {
     if (reason === "clickaway") {
       return;
     }
     this.props.history.push("/forgetPassword");
   };
-  validation = () => {
-    const data = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    if (this.state.email !== "") {
-      if (
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)
-      ) {
-        if (this.state.password !== "") {
-          login(data)
-            .then((res) => {
-              console.log("Hello", res);
-              if (res.status == 200) {
-                this.setState({
-                  snackbarOpen: true,
-                  SnackbarMsg: "Login Successful",
-                });
-                localStorage.setItem("token", res.data.id);
-                this.props.history.push("/home");
-                console.log(this.state);
-              } else {
-                this.setState({
-                  snackbarOpen: true,
-                  SnackbarMsg: "Login Unsuccessful invalid e-mail / password",
-                });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          this.setState({
-            snackbarOpen: true,
-            SnackbarMsg: "Enter your password",
-          });
-        }
-      } else {
-        this.setState({
-          snackbarOpen: true,
-          SnackbarMsg: "Invalid Email",
-        });
-      }
-    } else {
-      this.setState({
-        snackbarOpen: true,
-        SnackbarMsg: "Enter your Email",
-      });
-    }
-  };
+
   render() {
     return (
       <div className="login_Form">
@@ -101,27 +97,15 @@ class Login extends React.Component {
           </Typography>
           <div className="login">Sign in</div>
           <Snackbar
-            id="snackbar_color"
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "center",
             }}
-            autoHideDuration={3000}
             open={this.state.snackbarOpen}
-            message={<span id="message-id">{this.state.SnackbarMsg}</span>}
-            action={
-              <React.Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="secondary"
-                  onClick={this.handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
-          />
+            autoHideDuration={3000}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.state.snackbarMessage}
+          ></Snackbar>
 
           <div className="set_Div" data-test="EMAIL">
             <TextField
@@ -129,8 +113,8 @@ class Login extends React.Component {
               variant="outlined"
               label="email"
               type="text"
-              value={this.state.email}
-              onChange={this.handleEmail}
+              value={this.state.Email}
+              onChange={this.onchangeEmail}
             />
           </div>
           <div className="set_Div">
@@ -140,7 +124,7 @@ class Login extends React.Component {
               label="password"
               type="password"
               value={this.state.password}
-              onChange={this.handlePassword}
+              onChange={this.onchangePassword}
             />
           </div>
           <div className="forget_style" onClick={this.forget}>
@@ -152,7 +136,7 @@ class Login extends React.Component {
               type="submit"
               variant="contained"
               color="primary"
-              onClick={this.validation}
+              onClick={this.onSubmit}
             >
               LOGIN
             </Button>
