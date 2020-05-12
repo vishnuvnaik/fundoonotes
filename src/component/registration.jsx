@@ -9,7 +9,7 @@ import {
   IconButton,
   Snackbar,
 } from "@material-ui/core";
-import userRegistration from "../services/userServices";
+import userServices from "../services/userServices";
 // import Snackbar from "@material-ui/core/Snackbar";
 // import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
@@ -50,9 +50,9 @@ class Registration extends Component {
         password: this.state.password,
       };
 
-      userRegistration(data)
-        .then((res) => {
-          if (res.user) {
+      userServices.userRegistration(data)
+        .then((response) => {
+          if (response.status === 200) {
             this.setState({
               snackbarOpen: true,
               snackbarMessage: "Registration Successful",
@@ -163,16 +163,7 @@ class Registration extends Component {
           >
             <strong>Create Your Fundoo Account</strong>
           </Typography>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            open={this.state.snackbarOpen}
-            autoHideDuration={3000}
-            onClose={() => this.setState({ snackbarOpen: false })}
-            message={this.state.snackbarMessage}
-          ></Snackbar>
+          
           <div className="firstAndPass">
             <div>
               <TextField
