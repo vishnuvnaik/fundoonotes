@@ -83,11 +83,12 @@ class Login extends React.Component {
     }
   };
 
-  forget = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  forget = () => {
     this.props.history.push("/forgetPassword");
+  };
+
+  create = () => {
+    this.props.history.push("/registration");
   };
   render() {
     return (
@@ -151,6 +152,9 @@ class Login extends React.Component {
             >
               LOGIN
             </Button>
+          </div>
+          <div className="createAccount" onClick={this.create}>
+            <span>Create Account</span>
           </div>
         </Card>
       </div>
