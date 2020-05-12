@@ -35,8 +35,7 @@ class ForgetPassword extends React.Component {
         email: this.state.email,
       };
 
-      userServices
-        .forgotPassword(sendData)
+      userServices.forgotPassword(sendData)
         .then((response) => {
           console.log(response);
           if (response === undefined) {
