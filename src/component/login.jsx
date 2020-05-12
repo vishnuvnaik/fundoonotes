@@ -102,6 +102,16 @@ class Login extends React.Component {
             <span style={{ color: "blue" }}>O</span>
           </Typography>
           <div className="login">Sign in</div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            open={this.state.snackbarOpen}
+            autoHideDuration={3000}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.state.snackbarMessage}
+          ></Snackbar>
 
           <div className="emailAndPass" data-test="EMAIL">
             <TextField
