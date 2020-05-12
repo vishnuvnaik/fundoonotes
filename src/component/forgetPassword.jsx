@@ -1,6 +1,6 @@
 import React from "react";
 import "./CSS/forget.css";
-import forgotPassword from "../services/userServices";
+import userServices from "../services/userServices";
 import { TextField, Card, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -17,7 +17,9 @@ class ForgetPassword extends React.Component {
       errs: {},
     };
   }
-  onSubmit = () => {
+  onSubmit = (event) => {
+    event.preventDefault();
+    console.log("hello");
     let errs = {};
     let formIsValid = true;
     const errors = this.validate(this.state);
@@ -33,8 +35,10 @@ class ForgetPassword extends React.Component {
         email: this.state.email,
       };
 
-      forgotPassword(sendData)
+      userServices
+        .forgotPassword(sendData)
         .then((response) => {
+          console.log(response);
           if (response === undefined) {
             this.setState({
               snackbarOpen: true,
@@ -82,26 +86,6 @@ class ForgetPassword extends React.Component {
           </Typography>
           <div className="login"> Find Your Email</div>
           <div className="enterEmail">Enter your registered EMail</div>
-          <Snackbar
-            // id="snackbar_color"
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            autoHideDuration={3000}
-            open={this.state.snackbarOpen}
-            message={this.state.snackbarMsg}
-            action={[
-              <IconButton
-                size="small"
-                aria-label="close"
-                color="secondary"
-                onClick={this.handleClose}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>,
-            ]}
-          />
 
           <div className="set_Div" data-test="EMAIL">
             <TextField
