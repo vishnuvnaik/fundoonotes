@@ -50,7 +50,8 @@ class Registration extends Component {
         password: this.state.password,
       };
 
-      userServices.userRegistration(data)
+      userServices
+        .userRegistration(data)
         .then((response) => {
           if (response.status === 200) {
             this.setState({
@@ -163,7 +164,16 @@ class Registration extends Component {
           >
             <strong>Create Your Fundoo Account</strong>
           </Typography>
-          
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            open={this.state.snackbarOpen}
+            autoHideDuration={3000}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.state.snackbarMessage}
+          ></Snackbar>
           <div className="firstAndPass">
             <div>
               <TextField
