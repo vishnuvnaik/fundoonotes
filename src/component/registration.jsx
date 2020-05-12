@@ -142,7 +142,7 @@ class Registration extends Component {
   handleCloseSnackbar = () => {
     this.setState({ snackbarOpen: false });
   };
-  loginPage = () => {
+  login = () => {
     this.props.history.push("/login");
   };
   render() {
@@ -244,6 +244,16 @@ class Registration extends Component {
             >
               SUBMIT
             </Button>
+          </div>
+          <div className="loginStyle" onClick={this.login}>
+            <Typography
+              className="register_title"
+              variant="h7"
+              color="textSecondary"
+            >
+              Existing user :
+            </Typography>
+            <span>Login</span>
           </div>
         </Card>
       </div>
