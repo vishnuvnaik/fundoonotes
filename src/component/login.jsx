@@ -3,7 +3,7 @@ import "./CSS/login.css";
 import { TextField, Card, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
-import login from "../services/userServices";
+import userServices from "../services/userServices";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 class Login extends React.Component {
@@ -17,7 +17,6 @@ class Login extends React.Component {
       errs: {},
     };
   }
-
   onSubmit = () => {
     let errs = {};
     let formIsValid = true;
@@ -38,11 +37,12 @@ class Login extends React.Component {
       errs["password"] = "* required  valid password";
     } else {
       let sendData = {
-        email: this.state.Email,
+        email: this.state.email,
         password: this.state.password,
       };
 
-      login(sendData)
+      userServices
+        .login(sendData)
         .then((response) => {
           if (response.status === 200) {
             this.setState({
@@ -63,7 +63,7 @@ class Login extends React.Component {
 
   validate = (data) => {
     const errors = {};
-    if (!/([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(data.Email))
+    if (!/([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(data.email))
       errors.email = "Invalid email";
     return errors;
   };
@@ -89,7 +89,6 @@ class Login extends React.Component {
     }
     this.props.history.push("/forgetPassword");
   };
-
   render() {
     return (
       <div className="login_Form">
@@ -103,16 +102,6 @@ class Login extends React.Component {
             <span style={{ color: "blue" }}>O</span>
           </Typography>
           <div className="login">Sign in</div>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            open={this.state.snackbarOpen}
-            autoHideDuration={3000}
-            onClose={() => this.setState({ snackbarOpen: false })}
-            message={this.state.snackbarMessage}
-          ></Snackbar>
 
           <div className="emailAndPass" data-test="EMAIL">
             <TextField
