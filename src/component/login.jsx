@@ -49,7 +49,7 @@ class Login extends React.Component {
               snackbarOpen: true,
               snackbarMessage: "Login Succesfully.",
             });
-            this.props.history.push("/home");
+            this.props.history.push("/dashboard");
           } else {
             this.setState({
               snackbarOpen: true,
