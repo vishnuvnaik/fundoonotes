@@ -35,7 +35,8 @@ class ForgetPassword extends React.Component {
         email: this.state.email,
       };
 
-      userServices.forgotPassword(sendData)
+      userServices
+        .forgotPassword(sendData)
         .then((response) => {
           console.log(response);
           if (response === undefined) {
@@ -83,6 +84,17 @@ class ForgetPassword extends React.Component {
             <span style={{ color: "red" }}>O</span>
             <span style={{ color: "blue" }}>O</span>
           </Typography>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            open={this.state.snackbarOpen}
+            autoHideDuration={3000}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.state.snackbarMsg}
+          ></Snackbar>
+
           <div className="login"> Find Your Email</div>
           <div className="enterEmail">Enter your registered EMail</div>
 
