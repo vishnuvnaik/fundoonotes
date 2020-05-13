@@ -1,1 +1,5 @@
-module.exports = { registration: "/user/userSignUp", login: "/user/login",forgotPassword:"/user/forgotPassword" };
+module.exports = {
+  registration: "/user/userSignUp",
+  login: "/user/login",
+  forgotPassword: "/user/reset",
+};
