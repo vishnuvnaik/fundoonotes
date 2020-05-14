@@ -26,13 +26,12 @@ class ShowCards extends Component {
     });
   }
 
-  addNotes = () => {
+  addNotes() {
     this.setState({
       title: "",
       description: "",
     });
-  };
-
+  }
   render() {
     return (
       <Card className="cardlist">
@@ -77,7 +76,14 @@ class ShowCards extends Component {
             <div></div>
           </Toolbar>
           <div className="closeButton">
-            <Button onClick={(event) => this.addNotes(event)}>Close</Button>
+            <Button
+              form="styled_component"
+              variant="contained"
+              color="offwhite  "
+              onClick={(event) => this.addNotes(event)}
+            >
+              Close
+            </Button>
           </div>
         </div>
       </Card>
