@@ -73,3 +73,56 @@
 .tooltip-on-hover:hover + .tooltip {
   display: block;
 }
+
+.notesCard {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 43px;
+  inline-size: 500px;
+}
+.show {
+  margin-left: 363px;
+  margin-top: 101px;
+  inline-size: 500px;
+}
+.takeNote {
+  margin-top: 73px;
+}
+
+.closeButton {
+  margin-top: 17px;
+  margin-left: 82px;
+}
+.in {
+  border-bottom: 0px;
+  border-bottom-color: white;
+}
+.inp {
+  text-align: start;
+  display: flex;
+  padding: 4px 16px 12px 16px;
+
+}
+
+.titleNote {
+  display: flex;
+  flex-direction: row;
+  padding: 4px 16px 12px 16px;
+  margin-left: -15px;
+}
+.titleAndPin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px 16px 12px 16px;
+}
+.CardToolbar {
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: -20px;
+}
+.toolbarAndClose {
+  display: flex;
+  flex-direction: row;
+}
