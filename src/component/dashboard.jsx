@@ -11,6 +11,7 @@ import {
   Toolbar,
   Menu,
   Popover,
+  Card,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -21,6 +22,7 @@ import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import ViewStreamIcon from "@material-ui/icons/ViewStream";
 import SideMenu from "./sideMenu";
 import keep from "../assets/keep.png";
+import Notes from "./notesCard";
 import "./CSS/dashboard.css";
 const theme = createMuiTheme({
   overrides: {
@@ -94,6 +96,7 @@ export default class dashboard extends Component {
             </Toolbar>
           </AppBar>
           <SideMenu sideOpen={this.state.open} sideNote={this.props.varNote} />
+          <Notes />
         </div>
       </MuiThemeProvider>
     );
