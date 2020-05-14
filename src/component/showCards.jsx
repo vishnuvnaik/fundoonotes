@@ -14,10 +14,6 @@ class ShowCards extends Component {
       nextLine: true,
       title: "",
       description: "",
-      reminder: "",
-      collaborator: "",
-      color: "",
-      image: "",
       openCard: false,
     };
   }
