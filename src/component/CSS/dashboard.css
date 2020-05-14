@@ -90,10 +90,6 @@
   margin-top: 73px;
 }
 
-.closeButton {
-  margin-top: 17px;
-  margin-left: 82px;
-}
 .in {
   border-bottom: 0px;
   border-bottom-color: white;
@@ -103,7 +99,10 @@
   display: flex;
   padding: 4px 16px 12px 16px;
 }
-
+.closeButton {
+  margin-top: 17px;
+  margin-left: 82px;
+}
 .titleNote {
   display: flex;
   flex-direction: row;
