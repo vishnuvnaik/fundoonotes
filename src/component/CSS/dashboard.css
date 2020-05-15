@@ -3,6 +3,12 @@
   flex-direction: row;
 }
 
+.headerName {
+  display: flex;
+  margin-top: 10px;
+  margin-left: 10px;
+  color: gray;
+}
 .menuAndlogo {
   display: flex;
   flex-direction: row;
@@ -14,6 +20,10 @@
   justify-content: flex-start;
   align-content: center;
   inline-size: 500px;
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
 #searchbar {
@@ -37,6 +47,8 @@
   justify-content: space-between;
 }
 .searchBox {
+  display: flex;
+  flex-direction: row;
   width: 50%;
   margin-right: 10px;
 }
@@ -97,11 +109,25 @@
 .inp {
   text-align: start;
   display: flex;
+  width: 200px;
   padding: 4px 16px 12px 16px;
 }
+.CardToolbar {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  margin-left: -20px;
+}
+.toolbarAndClose {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .closeButton {
+  display: flex;
+  flex-direction: row;
   margin-top: 17px;
   margin-left: 0px;
+  margin-right: 5px;
 }
 .titleNote {
   display: flex;
@@ -123,4 +149,20 @@
 .toolbarAndClose {
   display: flex;
   flex-direction: row;
+}
+
+.notesCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  height: 43px;
+  inline-size: 600px;
+}
+
+.cardlist {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
 }
