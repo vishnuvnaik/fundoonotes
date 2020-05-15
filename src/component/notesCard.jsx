@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, InputBase, IconButton } from "@material-ui/core";
+import { Card, InputBase, IconButton, Tooltip } from "@material-ui/core";
 import ShowCards from "./showCards";
 import CheckBox from "@material-ui/icons/CheckBox";
 import Brush from "@material-ui/icons/Brush";
@@ -25,14 +25,16 @@ class Notes extends Component {
         <Card className="notesCard">
           <InputBase
             className="takeNote"
-            style={{ marginTop: "0px" }}
+            style={{ marginTop: "0px", marginLeft: "1em", fontWeight: "bold" }}
+            placeholder="Take a note..."
             onClick={(event) => this.openCard()}
-            placeholder="Take a notes..."
           ></InputBase>
           <div>
-            <IconButton>
-              <CheckBox />
-            </IconButton>
+            <Tooltip title="New List">
+              <IconButton>
+                <CheckBox />
+              </IconButton>
+            </Tooltip>
             <IconButton>
               <Brush />
             </IconButton>
