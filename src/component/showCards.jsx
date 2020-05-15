@@ -18,6 +18,11 @@ class ShowCards extends Component {
     };
   }
 
+  handleClose = () => {
+    this.setState({
+      openCard: false,
+    });
+  };
   handleLabel(val) {
     console.log("value===", val);
 
@@ -80,7 +85,7 @@ class ShowCards extends Component {
               form="styled_component"
               variant="contained"
               color="offwhite  "
-              onClick={(event) => this.addNotes(event)}
+              onClick={this.handleClose}
             >
               Close
             </Button>
