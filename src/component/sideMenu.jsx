@@ -40,12 +40,6 @@ class SideMenu extends Component {
     };
   }
   render() {
-    let n = this.state.notes ? "roundbutton" : "menu";
-    let r = this.state.reminder ? "roundbutton" : "menu";
-    let e = this.state.editLabel ? "roundbutton" : "menu";
-    let a = this.state.archive ? "roundbutton" : "menu";
-    let t = this.state.trash ? "roundbutton" : "menu";
-
     return (
       <MuiThemeProvider theme={theme}>
         <SwipeableDrawer
