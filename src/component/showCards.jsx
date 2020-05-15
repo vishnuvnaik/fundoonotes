@@ -7,6 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import FiberPin from "@material-ui/icons/FiberPin";
+import "./CSS/dashboard.css";
 class ShowCards extends Component {
   constructor() {
     super();
@@ -15,9 +16,25 @@ class ShowCards extends Component {
       title: "",
       description: "",
       openCard: false,
+      reminder: "",
+      collaborator: "",
+      color: "",
+      image: "",
+      archive: false,
+      pin: false,
+      trash: false,
+      label: [],
     };
+    // this.handleLabel = this.handleLabel.bind(this);
+    // this.handleReminder = this.handleReminder.bind(this);
   }
+  handleLabel(val) {
+    console.log("value===", val);
 
+    this.setState({
+      label: val,
+    });
+  }
   handleClose = () => {
     this.setState({
       openCard: false,
@@ -36,7 +53,16 @@ class ShowCards extends Component {
       title: "",
       description: "",
     });
+    if (this.state.title !== "" && this.state.description !== "") {
+      console.log("something typed");
+    } else {
+      console.log("empty position");
+      this.setState({
+        openCard: false,
+      });
+    }
   }
+
   render() {
     return (
       <Card className="cardlist">
@@ -73,19 +99,13 @@ class ShowCards extends Component {
         <div className="toolbarAndClose">
           <Toolbar className="CardToolbar">
             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-
-            <div></div>
           </Toolbar>
           <div className="closeButton">
             <Button
               form="styled_component"
               variant="contained"
-              color="offwhite  "
-              onClick={this.handleClose}
+              color="offwhite "
+              onClick={(event) => this.addNotes(event)}
             >
               Close
             </Button>
