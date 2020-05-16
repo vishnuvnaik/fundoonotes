@@ -35,12 +35,16 @@ class Notes extends Component {
                 <CheckBox />
               </IconButton>
             </Tooltip>
-            <IconButton>
-              <Brush />
-            </IconButton>
-            <IconButton>
-              <Image />
-            </IconButton>
+            <Tooltip title="Note with drawing">
+              <IconButton>
+                <Brush />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Note with image">
+              <IconButton>
+                <Image />
+              </IconButton>
+            </Tooltip>
           </div>
         </Card>
       </div>
