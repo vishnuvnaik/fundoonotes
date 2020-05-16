@@ -8,6 +8,10 @@ import {
 } from "@material-ui/core";
 import FiberPin from "@material-ui/icons/FiberPin";
 import "./CSS/dashboard.css";
+import CollaboratorComponent from "./Collaborator";
+import ReminderComponent from "./Reminder";
+import noteServices from "../services/noteServices";
+import Palette from "@material-ui/icons/Palette";
 class ShowCards extends Component {
   constructor() {
     super();
@@ -20,10 +24,15 @@ class ShowCards extends Component {
       collaborator: "",
       color: "",
       image: "",
+      listMain: "",
       archive: false,
       pin: false,
       trash: false,
-      label: [],
+      labelIdList: [],
+      isDeleted: false,
+      isArchived: false,
+      isPinned: false,
+      remOpen: false,
     };
     // this.handleLabel = this.handleLabel.bind(this);
     // this.handleReminder = this.handleReminder.bind(this);
@@ -35,34 +44,37 @@ class ShowCards extends Component {
       label: val,
     });
   }
-  handleClose = () => {
-    this.setState({
-      openCard: false,
-    });
-  };
-  handleLabel(val) {
-    console.log("value===", val);
 
-    this.setState({
-      label: val,
+  addNotes = () => {
+    let id = [];
+    this.state.labelIdList.map((e) => {
+      id.push(e.id);
     });
-  }
 
-  addNotes() {
-    this.setState({
-      title: "",
-      description: "",
-    });
-    if (this.state.title !== "" && this.state.description !== "") {
-      console.log("something typed");
-    } else {
-      console.log("empty position");
-      this.setState({
-        openCard: false,
+    if (this.state.title != "") {
+      const form_data = new FormData();
+      form_data.append("title", this.state.title);
+      form_data.append("description", this.state.description);
+      form_data.append("reminder", this.state.reminderMain);
+      form_data.append("isArchived", this.state.isArchive);
+      form_data.append("color", this.state.noteColor);
+
+      noteServices.addnotes(form_data).then((response) => {
+        if (response) {
+          console.log("data added");
+        }
       });
-    }
-  }
 
+      this.setState({ title: "" });
+      this.setState({ description: "" });
+      this.setState({ listMain: "" });
+      this.setState({ reminderDisplay: "none" });
+      this.setState({ diplayCheckBox: "none" });
+      this.setState({ noteColor: "" });
+
+      //for close the main Note Box
+    }
+  };
   render() {
     return (
       <Card className="cardlist">
@@ -87,7 +99,7 @@ class ShowCards extends Component {
         <div className="inp">
           <InputBase
             className="in"
-            type={File}
+            type="text"
             onChange={(event) =>
               this.setState({ description: event.target.value })
             }
@@ -98,6 +110,18 @@ class ShowCards extends Component {
 
         <div className="toolbarAndClose">
           <Toolbar className="CardToolbar">
+            <div></div>
+            <div>
+              <CollaboratorComponent />
+            </div>
+            <div>
+              <ReminderComponent />
+            </div>
+            <div>
+              <IconButton>
+                <Palette />
+              </IconButton>
+            </div>
             <div></div>
           </Toolbar>
           <div className="closeButton">
