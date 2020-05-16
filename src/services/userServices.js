@@ -36,4 +36,16 @@ async function forgotPassword(data) {
     return err;
   }
 }
-export default { userRegistration, forgotPassword, login };
+
+async function addnotes(notedata) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.addNotes,
+      notedata
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+export default { userRegistration, forgotPassword, login, addnotes };
