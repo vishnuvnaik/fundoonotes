@@ -167,3 +167,30 @@
   flex-direction: column;
   width: 600px;
 }
+.chipLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.ShowCard {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-color: #ffe8a4;
+  border-style: thin;
+  border-radius: 15px;
+}
+
+.Showlist {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-color: #ffe8a4;
+  border-style: thin;
+  border-radius: 15px;
+}
