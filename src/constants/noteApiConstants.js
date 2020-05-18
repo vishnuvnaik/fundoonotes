@@ -1,5 +1,5 @@
 module.exports = {
-  addNotes: "notes/addNotes",
+  addNotes: "/notes/addNotes",
   getNotes: "/notes/getNotesList",
   updateNotes: "/notes/updateNotes",
   changeColor: "/notes/changesColorNotes",
