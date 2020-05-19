@@ -39,6 +39,17 @@ class SideMenu extends Component {
       open: false,
     };
   }
+  openNotes() {
+    this.setState({
+      notes: true,
+      reminder: false,
+      editLabel: false,
+      archive: false,
+      trash: false,
+      Pinned: true,
+    });
+    console.log("notes", this.state.notes);
+  }
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -50,7 +61,12 @@ class SideMenu extends Component {
         >
           <List className="list">
             <div className="note">
-              <MenuItem>
+              <MenuItem
+                onClick={() => {
+                  this.props.change("");
+                }}
+                //  onClick={(event) => this.openNotes(event)}
+              >
                 <div>
                   <IconButton>
                     <WbIncandescentIcon />
