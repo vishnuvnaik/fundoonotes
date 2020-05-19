@@ -88,6 +88,7 @@ export default class dashboard extends Component {
   };
   render() {
     let otherNotes = 0;
+    let pinCount = 0;
     let allObj = this.state.allNotes.map((allnote) => {
       if (
         allnote.isArchived === false &&
@@ -99,6 +100,33 @@ export default class dashboard extends Component {
           <AllNotes
             key={allnote.id}
             //listGrid={this.state.listGrid}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+      return null;
+    });
+    let pinObj = this.state.allNotes.map((allnote) => {
+      if (allnote.isDeleted === false && allnote.isPined === true) {
+        pinCount++;
+        return (
+          <AllNotes
+            key={allnote.id}
+            //listGrid={this.state.listGrid}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+      return null;
+    });
+    let arcObj = this.state.allNotes.map((allnote) => {
+      if (allnote.isDeleted === false && allnote.isArchived === true) {
+        return (
+          <AllNotes
+            key={allnote.id}
+            listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -178,8 +206,23 @@ export default class dashboard extends Component {
           <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
             <div className="displayNotes">
               <Notes getNotes={this.getNote} />
+              <React.Fragment>
+                {this.state.headerName === "" ? (
+                  <div>
+                    {pinCount > 0 ? (
+                      <React.Fragment>
+                        <span>Pinned:{pinCount}</span>
+                        <div className="allNotes_position">{pinObj}</div>
+                      </React.Fragment>
+                    ) : null}
 
-              <div className="allNotes_position">{allObj}</div>
+                    {pinCount > 0 ? <span>Others:{otherNotes}</span> : null}
+                    <div className="allNotes_position">{allObj}</div>
+                  </div>
+                ) : this.state.headerName === "Archive" ? (
+                  <div className="allNotes_position">{arcObj}</div>
+                ) : null}
+              </React.Fragment>
             </div>
           </div>
 
