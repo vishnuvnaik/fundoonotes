@@ -49,7 +49,7 @@ class Notes extends Component {
     console.log("In open card");
     console.log(this.state.open);
   }
-  
+
   userNoteRefresh = async () => {
     await noteServices.getnotes().then(async (response) => {
       if (response.data.data.data) {
@@ -63,30 +63,33 @@ class Notes extends Component {
   };
 
   addNotes = () => {
-    let id = [];
-    this.state.labelIdList.map((e) => {
-      id.push(e.id);
-    });
+    if (this.state.title != "" && this.state.description != "") {
+      const fieldtwo = {
+        title: this.state.title,
+        description: this.state.description,
+        color: this.state.color,
+        isArchived: this.state.isArchived,
+        isPined: this.state.isPined,
+        label: this.state.label,
+        isDeleted: false,
+        userId: JSON.parse(localStorage.getItem("userDetails")).userId,
+        //noteIdList: [res.data.status.details.id]
+      };
+      console.log(fieldtwo);
 
-    if (this.state.title != "") {
-      const notedata = new FormData();
-      notedata.append("title", this.state.title);
-      notedata.append("description", this.state.description);
-      notedata.append("isArchived", this.state.isArchive);
-      notedata.append("color", this.state.noteColor);
-
-      noteServices.addnotes(notedata).then((response) => {
-        if (response) {
-          console.log("data added");
-          this.userNoteRefresh();
-        }
+      noteServices.addnotes(fieldtwo).then(() => {
+        console.log("note added");
+        this.changeCard();
+        this.setState({
+          collaborator: false,
+          cardChange: true,
+          title: "",
+          content: "",
+          remainder: "",
+          label: "",
+          color: "",
+        });
       });
-
-      this.setState({ title: "" });
-      this.setState({ description: "" });
-      this.setState({ noteColor: "" });
-      this.changeCard();
-      //for close the main Note Box
     } else {
       this.changeCard();
     }
