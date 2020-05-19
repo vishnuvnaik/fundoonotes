@@ -26,7 +26,8 @@ import SideMenu from "./sideMenu";
 import keep from "../assets/keep.png";
 import Notes from "./notesCard";
 import "./CSS/dashboard.css";
-import ShowNotes from "./showNotes";
+import noteServices from "../services/noteServices";
+import AllNotes from "./allNotes";
 const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
@@ -48,11 +49,14 @@ export default class dashboard extends Component {
       archive: false,
       reminder: false,
       trash: false,
-      note: [],
+
       Pinned: false,
+      headerName: "",
+      allNotes: [],
     };
-  //  this.openGrid = this.openGrid.bind(this);
-    // this.showClickedNote = this.showClickedNote.bind(this);
+  }
+  componentDidMount() {
+    this.getNote();
   }
   handleDrawer() {
     this.setState({ open: !this.state.open });
@@ -62,18 +66,49 @@ export default class dashboard extends Component {
     localStorage.removeItem("userDetails");
     this.props.history.push("/login");
   };
-  openGrid() {
-    console.log("in dashboard");
 
-    this.setState({
-      grid: !this.state.grid,
+  getNote = async () => {
+    let array = [];
+    await noteServices.getnotes().then((res) => {
+      res.data.data.data.forEach((element) => {
+        array.push(element);
+      });
     });
-  }
-
+    this.setState({
+      allNotes: array,
+    });
+  };
+  nameChange = (data) => {
+    this.setState({
+      headerName: data,
+    });
+  };
+  handleScroll = (event) => {
+    event.preventDefault();
+  };
   render() {
+    let otherNotes = 0;
+    let allObj = this.state.allNotes.map((allnote) => {
+      if (
+        allnote.isArchived === false &&
+        allnote.isDeleted === false &&
+        allnote.isPined === false
+      ) {
+        otherNotes++;
+        return (
+          <AllNotes
+            key={allnote.id}
+            //listGrid={this.state.listGrid}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+      return null;
+    });
     return (
       <MuiThemeProvider theme={theme}>
-        <div>
+        <div onScroll={this.handleScroll}>
           <AppBar className="appBar" position="fixed" color="white">
             <Toolbar>
               <div className="menuAndlogo">
@@ -139,9 +174,16 @@ export default class dashboard extends Component {
               </div>
             </Toolbar>
           </AppBar>
-          <SideMenu sideOpen={this.state.open} />
-          <Notes />
-          <ShowNotes />
+
+          <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
+            <div className="displayNotes">
+              <Notes getNotes={this.getNote} />
+
+              <div className="allNotes_position">{allObj}</div>
+            </div>
+          </div>
+
+          <SideMenu sideOpen={this.state.open} change={this.nameChange} />
         </div>
       </MuiThemeProvider>
     );
