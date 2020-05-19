@@ -66,12 +66,7 @@ class Registration extends Component {
             });
           }
         })
-        .catch((err) => {
-          this.setState({
-            snackbarOpen: true,
-            snackbarMessage: err,
-          });
-        });
+        .catch();
     }
   };
 
