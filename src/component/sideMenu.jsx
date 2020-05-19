@@ -65,7 +65,7 @@ class SideMenu extends Component {
                 onClick={() => {
                   this.props.change("");
                 }}
-                //  onClick={(event) => this.openNotes(event)}
+                // onClick={(event) => this.openNotes(event)}
               >
                 <div>
                   <IconButton>
@@ -75,6 +75,7 @@ class SideMenu extends Component {
                 <div className="sidefont">Notes</div>
               </MenuItem>
             </div>
+
             <div>
               <MenuItem>
                 <div>
@@ -88,7 +89,13 @@ class SideMenu extends Component {
               <Divider></Divider>
             </div>
             <Divider></Divider>
-            <div className="note">
+
+            <div
+              onClick={() => {
+                this.props.change("Archive");
+              }}
+              className="note"
+            >
               <MenuItem>
                 <div>
                   <IconButton>
