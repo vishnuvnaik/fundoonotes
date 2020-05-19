@@ -1,12 +1,7 @@
-import React, { PureComponent } from "react";
-import BrushIcon from "@material-ui/icons/Brush";
-import CropOriginalIcon from "@material-ui/icons/CropOriginal";
-import CheckBoxOutlinedIcon from "@material-ui/icons/CheckBoxOutlined";
+import React, { Component } from "react";
 import {
   Tooltip,
   IconButton,
-  ClickAwayListener,
-  span,
   Dialog,
   DialogContent,
   MuiThemeProvider,
@@ -37,7 +32,7 @@ const theme = createMuiTheme({
     },
   },
 });
-class AllNotes extends PureComponent {
+class AllNotes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,13 +62,13 @@ class AllNotes extends PureComponent {
 
   handleMouseEnter = (event) => {
     switch (event.currentTarget.id) {
-      case "butfour":
+      case "colorBut":
         this.setState({
           colorOpen: true,
           colorAnchor: event.currentTarget,
         });
         break;
-      case "divbut":
+      case "divbutton":
         this.setState({
           visible: true,
         });
@@ -84,12 +79,7 @@ class AllNotes extends PureComponent {
   };
   handleMouseLeave = (event) => {
     switch (event.currentTarget.id) {
-      case "colorbox":
-        this.setState({
-          colorOpen: false,
-        });
-        break;
-      case "divbut":
+      case "divbutton":
         this.setState({
           visible: false,
         });
@@ -128,50 +118,17 @@ class AllNotes extends PureComponent {
           cardChange: !this.state.cardChange,
         });
         break;
-      case "butto":
-        alert("hello");
-        this.setState({
-          remOpen: !this.state.remOpen,
-          remAnchor: event.currentTarget,
-        });
-        break;
-      case "butthree":
-        this.setState({
-          cardChange: false,
-          collaborator: true,
-        });
-        break;
-      case "butseven":
-        setTimeout(() => {
-          this.setState({
-            moreMenuOpen: !this.state.moreMenuOpen,
-            moreMenuAnchor: event.currentTarget,
-          });
-        }, 100);
-        break;
-      case "moreone":
-        this.setState({
-          labelOpen: true,
-          labelAnchor: event.currentTarget,
-          moreMenuOpen: false,
-        });
-        break;
-      case "cardbutone":
-        this.setState({
-          collaborator: false,
-          cardChange: false,
-        });
-        break;
-      case "normalCard2":
+
+      case "normalCard":
         const field = {
           title: this.state.title,
           description: this.state.content,
         };
-        noteService.createNote(field).then((res) => {
+        noteService.addnotes(field).then((res) => {
           if (res.status === 200) {
             alert("done");
           }
-          this.props.getNotes();
+          this.props.getNote();
         });
         setTimeout(() => {
           this.setState({
@@ -195,36 +152,12 @@ class AllNotes extends PureComponent {
     }
   };
   render() {
-    // console.log(this.state.remainder);
-
-    // let colObj = color.map((el, index) => {
-    //   return (
-    //     <div
-    //       key={index}
-    //       className="colorIcons"
-    //       style={{
-    //         backgroundColor: el,
-    //       }}
-    //       onClick={async () => {
-    //         await this.setState({
-    //           color: el,
-    //         });
-    //         this.changeColor();
-    //       }}
-    //     />
-    //   );
-    // });
     return (
       <React.Fragment>
         {this.state.openDialog ? (
           <MuiThemeProvider theme={theme}>
             <Dialog id="dialog_card" open={true}>
-              <DialogContent
-                id="visible"
-                style={{
-                  backgroundColor: this.state.color,
-                }}
-              >
+              <DialogContent id="visible">
                 <div className="cardTwoTopArr">
                   <input
                     style={{
@@ -263,19 +196,19 @@ class AllNotes extends PureComponent {
 
                 <div className="arrangeCardToIcon">
                   <div>
-                    <Tooltip title="Remainder" arrow>
-                      <IconButton onClick={this.handleOnClick}>
+                    <Tooltip title="Reminder" arrow>
+                      <IconButton>
                         <AddAlertOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Collaborator" arrow>
-                      <IconButton onClick={this.handleOnClick}>
+                      <IconButton>
                         <PersonAddOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Change color" arrow>
                       <IconButton
-                        id="butfour"
+                        id="colorBut"
                         onMouseEnter={this.handleMouseEnter}
                       >
                         <img
@@ -299,7 +232,7 @@ class AllNotes extends PureComponent {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="More" arrow>
-                      <IconButton id="butse" onClick={this.handleOnClick}>
+                      <IconButton>
                         <MoreVertOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -320,7 +253,7 @@ class AllNotes extends PureComponent {
           </MuiThemeProvider>
         ) : (
           <div
-            id="divbut"
+            id="divbutton"
             onClick={this.handleOnClick}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
@@ -397,7 +330,10 @@ class AllNotes extends PureComponent {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Change color" arrow>
-                  <IconButton id="butfour" onMouseEnter={this.handleMouseEnter}>
+                  <IconButton
+                    id="colorBut"
+                    onMouseEnter={this.handleMouseEnter}
+                  >
                     <img
                       style={{
                         height: "20px",
@@ -444,8 +380,6 @@ class AllNotes extends PureComponent {
                 vertical: "top",
                 horizontal: "center",
               }}
-              anchorEl={this.state.colorAnchor}
-              id="colorbox"
               onMouseLeave={this.handleMouseLeave}
             >
               <div className="colorMenu"></div>
