@@ -20,7 +20,6 @@ import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
-
 import noteService from "../services/noteServices";
 import coloricon from "../assets/color.svg";
 const theme = createMuiTheme({
@@ -95,15 +94,7 @@ class AllNotes extends Component {
   handleChangeDescription = (event) => {
     this.setState({ content: event.target.value });
   };
-  pinNote = async () => {
-    const field = {
-      isPined: this.state.isPined,
-      noteIdList: [this.state.noteIdList],
-    };
-    await noteService.pinNote(field).then((res) => {
-      this.props.getNote();
-    });
-  };
+ 
 
   handleOnClick = (event) => {
     switch (event.currentTarget.id) {
@@ -196,6 +187,7 @@ class AllNotes extends Component {
                   className="inputThree"
                   type="text"
                   value={this.state.content}
+                  
                   placeholder="Take a Note..."
                 />
 
