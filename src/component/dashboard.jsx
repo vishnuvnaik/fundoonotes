@@ -206,7 +206,6 @@ export default class dashboard extends Component {
 
           <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
             <div className="displayNotes">
-              <Notes getNotes={this.getNote} />
               <React.Fragment>
                 {this.state.headerName === "" ? (
                   <div>
@@ -218,6 +217,7 @@ export default class dashboard extends Component {
                     ) : null}
 
                     {pinCount > 0 ? <span>Others:{otherNotes}</span> : null}
+                    <Notes getNotes={this.getNote} />
                     <div className="allNotes_position">{allObj}</div>
                   </div>
                 ) : this.state.headerName === "Archive" ? (
