@@ -12,6 +12,7 @@ import {
   Menu,
   Popover,
   Card,
+  ThemeProvider,
 } from "@material-ui/core";
 import People from "@material-ui/icons/ExitToApp";
 import SearchIcon from "@material-ui/icons/Search";
