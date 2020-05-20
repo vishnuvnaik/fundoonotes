@@ -89,7 +89,12 @@ class AllNotes extends Component {
         break;
     }
   };
-  handleChange = () => {};
+  handleChangeTitle = (event) => {
+    this.setState({ title: event.target.value });
+  };
+  handleChangeDescription = (event) => {
+    this.setState({ content: event.target.value });
+  };
   pinNote = async () => {
     const field = {
       isPined: this.state.isPined,
@@ -126,7 +131,7 @@ class AllNotes extends Component {
         };
         noteService.addnotes(field).then((res) => {
           if (res.status === 200) {
-            alert("done");
+            this.setState({ openDialog: false });
           }
           this.props.getNote();
         });
@@ -168,7 +173,7 @@ class AllNotes extends Component {
                     className="inputTwo"
                     placeholder="Title"
                     value={this.state.title}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeTitle}
                   />
                   <Tooltip title="Pin it" arrow>
                     <IconButton>
@@ -187,7 +192,7 @@ class AllNotes extends Component {
                     backgroundColor: this.state.color,
                   }}
                   id="texttwo"
-                  onChange={this.handleChange}
+                  onChange={this.handleChangeDescription}
                   className="inputThree"
                   type="text"
                   value={this.state.content}
@@ -231,7 +236,7 @@ class AllNotes extends Component {
                         <ArchiveOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="More" arrow>
+                    <Tooltip title="More Menu" arrow>
                       <IconButton>
                         <MoreVertOutlinedIcon fontSize="small" />
                       </IconButton>
@@ -280,7 +285,7 @@ class AllNotes extends Component {
                 className="inputTwo"
                 placeholder="Title"
                 value={this.state.title}
-                onChange={this.handleChange}
+                onChange={this.handleChangeTitle}
               />
               <Tooltip
                 style={{
@@ -306,7 +311,7 @@ class AllNotes extends Component {
               }}
               id="texttwo"
               onClick={this.handleOnClick}
-              onChange={this.handleChange}
+              onChange={this.handleChangeDescription}
               className="inputThree"
               type="text"
               value={this.state.content}
