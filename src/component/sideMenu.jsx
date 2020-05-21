@@ -88,7 +88,6 @@ class SideMenu extends Component {
 
               <Divider></Divider>
             </div>
-            <Divider></Divider>
 
             <div
               onClick={() => {
@@ -105,14 +104,22 @@ class SideMenu extends Component {
                 <div className="sidefont">Archive</div>
               </MenuItem>
             </div>
-            <MenuItem>
-              <div>
-                <IconButton>
-                  <DeleteSweepIcon />
-                </IconButton>
-              </div>
-              <div className="sidefont">Trash</div>
-            </MenuItem>
+
+            <div
+              onClick={() => {
+                this.props.change("Trash");
+              }}
+              className="note"
+            >
+              <MenuItem>
+                <div>
+                  <IconButton>
+                    <DeleteSweepIcon />
+                  </IconButton>
+                </div>
+                <div className="sidefont">Trash</div>
+              </MenuItem>
+            </div>
           </List>
         </SwipeableDrawer>
       </MuiThemeProvider>
