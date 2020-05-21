@@ -5,6 +5,8 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import "./CSS/dashboard.css";
+import LabelIcon from "@material-ui/icons/Label";
+import LabelMenu from "./labelMenu";
 import {
   SwipeableDrawer,
   List,
@@ -85,7 +87,26 @@ class SideMenu extends Component {
                 </div>
                 <div className="sidefont">Reminders</div>
               </MenuItem>
+              <Divider></Divider>
+            </div>
 
+            <div>{LabelMenu}</div>
+            <div>
+              <MenuItem>
+                <div>
+                  <IconButton>
+                    <LabelIcon />
+                  </IconButton>
+                </div>
+                <div
+                  onClick={() => {
+                    this.props.change("Edit Labels");
+                  }}
+                  className="sidefont"
+                >
+                  <span className="nameMargin">Edit Labels</span>
+                </div>
+              </MenuItem>
               <Divider></Divider>
             </div>
 
