@@ -135,6 +135,18 @@ export default class dashboard extends Component {
       }
       return null;
     });
+    let trashObj = this.state.allNotes.map((allnote) => {
+      if (allnote.isDeleted === true && allnote.isArchived === false) {
+        return (
+          <AllNotes
+            key={allnote.id}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+      return null;
+    });
     return (
       <MuiThemeProvider theme={theme}>
         <div onScroll={this.handleScroll}>
@@ -222,6 +234,8 @@ export default class dashboard extends Component {
                   </div>
                 ) : this.state.headerName === "Archive" ? (
                   <div className="allNotes_position">{arcObj}</div>
+                ) : this.state.headerName === "Trash" ? (
+                  <div className="allNotes_position">{trashObj}</div>
                 ) : null}
               </React.Fragment>
             </div>
