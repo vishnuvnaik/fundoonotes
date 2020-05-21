@@ -6,40 +6,54 @@ import {
   Tooltip,
   Toolbar,
   Button,
+  Popover,
 } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
 import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
-import pin from '../assets/pin.svg'
-
+import pin from "../assets/pin.svg";
+import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
 
 import Palette from "@material-ui/icons/Palette";
+const color = [
+  "#7FDBFF",
+  "#ff3333",
+  "#00b300",
+  "#ccff90",
+  "#f28b82",
+  "#aecbfa",
+  "#fbbc04",
+  "#fff",
+];
 class Notes extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       open: false,
       nextLine: true,
       title: "",
       description: "",
       openCard: false,
+      label: "",
       reminder: "",
       collaborator: "",
-      color: "",
+      color: "#fff",
+      moreMenuOpen: false,
+      moreMenuAnchor: null,
       image: "",
       notes: [],
-      archive: false,
-      pin: false,
-      trash: false,
       labelIdList: [],
-      isDeleted: false,
-      isArchived: false,
+      // isDeleted: false,
+      // isArchived: false,
+
       isPined: false,
       remOpen: false,
+      colorOpen: false,
+      colorAnchor: null,
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -60,6 +74,12 @@ class Notes extends Component {
   };
   changeCard = () => {
     this.openCard();
+  };
+  handleColorBut = (event) => {
+    this.setState({
+      colorOpen: !this.state.colorOpen,
+      colorAnchor: event.currentTarget,
+    });
   };
 
   addNotes = () => {
@@ -94,8 +114,29 @@ class Notes extends Component {
       this.changeCard();
     }
   };
-
+  archived = () => {
+    this.setState({
+      isArchived: true,
+    });
+  };
   render() {
+    let colObj = color.map((el, index) => {
+      return (
+        <div
+          key={index}
+          className="colorIcons"
+          style={{
+            backgroundColor: el,
+          }}
+          onClick={() => {
+            this.setState({
+              color: el,
+              colorOpen: false,
+            });
+          }}
+        />
+      );
+    });
     return !this.state.open ? (
       <div className="show">
         <Card className="notesCard">
@@ -177,14 +218,25 @@ class Notes extends Component {
                 <ReminderComponent />
               </div>
               <div>
-                <IconButton>
-                  <Palette />
-                </IconButton>
+                <Tooltip title="Change color" arrow>
+                  <IconButton onClick={this.handleColorBut}>
+                    <Palette />
+                  </IconButton>
+                </Tooltip>
               </div>
-              <div></div>
+              <div>
+                <Tooltip title="Archive" arrow>
+                  <IconButton onClick={this.archived}>
+                    <ArchiveOutlinedIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
             </Toolbar>
             <div className="closeButton">
               <Button
+                style={{
+                  backgroundColor: this.state.color,
+                }}
                 form="styled_component"
                 color="offwhite "
                 onClick={(event) => this.addNotes(event)}
@@ -192,6 +244,28 @@ class Notes extends Component {
                 Close
               </Button>
             </div>
+            <Popover
+              style={{
+                width: "470px",
+              }}
+              open={this.state.colorOpen}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              anchorEl={this.state.colorAnchor}
+              onClose={() => {
+                this.setState({
+                  colorOpen: false,
+                });
+              }}
+            >
+              <div className="colorMenu">{colObj}</div>
+            </Popover>
           </div>
         </Card>
       </div>
