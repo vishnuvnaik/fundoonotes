@@ -22,6 +22,8 @@ import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
 import coloricon from "../assets/color.svg";
+import LabelMenu from "./labelMenu";
+import MoreMenu from "./more";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -31,6 +33,16 @@ const theme = createMuiTheme({
     },
   },
 });
+const color = [
+  "#7FDBFF",
+  "#ff3333",
+  "#00b300",
+  "#ccff90",
+  "#f28b82",
+  "#aecbfa",
+  "#fbbc04",
+  "#fff",
+];
 class AllNotes extends Component {
   constructor(props) {
     super(props);
@@ -41,11 +53,8 @@ class AllNotes extends Component {
       isArchived: this.props.allNotes.isArchived,
       isDeleted: this.props.allNotes.isDeleted,
       isPined: this.props.allNotes.isPined,
-
       noteLabels: this.props.allNotes.noteLabels,
-
       noteIdList: this.props.allNotes.id,
-
       labelOpen: false,
       labelAnchor: null,
       remOpen: false,
@@ -78,6 +87,12 @@ class AllNotes extends Component {
   };
   handleMouseLeave = (event) => {
     switch (event.currentTarget.id) {
+      case "colorBut":
+        this.setState({
+          colorOpen: true,
+          colorAnchor: event.currentTarget,
+        });
+        break;
       case "divbutton":
         this.setState({
           visible: false,
@@ -88,13 +103,31 @@ class AllNotes extends Component {
         break;
     }
   };
+  changeColor = () => {
+    const field = {
+      color: this.state.color,
+      noteIdList: [this.state.noteIdList],
+    };
+    noteService.updateColor(field).then((res) => {
+      this.props.getNote();
+    });
+  };
+  handleArchive = () => {
+    const field = {
+      isArchived: !this.state.isArchived,
+      noteIdList: [this.state.noteIdList],
+    };
+    noteService.archiveNote(field).then((res) => {
+      console.log("done");
+      this.props.getNote();
+    });
+  };
   handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
   };
   handleChangeDescription = (event) => {
     this.setState({ content: event.target.value });
   };
- 
 
   handleOnClick = (event) => {
     switch (event.currentTarget.id) {
@@ -148,6 +181,23 @@ class AllNotes extends Component {
     }
   };
   render() {
+    let colObj = color.map((el, index) => {
+      return (
+        <div
+          key={index}
+          className="colorIcons"
+          style={{
+            backgroundColor: el,
+          }}
+          onClick={async () => {
+            await this.setState({
+              color: el,
+            });
+            this.changeColor();
+          }}
+        />
+      );
+    });
     return (
       <React.Fragment>
         {this.state.openDialog ? (
@@ -187,11 +237,11 @@ class AllNotes extends Component {
                   className="inputThree"
                   type="text"
                   value={this.state.content}
-                  
                   placeholder="Take a Note..."
                 />
 
                 <div className="arrangeCardToIcon">
+                  {/* comes on the click only */}
                   <div>
                     <Tooltip title="Reminder" arrow>
                       <IconButton>
@@ -347,7 +397,7 @@ class AllNotes extends Component {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Archive" arrow>
-                  <IconButton>
+                  <IconButton onClick={this.handleArchive}>
                     <ArchiveOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -358,7 +408,17 @@ class AllNotes extends Component {
                 </Tooltip>
               </div>
             </div>
-
+            {this.state.labelOpen ? (
+              <LabelMenu anchor={this.state.labelAnchor} />
+            ) : null}
+            {this.state.moreMenuOpen ? (
+              <MoreMenu
+                menu={this.handleOnClick}
+                anchor={this.state.moreMenuAnchor}
+                id={this.state.noteIdList}
+                getNote={this.props.getNote}
+              />
+            ) : null}
             <Popover
               onClose={() => {
                 this.setState({
@@ -377,9 +437,11 @@ class AllNotes extends Component {
                 vertical: "top",
                 horizontal: "center",
               }}
+              anchorEl={this.state.colorAnchor}
+              id="colorbox"
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className="colorMenu"></div>
+              <div className="colorMenu">{colObj}</div>
             </Popover>
           </div>
         )}
