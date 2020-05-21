@@ -52,13 +52,11 @@ class AllNotes extends Component {
       color: this.props.allNotes.color,
       isArchived: this.props.allNotes.isArchived,
       isDeleted: this.props.allNotes.isDeleted,
-      isPined: this.props.allNotes.isPined,
+      label: this.props.allNotes.label,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
       labelOpen: false,
       labelAnchor: null,
-      remOpen: false,
-      remAnchor: null,
       moreMenuOpen: false,
       moreMenuAnchor: null,
       colorOpen: false,
@@ -153,7 +151,7 @@ class AllNotes extends Component {
           title: this.state.title,
           description: this.state.content,
         };
-        noteService.addnotes(field).then((res) => {
+        noteService.updateNotes(field).then((res) => {
           if (res.status === 200) {
             this.setState({ openDialog: false });
           }
