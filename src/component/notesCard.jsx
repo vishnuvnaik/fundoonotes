@@ -12,7 +12,7 @@ import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
-import FiberPin from "@material-ui/icons/FiberPin";
+import pin from '../assets/pin.svg'
 
 import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
@@ -136,11 +136,23 @@ class Notes extends Component {
                   this.setState({ title: event.target.value })
                 }
               ></InputBase>
-            </div>
-            <div>
-              <IconButton>
-                <FiberPin />
-              </IconButton>
+              <Tooltip title="Pin it" arrow>
+                <IconButton
+                  onClick={() => {
+                    this.setState({
+                      isPined: true,
+                    });
+                  }}
+                >
+                  <img
+                    style={{
+                      opacity: ".6",
+                    }}
+                    src={pin}
+                    alt="p"
+                  />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
           <div className="inp">
@@ -174,7 +186,6 @@ class Notes extends Component {
             <div className="closeButton">
               <Button
                 form="styled_component"
-                variant="contained"
                 color="offwhite "
                 onClick={(event) => this.addNotes(event)}
               >
