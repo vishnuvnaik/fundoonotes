@@ -108,20 +108,7 @@ export default class dashboard extends Component {
       }
       return null;
     });
-    let pinObj = this.state.allNotes.map((allnote) => {
-      if (allnote.isDeleted === false && allnote.isPined === true) {
-        pinCount++;
-        return (
-          <AllNotes
-            key={allnote.id}
-            //listGrid={this.state.listGrid}
-            allNotes={allnote}
-            getNote={this.getNote}
-          />
-        );
-      }
-      return null;
-    });
+
     let arcObj = this.state.allNotes.map((allnote) => {
       if (allnote.isDeleted === false && allnote.isArchived === true) {
         return (
@@ -224,7 +211,7 @@ export default class dashboard extends Component {
                     {pinCount > 0 ? (
                       <React.Fragment>
                         <span>Pinned:{pinCount}</span>
-                        <div className="allNotes_position">{pinObj}</div>
+                        {/* <div className="allNotes_position">{pinObj}</div> */}
                       </React.Fragment>
                     ) : null}
 
