@@ -6,9 +6,12 @@ import {
   Tooltip,
   Toolbar,
   Button,
+  Chip,
+  Typography,
   Popover,
 } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
+import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
@@ -17,7 +20,10 @@ import pin from "../assets/pin.svg";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
-
+import LabelMenu from "./labelMenu";
+import MoreMenu from "./more";
+import DoneIcon from "@material-ui/icons/Done";
+import Time from "react-time";
 import Palette from "@material-ui/icons/Palette";
 const color = [
   "#7FDBFF",
@@ -40,16 +46,16 @@ class Notes extends Component {
       openCard: false,
       label: "",
       reminder: "",
-      collaborator: "",
       color: "#fff",
       moreMenuOpen: false,
       moreMenuAnchor: null,
-      image: "",
-      notes: [],
-      labelIdList: [],
-      // isDeleted: false,
-      // isArchived: false,
-
+      labelOpen: false,
+      labelAnchor: null,
+      listCard: false,
+      colorOpen: false,
+      colorAnchor: null,
+      isDeleted: false,
+      isArchived: false,
       isPined: false,
       remOpen: false,
       colorOpen: false,
@@ -68,7 +74,6 @@ class Notes extends Component {
     await noteServices.getnotes().then(async (response) => {
       if (response.data.data.data) {
         await this.setState({ notes: response.data.data.data });
-        // this.setState({ allNotesTemp: response.data.data.data });
       }
     });
   };
@@ -83,10 +88,35 @@ class Notes extends Component {
   };
 
   addNotes = () => {
-    if (this.state.title != "" && this.state.description != "") {
+    if (this.state.label === "") {
+      const field = {
+        title: this.state.title,
+        description: this.state.description,
+        reminder: this.state.remainder,
+        color: this.state.color,
+        isArchived: this.state.isArchived,
+        isPined: this.state.isPined,
+      };
+      noteServices.addnotes(field).then((res) => {
+        if (res.status === 200) {
+        }
+        this.props.getNotes();
+        this.setState({
+          collaborator: false,
+          cardChange: true,
+          title: "",
+          description: "",
+          remainder: "",
+          label: "",
+          color: "",
+        });
+      });
+      this.changeCard();
+    } else {
       const fieldtwo = {
         title: this.state.title,
         description: this.state.description,
+        reminder: this.state.remainder,
         color: this.state.color,
         isArchived: this.state.isArchived,
         isPined: this.state.isPined,
@@ -95,11 +125,9 @@ class Notes extends Component {
         userId: JSON.parse(localStorage.getItem("userDetails")).userId,
         //noteIdList: [res.data.status.details.id]
       };
-      console.log(fieldtwo);
+      this.changeCard();
 
-      noteServices.addnotes(fieldtwo).then(() => {
-        console.log("note added");
-        this.changeCard();
+      noteServices.labelNote(fieldtwo).then(() => {
         this.setState({
           collaborator: false,
           cardChange: true,
@@ -110,13 +138,40 @@ class Notes extends Component {
           color: "",
         });
       });
-    } else {
-      this.changeCard();
     }
   };
   archived = () => {
     this.setState({
       isArchived: true,
+    });
+  };
+  handleClickMore = (event) => {
+    this.setState({
+      moreMenuOpen: !this.state.moreMenuOpen,
+      moreMenuAnchor: event.currentTarget,
+      labelAnchor: event.currentTarget,
+    });
+  };
+
+  changeLabel = async (data) => {
+    await this.setState({
+      label: data,
+    });
+  };
+  labelClose = () => {
+    this.setState({
+      labelOpen: false,
+    });
+  };
+  moreClose = () => {
+    this.setState({
+      moreMenuOpen: false,
+    });
+  };
+  moreone = () => {
+    this.setState({
+      labelOpen: true,
+      moreMenuOpen: false,
     });
   };
   render() {
@@ -166,11 +221,24 @@ class Notes extends Component {
         </Card>
       </div>
     ) : (
-      <div className="show">
-        <Card className="cardlist">
+      <div
+        className="show"
+        style={{
+          backgroundColor: this.state.color,
+        }}
+      >
+        <Card
+          className="cardlist"
+          style={{
+            backgroundColor: this.state.color,
+          }}
+        >
           <div className="titleAndPin">
             <div>
               <InputBase
+                style={{
+                  backgroundColor: this.state.color,
+                }}
                 className="titleNote"
                 placeholder="Title"
                 onChange={(event) =>
@@ -198,6 +266,9 @@ class Notes extends Component {
           </div>
           <div className="inp">
             <InputBase
+              style={{
+                backgroundColor: this.state.color,
+              }}
               className="in"
               type="text"
               onChange={(event) =>
@@ -210,7 +281,45 @@ class Notes extends Component {
 
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
-              <div></div>
+              <div>
+                <div className="labelRemDate">
+                  {this.state.remainder !== "" ? (
+                    <Chip
+                      clickable
+                      id="chip"
+                      deleteIcon={<DoneIcon />}
+                      label={
+                        <Typography
+                          style={{
+                            fontSize: "10px",
+                          }}
+                        >
+                          <Time
+                            value={this.state.remainder}
+                            format="YYYY/MM/DD"
+                          />
+                        </Typography>
+                      }
+                    />
+                  ) : null}
+                  {this.state.label !== "" ? (
+                    <Chip
+                      clickable
+                      id="chip"
+                      deleteIcon={<DoneIcon />}
+                      label={
+                        <Typography
+                          style={{
+                            fontSize: "10px",
+                          }}
+                        >
+                          {this.state.label}
+                        </Typography>
+                      }
+                    />
+                  ) : null}
+                </div>
+              </div>
               <div>
                 <CollaboratorComponent />
               </div>
@@ -224,6 +333,7 @@ class Notes extends Component {
                   </IconButton>
                 </Tooltip>
               </div>
+
               <div>
                 <Tooltip title="Archive" arrow>
                   <IconButton onClick={this.archived}>
@@ -231,7 +341,15 @@ class Notes extends Component {
                   </IconButton>
                 </Tooltip>
               </div>
+              <div>
+                <Tooltip title="More" arrow>
+                  <IconButton onClick={this.handleClickMore}>
+                    <MoreVertOutlinedIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
             </Toolbar>
+
             <div className="closeButton">
               <Button
                 style={{
@@ -244,6 +362,7 @@ class Notes extends Component {
                 Close
               </Button>
             </div>
+
             <Popover
               style={{
                 width: "470px",
@@ -266,6 +385,20 @@ class Notes extends Component {
             >
               <div className="colorMenu">{colObj}</div>
             </Popover>
+            {this.state.labelOpen ? (
+              <LabelMenu
+                labelClose={this.labelClose}
+                changeLabel={this.changeLabel}
+                anchor={this.state.labelAnchor}
+              />
+            ) : null}
+            {this.state.moreMenuOpen ? (
+              <MoreMenu
+                moreClose={this.moreClose}
+                menu={this.handleOnClick}
+                anchor={this.state.moreMenuAnchor}
+              />
+            ) : null}
           </div>
         </Card>
       </div>
