@@ -54,10 +54,12 @@ export default class dashboard extends Component {
       Pinned: false,
       headerName: "",
       allNotes: [],
+      labelNotes: [],
     };
   }
   componentDidMount() {
     this.getNote();
+    this.getLabel();
   }
   handleDrawer() {
     this.setState({ open: !this.state.open });
@@ -67,7 +69,19 @@ export default class dashboard extends Component {
     localStorage.removeItem("userDetails");
     this.props.history.push("/login");
   };
+  getLabel = async () => {
+    let array = [];
+    await noteServices.getNoteLabel().then((res) => {
+      console.log(res);
 
+      res.data.data.details.forEach((element) => {
+        array.push(element);
+      });
+    });
+    this.setState({
+      labelNotes: array,
+    });
+  };
   getNote = async () => {
     let array = [];
     await noteServices.getnotes().then((res) => {
@@ -90,6 +104,12 @@ export default class dashboard extends Component {
   render() {
     let otherNotes = 0;
     let pinCount = 0;
+    let label = this.state.labelNotes.map((allnote) => {
+      otherNotes++;
+      return (
+        <AllNotes key={allnote.id} allNotes={allnote} getNote={this.getNote} />
+      );
+    });
     let allObj = this.state.allNotes.map((allnote) => {
       if (
         allnote.isArchived === false &&
@@ -114,7 +134,6 @@ export default class dashboard extends Component {
         return (
           <AllNotes
             key={allnote.id}
-            listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -185,13 +204,7 @@ export default class dashboard extends Component {
                     </IconButton>
                   </Tooltip>
                 </div>
-                <div>
-                  <Tooltip title="Settings">
-                    <IconButton>
-                      <Settings />
-                    </IconButton>
-                  </Tooltip>
-                </div>
+
                 <div>
                   <Tooltip title="logout">
                     <IconButton onClick={this.handleLogout}>
@@ -211,7 +224,6 @@ export default class dashboard extends Component {
                     {pinCount > 0 ? (
                       <React.Fragment>
                         <span>Pinned:{pinCount}</span>
-                        {/* <div className="allNotes_position">{pinObj}</div> */}
                       </React.Fragment>
                     ) : null}
 
@@ -221,6 +233,8 @@ export default class dashboard extends Component {
                   </div>
                 ) : this.state.headerName === "Archive" ? (
                   <div className="allNotes_position">{arcObj}</div>
+                ) : this.state.headerName === "Edit Labels" ? (
+                  <div className="allNotes_position">{label}</div>
                 ) : this.state.headerName === "Trash" ? (
                   <div className="allNotes_position">{trashObj}</div>
                 ) : null}
@@ -228,7 +242,11 @@ export default class dashboard extends Component {
             </div>
           </div>
 
-          <SideMenu sideOpen={this.state.open} change={this.nameChange} />
+          <SideMenu
+            label={this.state.labelNotes}
+            sideOpen={this.state.open}
+            change={this.nameChange}
+          />
         </div>
       </MuiThemeProvider>
     );
