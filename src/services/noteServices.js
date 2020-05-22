@@ -1,5 +1,6 @@
 import axios from "axios";
 import noteApiConstants from "../constants/noteApiConstants";
+const userData = JSON.parse(localStorage.getItem("userDetails"));
 async function addnotes(notedata) {
   try {
     console.log("notedata", notedata);
@@ -8,7 +9,7 @@ async function addnotes(notedata) {
       notedata,
       {
         headers: {
-          Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+          Authorization: userData.id,
         },
       }
     );
@@ -23,7 +24,7 @@ async function getnotes() {
       process.env.REACT_APP_BASE_URL + noteApiConstants.getNotes,
       {
         headers: {
-          Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+          Authorization: userData.id,
         },
       }
     );
@@ -38,7 +39,7 @@ async function updateColor(field) {
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
@@ -50,7 +51,7 @@ async function pinNote(field) {
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
@@ -62,7 +63,7 @@ async function noteLabel(field) {
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
@@ -73,7 +74,7 @@ async function getNoteLabel() {
     process.env.REACT_APP_BASE_URL + noteApiConstants.getLabel,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
@@ -85,7 +86,7 @@ async function trashNote(field) {
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
@@ -97,23 +98,23 @@ async function archiveNote(field) {
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
   return response;
 }
 async function updateNotes(field) {
-  const response = await axios.post(
+  const res = await axios.post(
     process.env.REACT_APP_BASE_URL + noteApiConstants.updateNotes,
     field,
     {
       headers: {
-        Authorization: JSON.parse(localStorage.getItem("userDetails")).id,
+        Authorization: userData.id,
       },
     }
   );
-  return response;
+  return res;
 }
 
 export default {
