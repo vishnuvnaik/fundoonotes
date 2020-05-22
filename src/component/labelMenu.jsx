@@ -4,16 +4,75 @@ import tickon from "../assets/tickon.svg";
 import tickoff from "../assets/tickoff.svg";
 import plus from "../assets/plus.svg";
 import { Popover } from "@material-ui/core";
+import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
 class LabelMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labelName: "",
+      anchorEl: null,
+      open: false,
+      noteLabelList: this.props.labelIdList,
+      checked: false,
+      labelList: [],
+      labelIdListChange: props.labelIdListChange,
+      instanceLabel: "",
     };
   }
   handleClick = () => {
     this.props.changeLabel(this.state.labelName);
+  };
+  getLabels = async () => {
+    await noteServices
+      .getNoteLabel()
+      .then((response) =>
+        this.setState({ labelList: response.data.data.details })
+      );
+  };
+  handleClick = (event) => {
+    this.getLabels();
+    this.setState({
+      anchorEl: event.currentTarget,
+      open: !this.state.open,
+    });
+  };
+  addInstanceLabel = () => {
+    if (this.state.instanceLabel) {
+      noteServices.noteLabel(this.state.instanceLabel).then((response) => {
+        this.state.noteLabelList.push({
+          label: response.data.label,
+          id: response.data.id,
+        });
+        this.setState({ noteLabelList: this.state.noteLabelList });
+        this.setState({ instanceLabel: "" });
+        this.state.labelIdListChange();
+      });
+    }
+  };
+  handleChange = (label, id) => {
+    let flag = false;
+    let indexMain;
+    if (this.state.noteLabelList.length > 0) {
+      this.state.noteLabelList.filter((e, index) => {
+        if (e.id !== id) {
+          return e;
+        } else {
+          indexMain = index;
+          flag = true;
+        }
+      });
+      if (flag) {
+        this.state.noteLabelList.splice(indexMain, 1);
+      } else {
+        this.state.noteLabelList.push({ label: label, id: id });
+      }
+    } else {
+      this.state.noteLabelList.push({ label: label, id: id });
+    }
+
+    this.setState({ noteLabelList: this.state.noteLabelList });
+    this.setState({ noteLabelList: this.state.noteLabelList });
+    this.state.labelIdListChange();
   };
   render() {
     return (
