@@ -6,8 +6,6 @@ import {
   DialogContent,
   MuiThemeProvider,
   createMuiTheme,
-  Paper,
-  Menu,
   Popover,
   Chip,
   Typography,
@@ -53,8 +51,10 @@ class AllNotes extends Component {
       isArchived: this.props.allNotes.isArchived,
       isDeleted: this.props.allNotes.isDeleted,
       label: this.props.allNotes.label,
+      labelIdList: this.props.allNotes.labelIdList,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
+
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
@@ -139,7 +139,14 @@ class AllNotes extends Component {
           openDialog: true,
         });
         break;
-
+      case "butse":
+        setTimeout(() => {
+          this.setState({
+            moreMenuOpen: !this.state.moreMenuOpen,
+            moreMenuAnchor: event.currentTarget,
+          });
+        }, 100);
+        break;
       case "inputone":
         this.setState({
           cardChange: !this.state.cardChange,
@@ -153,18 +160,17 @@ class AllNotes extends Component {
         };
         noteService.updateNotes(field).then((res) => {
           if (res.status === 200) {
-            this.setState({ openDialog: false });
           }
           this.props.getNote();
         });
-        setTimeout(() => {
-          this.setState({
-            collaborator: false,
-            cardChange: false,
-            title: "",
-            content: "",
-          });
-        }, 100);
+        this.setState({
+          collaborator: false,
+          cardChange: false,
+          title: "",
+          content: "",
+          openDialog: false,
+        });
+
         break;
       default:
         this.setState({
@@ -177,6 +183,13 @@ class AllNotes extends Component {
         });
         break;
     }
+  };
+  handleClickMore = (event) => {
+    this.setState({
+      moreMenuOpen: !this.state.moreMenuOpen,
+      moreMenuAnchor: event.currentTarget,
+      labelAnchor: event.currentTarget,
+    });
   };
   render() {
     let colObj = color.map((el, index) => {
@@ -276,8 +289,18 @@ class AllNotes extends Component {
                         <ArchiveOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="More Menu" arrow>
-                      <IconButton>
+                    <Tooltip title="More" arrow>
+                      <IconButton
+                        onClick={(event) => {
+                          setTimeout(() => {
+                            this.setState({
+                              moreMenuOpen: !this.state.moreMenuOpen,
+                              moreMenuAnchor: event.currentTarget,
+                              labelAnchor: event.currentTarget,
+                            });
+                          }, 100);
+                        }}
+                      >
                         <MoreVertOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -357,7 +380,42 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-
+            <div className="labelRemDate">
+              {this.state.label === "" ? (
+                <React.Fragment>
+                  {this.state.remainder.length !== 0 ? (
+                    <Chip
+                      clickable
+                      id="chip"
+                      deleteIcon={<DoneIcon />}
+                      label={
+                        <Typography
+                          style={{
+                            fontSize: "10px",
+                          }}
+                        ></Typography>
+                      }
+                    />
+                  ) : null}
+                </React.Fragment>
+              ) : null}
+              {this.state.label ? (
+                <Chip
+                  clickable
+                  id="chip"
+                  deleteIcon={<DoneIcon />}
+                  label={
+                    <Typography
+                      style={{
+                        fontSize: "10px",
+                      }}
+                    >
+                      {this.state.label}
+                    </Typography>
+                  }
+                />
+              ) : null}
+            </div>
             <div className="arrangeCardToIcon">
               <div
                 style={{
@@ -400,7 +458,17 @@ class AllNotes extends Component {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="More" arrow>
-                  <IconButton>
+                  <IconButton
+                    onClick={(event) => {
+                      setTimeout(() => {
+                        this.setState({
+                          moreMenuOpen: !this.state.moreMenuOpen,
+                          moreMenuAnchor: event.currentTarget,
+                          labelAnchor: event.currentTarget,
+                        });
+                      }, 100);
+                    }}
+                  >
                     <MoreVertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -417,6 +485,7 @@ class AllNotes extends Component {
                 getNote={this.props.getNote}
               />
             ) : null}
+
             <Popover
               onClose={() => {
                 this.setState({
