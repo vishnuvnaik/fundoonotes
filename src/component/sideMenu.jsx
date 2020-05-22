@@ -4,6 +4,8 @@ import WbIncandescentIcon from "@material-ui/icons/WbIncandescent";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
+import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
+import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
 import "./CSS/dashboard.css";
 import LabelIcon from "@material-ui/icons/Label";
 import LabelMenu from "./labelMenu";
@@ -30,29 +32,39 @@ const theme = createMuiTheme({
 });
 
 class SideMenu extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      notes: false,
-      reminder: false,
-      editLabel: false,
-      archive: false,
-      trash: false,
-      open: false,
+      openLabel: false,
+      label: this.props.label,
     };
   }
-  openNotes() {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({
-      notes: true,
-      reminder: false,
-      editLabel: false,
-      archive: false,
-      trash: false,
-      Pinned: true,
+      label: props.label,
     });
-    console.log("notes", this.state.notes);
   }
+
   render() {
+    let label = this.state.label.map((ele) => {
+      return (
+        <React.Fragment key={ele.id}>
+          <div
+            onClick={() => {
+              this.props.change(ele.label);
+            }}
+            className="drawerNamesLabel"
+          >
+            <LabelOutlinedIcon
+              style={{
+                marginLeft: "20px",
+              }}
+            />
+            <span>{ele.label}</span>
+          </div>
+        </React.Fragment>
+      );
+    });
     return (
       <MuiThemeProvider theme={theme}>
         <SwipeableDrawer
@@ -89,26 +101,27 @@ class SideMenu extends Component {
               </MenuItem>
               <Divider></Divider>
             </div>
-
-            <div>{LabelMenu}</div>
             <div>
+              <span className="labelMargin">labels</span>
+            </div>
+            <div>{label}</div>
+            <div
+              onClick={() => {
+                this.props.change("Edit Labels");
+              }}
+              className="note"
+            >
               <MenuItem>
                 <div>
                   <IconButton>
-                    <LabelIcon />
+                    <CreateOutlinedIcon />
                   </IconButton>
                 </div>
-                <div
-                  onClick={() => {
-                    this.props.change("Edit Labels");
-                  }}
-                  className="sidefont"
-                >
-                  <span className="nameMargin">Edit Labels</span>
-                </div>
+                <div className="sidefont">Edit Labels</div>
               </MenuItem>
-              <Divider></Divider>
             </div>
+
+            <Divider></Divider>
 
             <div
               onClick={() => {
