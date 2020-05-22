@@ -7,4 +7,5 @@ module.exports = {
   labelNote: "/noteLabels",
   trashNote: "/notes/trashNotes",
   archive: "/notes/archiveNotes",
+  getLabel: "/noteLabels/getNoteLabelList",
 };
