@@ -60,6 +60,7 @@ class Notes extends Component {
       remOpen: false,
       colorOpen: false,
       colorAnchor: null,
+      labelIdList: [],
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -88,6 +89,7 @@ class Notes extends Component {
   };
 
   addNotes = () => {
+    
     if (this.state.label === "") {
       const field = {
         title: this.state.title,
