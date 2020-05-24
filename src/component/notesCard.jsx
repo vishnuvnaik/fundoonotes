@@ -244,6 +244,7 @@ class Notes extends Component {
                 onChange={(event) =>
                   this.setState({ title: event.target.value })
                 }
+                style={{ fontWeight: "bold" }}
               ></InputBase>
               <Tooltip title="Pin it" arrow>
                 <IconButton
@@ -274,6 +275,7 @@ class Notes extends Component {
               onChange={(event) =>
                 this.setState({ description: event.target.value })
               }
+              style={{ fontWeight: "bold" }}
               placeholder="Take a note..."
               multiline={this.state.nextLine}
             ></InputBase>
@@ -281,45 +283,7 @@ class Notes extends Component {
 
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
-              <div>
-                <div className="labelRemDate">
-                  {this.state.remainder !== "" ? (
-                    <Chip
-                      clickable
-                      id="chip"
-                      deleteIcon={<DoneIcon />}
-                      label={
-                        <Typography
-                          style={{
-                            fontSize: "10px",
-                          }}
-                        >
-                          <Time
-                            value={this.state.remainder}
-                            format="YYYY/MM/DD"
-                          />
-                        </Typography>
-                      }
-                    />
-                  ) : null}
-                  {this.state.label !== "" ? (
-                    <Chip
-                      clickable
-                      id="chip"
-                      deleteIcon={<DoneIcon />}
-                      label={
-                        <Typography
-                          style={{
-                            fontSize: "10px",
-                          }}
-                        >
-                          {this.state.label}
-                        </Typography>
-                      }
-                    />
-                  ) : null}
-                </div>
-              </div>
+              <div></div>
               <div>
                 <CollaboratorComponent />
               </div>
