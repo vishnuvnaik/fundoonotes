@@ -151,6 +151,7 @@
   padding: 4px 16px 12px 16px;
   margin-left: -15px;
   position: relative;
+  width: 420px;
 }
 .titleAndPin {
   display: flex;
@@ -415,18 +416,17 @@
 
 /* more */
 .moremenu_container {
-  width: 140px;
+  width: 300px;
   background: white;
   box-shadow: 0px 2px 10px 2px lightgray;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 150px;
 }
 
 .moreMenu_content {
   display: flex;
-  flex-direction: row;
+
   flex-wrap: wrap;
   padding: 10px;
 }
@@ -443,9 +443,9 @@
 }
 
 .moreMenu_popper {
-  width: 150px;
+  width: 300px;
   display: flex;
-  flex-direction: row;
+
   flex-wrap: wrap;
   position: relative;
 }
@@ -487,4 +487,20 @@
   font-size: 14px;
   letter-spacing: 1px;
   margin-left: 20px;
+}
+
+@media screen and (width: 768px) {
+  .allNotes_position {
+    width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+}
+#appBar_card {
+  width: 70%;
+  background-color: whitesmoke;
+  box-shadow: 0px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
