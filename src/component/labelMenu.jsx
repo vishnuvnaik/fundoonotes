@@ -17,11 +17,12 @@ class LabelMenu extends Component {
       labelList: [],
       labelIdListChange: props.labelIdListChange,
       instanceLabel: "",
+      labelName: "",
     };
   }
-  handleClick = () => {
-    this.props.changeLabel(this.state.labelName);
-  };
+  // handleClick = () => {
+  //   this.props.changeLabel(this.state.labelName);
+  // };
   getLabels = async () => {
     await noteServices
       .getNoteLabel()
@@ -36,6 +37,7 @@ class LabelMenu extends Component {
       open: !this.state.open,
     });
   };
+
   addInstanceLabel = () => {
     if (this.state.instanceLabel) {
       noteServices.noteLabel(this.state.instanceLabel).then((response) => {
@@ -49,31 +51,7 @@ class LabelMenu extends Component {
       });
     }
   };
-//   handleChange = (label, id) => {
-//     let flag = false;
-//     let indexMain;
-//     if (this.state.noteLabelList.length > 0) {
-//       this.state.noteLabelList.filter((e, index) => {
-//         if (e.id !== id) {
-//           return e;
-//         } else {
-//           indexMain = index;
-//           flag = true;
-//         }
-//       });
-//       if (flag) {
-//         this.state.noteLabelList.splice(indexMain, 1);
-//       } else {
-//         this.state.noteLabelList.push({ label: label, id: id });
-//       }
-//     } else {
-//       this.state.noteLabelList.push({ label: label, id: id });
-//     }
 
-//     this.setState({ noteLabelList: this.state.noteLabelList });
-//     this.setState({ noteLabelList: this.state.noteLabelList });
-//     this.state.labelIdListChange();
-//   };
   render() {
     return (
       <Popover
@@ -111,7 +89,7 @@ class LabelMenu extends Component {
         <div className="label_conBot">
           <div className="label_contents">
             <img src={tickoff} alt="" />
-            <span>hello</span>
+            <div>{this.props.label}</div>
           </div>
         </div>
         {this.state.labelName !== "" ? (
