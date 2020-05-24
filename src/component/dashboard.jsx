@@ -17,6 +17,7 @@ import {
 import People from "@material-ui/icons/ExitToApp";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import Settings from "@material-ui/icons/Settings";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
@@ -50,7 +51,7 @@ export default class dashboard extends Component {
       archive: false,
       reminder: false,
       trash: false,
-
+      search: "",
       Pinned: false,
       headerName: "",
       allNotes: [],
@@ -98,12 +99,16 @@ export default class dashboard extends Component {
       headerName: data,
     });
   };
+  handleChangeSearch = (event) => {
+    this.setState({
+      search: event.target.value,
+    });
+  };
   handleScroll = (event) => {
     event.preventDefault();
   };
   render() {
     let otherNotes = 0;
-    let pinCount = 0;
     let label = this.state.labelNotes.map((allnote) => {
       otherNotes++;
       return (
@@ -120,7 +125,6 @@ export default class dashboard extends Component {
         return (
           <AllNotes
             key={allnote.id}
-            //listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -153,6 +157,26 @@ export default class dashboard extends Component {
       }
       return null;
     });
+    let seaObj = this.state.allNotes.map((allnote) => {
+      if (
+        allnote.title
+          .toLocaleLowerCase()
+          .startsWith(this.state.search.toLocaleLowerCase()) ||
+        allnote.description
+          .toLocaleLowerCase()
+          .startsWith(this.state.search.toLocaleLowerCase())
+      ) {
+        return (
+          <AllNotes
+            key={allnote.id}
+            listGrid={this.state.listGrid}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+    });
+
     return (
       <MuiThemeProvider theme={theme}>
         <div onScroll={this.handleScroll}>
@@ -173,14 +197,24 @@ export default class dashboard extends Component {
                   </div>
                 </div>
               </div>
-              <div className="search">
-                <Tooltip title="Search">
-                  <IconButton size="large" id="searchButton" color="white">
+              <Card id="appBar_card">
+                <Tooltip title="Search" arrow>
+                  <IconButton>
                     <SearchIcon />
                   </IconButton>
                 </Tooltip>
-                <InputBase placeholder="Search" />
-              </div>
+                <InputBase
+                  placeholder="Search"
+                  value={this.state.search}
+                  onChange={this.handleChangeSearch}
+                  fullWidth
+                />
+                <Tooltip title="Clear search" arrow>
+                  <IconButton>
+                    <CloseIcon />
+                  </IconButton>
+                </Tooltip>
+              </Card>
 
               <div className="appicons">
                 <div>
@@ -218,27 +252,25 @@ export default class dashboard extends Component {
 
           <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
             <div className="displayNotes">
-              <React.Fragment>
-                {this.state.headerName === "" ? (
-                  <div>
-                    {pinCount > 0 ? (
-                      <React.Fragment>
-                        <span>Pinned:{pinCount}</span>
-                      </React.Fragment>
-                    ) : null}
-
-                    {pinCount > 0 ? <span>Others:{otherNotes}</span> : null}
-                    <Notes getNotes={this.getNote} />
-                    <div className="allNotes_position">{allObj}</div>
-                  </div>
-                ) : this.state.headerName === "Archive" ? (
-                  <div className="allNotes_position">{arcObj}</div>
-                ) : this.state.headerName === "Edit Labels" ? (
-                  <div className="allNotes_position">{label}</div>
-                ) : this.state.headerName === "Trash" ? (
-                  <div className="allNotes_position">{trashObj}</div>
-                ) : null}
-              </React.Fragment>
+              {this.state.search !== "" ? (
+                <div>{seaObj}</div>
+              ) : (
+                <React.Fragment>
+                  {this.state.headerName === "" ? (
+                    <div>
+                      <Notes getNotes={this.getNote} />
+                      <div className="allNotes_position">{allObj}</div>
+                    </div>
+                  ) : this.state.headerName === "Archive" ? (
+                    <div className="allNotes_position">{arcObj}</div>
+                  ) : this.state.headerName === "Edit Labels" ? (
+                    <div className="allNotes_position">{label}</div>
+                  ) : this.state.headerName === "Trash" ? (
+                    <div className="allNotes_position">{trashObj}</div>
+                  ) : null}
+                  }
+                </React.Fragment>
+              )}
             </div>
           </div>
 
