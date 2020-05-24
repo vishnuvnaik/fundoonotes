@@ -30,6 +30,7 @@ import Notes from "./notesCard";
 import "./CSS/dashboard.css";
 import noteServices from "../services/noteServices";
 import AllNotes from "./allNotes";
+import LabelMenu from "./labelMenu";
 const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
@@ -97,6 +98,11 @@ export default class dashboard extends Component {
   nameChange = (data) => {
     this.setState({
       headerName: data,
+    });
+  };
+  clearSearch = () => {
+    this.setState({
+      search: "",
     });
   };
   handleChangeSearch = (event) => {
@@ -197,6 +203,7 @@ export default class dashboard extends Component {
                   </div>
                 </div>
               </div>
+
               <Card id="appBar_card">
                 <Tooltip title="Search" arrow>
                   <IconButton>
@@ -210,7 +217,7 @@ export default class dashboard extends Component {
                   fullWidth
                 />
                 <Tooltip title="Clear search" arrow>
-                  <IconButton>
+                  <IconButton onClick={this.clearSearch}>
                     <CloseIcon />
                   </IconButton>
                 </Tooltip>
@@ -264,7 +271,11 @@ export default class dashboard extends Component {
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
                   ) : this.state.headerName === "Edit Labels" ? (
-                    <div className="allNotes_position">{label}</div>
+                    <div className="allNotes_position">
+                      <menu>
+                        <LabelMenu />
+                      </menu>
+                    </div>
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
