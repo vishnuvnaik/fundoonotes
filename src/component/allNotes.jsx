@@ -154,11 +154,12 @@ class AllNotes extends Component {
         break;
 
       case "normalCard":
-        const field = {
-          title: this.state.title,
-          description: this.state.content,
-        };
-        noteService.updateNotes(field).then((res) => {
+        const updateForm = new FormData();
+        updateForm.append("noteId", this.state.noteIdList);
+        updateForm.append("title", this.state.title);
+        updateForm.append("description", this.state.content);
+        updateForm.append("color", this.state.color);
+        noteService.updateNotes(updateForm).then((res) => {
           if (res.status === 200) {
           }
           this.props.getNote();
@@ -332,7 +333,7 @@ class AllNotes extends Component {
                   : "none",
               boxShadow: this.state.visible
                 ? "0px 2px 5px 2px lightgray"
-                : "none",
+                : "0px 2px 5px 2px lightgray",
               backgroundColor: this.state.color,
             }}
             className="gridCard"
@@ -380,25 +381,7 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-            <div className="labelRemDate">
-              {this.state.label === "" ? (
-                <React.Fragment>
-                  {this.state.remainder.length !== 0 ? (
-                    <Chip
-                      clickable
-                      id="chip"
-                      deleteIcon={<DoneIcon />}
-                      label={
-                        <Typography
-                          style={{
-                            fontSize: "10px",
-                          }}
-                        ></Typography>
-                      }
-                    />
-                  ) : null}
-                </React.Fragment>
-              ) : null}
+           {/* <div className="labelRemDate">
               {this.state.label ? (
                 <Chip
                   clickable
@@ -415,7 +398,7 @@ class AllNotes extends Component {
                   }
                 />
               ) : null}
-            </div>
+                </div> */}
             <div className="arrangeCardToIcon">
               <div
                 style={{
