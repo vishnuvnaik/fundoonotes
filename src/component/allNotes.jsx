@@ -32,14 +32,18 @@ const theme = createMuiTheme({
   },
 });
 const color = [
-  "#7FDBFF",
-  "#ff3333",
-  "#00b300",
-  "#ccff90",
-  "#f28b82",
+  "#fff",
+  "#cbf0f8",
   "#aecbfa",
   "#fbbc04",
-  "#fff",
+  "#e8eaed",
+  "#7FDBFF",
+  "#dab5d7",
+  "#ff3333",
+  "#00b300",
+  "#a7ffeb",
+  "#ccff90",
+  "#f28b82",
 ];
 class AllNotes extends Component {
   constructor(props) {
@@ -54,7 +58,6 @@ class AllNotes extends Component {
       labelIdList: this.props.allNotes.labelIdList,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
-
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
@@ -215,8 +218,18 @@ class AllNotes extends Component {
         {this.state.openDialog ? (
           <MuiThemeProvider theme={theme}>
             <Dialog id="dialog_card" open={true}>
-              <DialogContent id="visible">
-                <div className="cardTwoTopArr">
+              <DialogContent
+                id="visible"
+                style={{
+                  backgroundColor: this.state.color,
+                }}
+              >
+                <div
+                  className="cardTwoTopArr"
+                  style={{
+                    backgroundColor: this.state.color,
+                  }}
+                >
                   <input
                     style={{
                       backgroundColor: this.state.color,
@@ -252,7 +265,12 @@ class AllNotes extends Component {
                   placeholder="Take a Note..."
                 />
 
-                <div className="arrangeCardToIcon">
+                <div
+                  className="arrangeCardToIcon"
+                  style={{
+                    backgroundColor: this.state.color,
+                  }}
+                >
                   {/* comes on the click only */}
                   <div>
                     <Tooltip title="Reminder" arrow>
@@ -381,7 +399,7 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-           {/* <div className="labelRemDate">
+            {/* <div className="labelRemDate">
               {this.state.label ? (
                 <Chip
                   clickable
@@ -399,7 +417,12 @@ class AllNotes extends Component {
                 />
               ) : null}
                 </div> */}
-            <div className="arrangeCardToIcon">
+            <div
+              className="arrangeCardToIcon"
+              style={{
+                backgroundColor: this.state.color,
+              }}
+            >
               <div
                 style={{
                   visibility: this.state.visible ? "visible" : "hidden",
