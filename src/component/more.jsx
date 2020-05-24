@@ -16,8 +16,9 @@ class MoreMenu extends Component {
     const field2 = {
       label: event.currentTarget,
     };
-    noteService.labelNote(field2).then((response) => this.props.getNote());
+    noteService.noteLabel(field2).then((response) => this.props.getNote());
   };
+  
   render() {
     return (
       <Popover
@@ -39,17 +40,11 @@ class MoreMenu extends Component {
           onClick={this.props.menu}
           className="moreMenu_content"
         ></div>
-        <div className="moreMenu_content" onClick={this.props.addInstanceLabel}>
+        <div className="moreMenu_content" onClick={this.handlelabel}>
           <span>Add label</span>
         </div>
         <div className="moreMenu_content" onClick={this.deleteNote}>
           <span>Delete note</span>
-        </div>
-        <div className="moreMenu_content">
-          <span>Add drawing</span>
-        </div>
-        <div className="moreMenu_content">
-          <span>Show tick boxes</span>
         </div>
       </Popover>
     );
