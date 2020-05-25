@@ -53,7 +53,7 @@ class SideMenu extends Component {
             onClick={() => {
               this.props.change(ele.label);
             }}
-            className="drawerNamesLabel"
+            className="note"
           >
             <LabelOutlinedIcon
               style={{
@@ -102,9 +102,9 @@ class SideMenu extends Component {
               <Divider></Divider>
             </div>
             <div>
-              <span className="labelMargin">labels</span>
+              <span className="sidefont">labels</span>
             </div>
-            <div>{label}</div>
+            <div className="sidefont">{label}</div>
             <div
               onClick={() => {
                 this.props.change("Edit Labels");
@@ -112,7 +112,7 @@ class SideMenu extends Component {
               className="note"
             >
               <MenuItem>
-                <div>
+                <div className="note">
                   <IconButton>
                     <CreateOutlinedIcon />
                   </IconButton>
