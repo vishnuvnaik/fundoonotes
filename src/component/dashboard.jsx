@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import People from "@material-ui/icons/ExitToApp";
 import SearchIcon from "@material-ui/icons/Search";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import Settings from "@material-ui/icons/Settings";
@@ -48,7 +49,6 @@ export default class dashboard extends Component {
     super(props);
     this.state = {
       open: false,
-      grid: false,
       archive: false,
       reminder: false,
       trash: false,
@@ -113,6 +113,7 @@ export default class dashboard extends Component {
   handleScroll = (event) => {
     event.preventDefault();
   };
+
   render() {
     let otherNotes = 0;
     let label = this.state.labelNotes.map((allnote) => {
@@ -225,23 +226,9 @@ export default class dashboard extends Component {
 
               <div className="appicons">
                 <div>
-                  <Tooltip title="Refresh page">
-                    <IconButton>
-                      <RefreshIcon />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <div>
                   <Tooltip title="List View">
                     <IconButton>
                       <ViewStreamIcon />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <div>
-                  <Tooltip title="Grid View">
-                    <IconButton>
-                      <Dialpad />
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -272,14 +259,15 @@ export default class dashboard extends Component {
                     <div className="allNotes_position">{arcObj}</div>
                   ) : this.state.headerName === "Edit Labels" ? (
                     <div className="allNotes_position">
-                      <menu>
-                        <LabelMenu />
-                      </menu>
+                      <ClickAwayListener>
+                        <menu>
+                          <LabelMenu />
+                        </menu>
+                      </ClickAwayListener>
                     </div>
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
-                  }
                 </React.Fragment>
               )}
             </div>
