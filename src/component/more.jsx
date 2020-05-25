@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Popover, Dialog, Menu } from "@material-ui/core";
 import noteService from "../services/noteServices";
 import LabelMenu from "./labelMenu";
+import AddLabelNote from "./addLabel";
 import "./CSS/dashboard.css";
 class MoreMenu extends Component {
   deleteNote = () => {
     const field = {
       isDeleted: true,
       noteIdList: [this.props.id],
+      labelIdList: [],
     };
     noteService.trashNote(field).then((res) => {
       this.props.getNote();
@@ -26,6 +28,9 @@ class MoreMenu extends Component {
       label: event.currentTarget,
     };
     noteService.noteLabel(field2).then((response) => this.props.getNote());
+  };
+  labelIdListChange = () => {
+    this.setState({ labelIdList: this.state.labelIdList });
   };
 
   render() {
@@ -48,12 +53,11 @@ class MoreMenu extends Component {
           id="moreone"
           onClick={this.props.menu}
           className="moreMenu_content"
-        ></div>
-        <div className="moreMenu_content" onClick={this.handleClickLabel}>
-          <div>
-            <Menu>hi</Menu>
-          </div>
-          <span>Add label</span>
+        >
+          <AddLabelNote
+            labelIdList={this.state.labelIdList}
+            labelIdListChange={this.labelIdListChange}
+          />
         </div>
         <div className="moreMenu_content" onClick={this.deleteNote}>
           <span>Delete note</span>
