@@ -26,14 +26,18 @@ import DoneIcon from "@material-ui/icons/Done";
 import Time from "react-time";
 import Palette from "@material-ui/icons/Palette";
 const color = [
-  "#7FDBFF",
-  "#ff3333",
-  "#00b300",
+  "#fff",
+  "#a7ffeb",
   "#ccff90",
   "#f28b82",
+  "#cbf0f8",
   "#aecbfa",
   "#fbbc04",
-  "#fff",
+  "#e8eaed",
+  "#7FDBFF",
+  "#dab5d7",
+  "#ff3333",
+  "#00b300",
 ];
 class Notes extends Component {
   constructor(props) {
@@ -89,7 +93,6 @@ class Notes extends Component {
   };
 
   addNotes = () => {
-    
     if (this.state.label === "") {
       const field = {
         title: this.state.title,
