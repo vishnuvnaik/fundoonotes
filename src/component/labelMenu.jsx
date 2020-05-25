@@ -4,54 +4,17 @@ import tickon from "../assets/tickon.svg";
 import tickoff from "../assets/tickoff.svg";
 import plus from "../assets/plus.svg";
 import { Popover } from "@material-ui/core";
-import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
 class LabelMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null,
-      open: false,
-      noteLabelList: this.props.labelIdList,
-      checked: false,
-      labelList: [],
-      labelIdListChange: props.labelIdListChange,
-      instanceLabel: "",
       labelName: "",
     };
   }
-  // handleClick = () => {
-  //   this.props.changeLabel(this.state.labelName);
-  // };
-  getLabels = async () => {
-    await noteServices
-      .getNoteLabel()
-      .then((response) =>
-        this.setState({ labelList: response.data.data.details })
-      );
+  handleClick = () => {
+    this.props.changeLabel(this.state.labelName);
   };
-  handleClick = (event) => {
-    this.getLabels();
-    this.setState({
-      anchorEl: event.currentTarget,
-      open: !this.state.open,
-    });
-  };
-
-  addInstanceLabel = () => {
-    if (this.state.instanceLabel) {
-      noteServices.noteLabel(this.state.instanceLabel).then((response) => {
-        this.state.noteLabelList.push({
-          label: response.data.label,
-          id: response.data.id,
-        });
-        this.setState({ noteLabelList: this.state.noteLabelList });
-        this.setState({ instanceLabel: "" });
-        this.state.labelIdListChange();
-      });
-    }
-  };
-
   render() {
     return (
       <Popover
@@ -89,7 +52,7 @@ class LabelMenu extends Component {
         <div className="label_conBot">
           <div className="label_contents">
             <img src={tickoff} alt="" />
-            <div>{this.props.label}</div>
+            <span>hello</span>
           </div>
         </div>
         {this.state.labelName !== "" ? (
