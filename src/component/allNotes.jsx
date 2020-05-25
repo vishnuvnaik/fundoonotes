@@ -22,6 +22,8 @@ import noteService from "../services/noteServices";
 import coloricon from "../assets/color.svg";
 import LabelMenu from "./labelMenu";
 import MoreMenu from "./more";
+
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -58,6 +60,7 @@ class AllNotes extends Component {
       labelIdList: this.props.allNotes.labelIdList,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
+      remainder:this.props.allNotes.reminder,
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
@@ -68,7 +71,20 @@ class AllNotes extends Component {
       visible: false,
     };
   }
-
+  UNSAFE_componentWillReceiveProps(props) {
+        this.setState({
+            title: props.allNotes.title,
+            content: props.allNotes.description,
+            color: props.allNotes.color,
+            isArchived: props.allNotes.isArchived,
+            isDeleted: props.allNotes.isDeleted,
+            isPined: props.allNotes.isPined,
+            label: props.allNotes.label,
+            noteLabels: props.allNotes.noteLabels,
+            remainder: props.allNotes.reminder,
+            noteIdList: props.allNotes.id,
+        })
+    }
   handleMouseEnter = (event) => {
     switch (event.currentTarget.id) {
       case "colorBut":
@@ -155,6 +171,13 @@ class AllNotes extends Component {
           cardChange: !this.state.cardChange,
         });
         break;
+      case "moreone":
+        this.setState({
+          labelOpen: true,
+          labelAnchor: event.currentTarget,
+          moreMenuOpen: false,
+        });
+        break;
 
       case "normalCard":
         const updateForm = new FormData();
@@ -187,6 +210,16 @@ class AllNotes extends Component {
         });
         break;
     }
+  };
+  removeLabeFromNote = (labelId, index) => {
+    this.state.noteLabels.splice(index, 1);
+    noteService
+      .removeNoteLabel(labelId, this.state.noteIdList)
+      .then((response) => {
+        if (response) {
+          console.log("done");
+        }
+      });
   };
   handleClickMore = (event) => {
     this.setState({
@@ -264,6 +297,60 @@ class AllNotes extends Component {
                   value={this.state.content}
                   placeholder="Take a Note..."
                 />
+
+                <div className="labelRemDate">
+                  {this.state.label == "" ? (
+                    <React.Fragment>
+                      {this.state.remainder.length !== 0 ? (
+                        <Chip
+                          clickable
+                          id="chip"
+                          deleteIcon={<DoneIcon />}
+                          label={
+                            <Typography
+                              style={{
+                                fontSize: "10px",
+                              }}
+                            ></Typography>
+                          }
+                        />
+                      ) : null}
+                    </React.Fragment>
+                  ) : null}
+                  {this.state.label ? (
+                    <Chip
+                      clickable
+                      id="chip"
+                      deleteIcon={<DoneIcon />}
+                      label={
+                        <Typography
+                          style={{
+                            fontSize: "10px",
+                          }}
+                        >
+                          {this.state.label}
+                        </Typography>
+                      }
+                    />
+                  ) : null}
+                </div>
+
+                {/* <div className="labelRemDate">
+                  {this.state.noteLabels.map((ele, index) => {
+                    return (
+                      <div>
+                        <div>{ele.label}</div>
+                        <IconButton size="small">
+                          <HighlightOffIcon
+                            onClick={(e) =>
+                              this.removeLabeFromNote(ele.id, index)
+                            }
+                          />
+                        </IconButton>
+                      </div>
+                    );
+                  })}
+                </div> */}
 
                 <div
                   className="arrangeCardToIcon"
@@ -399,24 +486,7 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-            {/* <div className="labelRemDate">
-              {this.state.label ? (
-                <Chip
-                  clickable
-                  id="chip"
-                  deleteIcon={<DoneIcon />}
-                  label={
-                    <Typography
-                      style={{
-                        fontSize: "10px",
-                      }}
-                    >
-                      {this.state.label}
-                    </Typography>
-                  }
-                />
-              ) : null}
-                </div> */}
+
             <div
               className="arrangeCardToIcon"
               style={{
