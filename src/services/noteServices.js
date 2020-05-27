@@ -116,6 +116,106 @@ async function updateNotes(field) {
   );
   return res;
 }
+async function removeNoteLabel(labelID, noteId) {
+  try {
+    let data = {};
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        "notes/" +
+        noteId +
+        "/addLabelToNotes/" +
+        labelID +
+        "/remove",
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+export async function addSubNoteLabel(lableId, noteId) {
+  try {
+    let data = {};
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        "notes/" +
+        noteId +
+        "/addLabelToNotes/" +
+        lableId +
+        "/add",
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+ async function addNoteLabel(label) {
+  try {
+    let labelData = { label: label, isDeleted: false, userId: userData.userId };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + noteApiConstants.labelNote,
+      labelData,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+async function deleteNotelable(labelId) {
+  try {
+    const response = await axios.delete(
+      process.env.REACT_APP_BASE_URL +
+        noteApiConstants.labelNote +
+        "/" +
+        labelId +
+        "/deleteNoteLabel",
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+async function updateNoteLabel(labelId, editLabel) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        noteApiConstants.labelNote +
+        "/" +
+        labelId +
+        "/updateNoteLabel",
+      editLabel,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   addnotes,
@@ -127,4 +227,8 @@ export default {
   pinNote,
   updateColor,
   updateNotes,
+  removeNoteLabel,
+  addNoteLabel,
+  deleteNotelable,
+  updateNoteLabel,
 };
