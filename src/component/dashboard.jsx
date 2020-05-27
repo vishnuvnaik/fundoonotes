@@ -53,6 +53,7 @@ export default class dashboard extends Component {
       reminder: false,
       trash: false,
       search: "",
+      labelIdList: [],
       Pinned: false,
       headerName: "",
       allNotes: [],
@@ -83,6 +84,29 @@ export default class dashboard extends Component {
     this.setState({
       labelNotes: array,
     });
+  };
+  containerRenderLable = async (label) => {
+    this.setState({ headerName: "Edit Labels" });
+    let labelNote;
+    await noteServices
+      .getNoteLabel(label)
+      .then((response) => (labelNote = response.data.data.data));
+
+    this.state.labelFilter = labelNote.map((allnote) => {
+      if (!allnote.isDeleted) {
+        return (
+          <AllNotes
+            key={allnote.id}
+            noteData={allnote}
+            containerRendering={this.containerRendering.bind(this)}
+          />
+        );
+      }
+    });
+    this.setState({ labelFilter: this.state.labelFilter });
+  };
+  labelIdListChange = () => {
+    this.setState({ labelIdList: this.state.labelIdList });
   };
   getNote = async () => {
     let array = [];
@@ -247,7 +271,7 @@ export default class dashboard extends Component {
           <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
             <div className="displayNotes">
               {this.state.search !== "" ? (
-                <div>{seaObj}</div>
+                <div className="allNotes_position">{seaObj}</div>
               ) : (
                 <React.Fragment>
                   {this.state.headerName === "" ? (
@@ -257,14 +281,6 @@ export default class dashboard extends Component {
                     </div>
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
-                  ) : this.state.headerName === "Edit Labels" ? (
-                    <div className="allNotes_position">
-                      <ClickAwayListener>
-                        <menu>
-                          <LabelMenu />
-                        </menu>
-                      </ClickAwayListener>
-                    </div>
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
