@@ -19,6 +19,7 @@ import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
+import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
 import LabelMenu from "./labelMenu";
 import MoreMenu from "./more";
@@ -60,7 +61,9 @@ class AllNotes extends Component {
       labelIdList: this.props.allNotes.labelIdList,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
-      remainder:this.props.allNotes.reminder,
+      remainder: this.props.allNotes.reminder,
+      userId: this.props.allNotes.userId,
+      alNotes: this.props.allNotes,
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
@@ -72,19 +75,30 @@ class AllNotes extends Component {
     };
   }
   UNSAFE_componentWillReceiveProps(props) {
-        this.setState({
-            title: props.allNotes.title,
-            content: props.allNotes.description,
-            color: props.allNotes.color,
-            isArchived: props.allNotes.isArchived,
-            isDeleted: props.allNotes.isDeleted,
-            isPined: props.allNotes.isPined,
-            label: props.allNotes.label,
-            noteLabels: props.allNotes.noteLabels,
-            remainder: props.allNotes.reminder,
-            noteIdList: props.allNotes.id,
-        })
-    }
+    this.setState({
+      title: props.allNotes.title,
+      content: props.allNotes.description,
+      color: props.allNotes.color,
+      isArchived: props.allNotes.isArchived,
+      isDeleted: props.allNotes.isDeleted,
+      isPined: props.allNotes.isPined,
+      label: props.allNotes.label,
+      noteLabels: props.allNotes.noteLabels,
+      remainder: props.allNotes.reminder,
+      noteIdList: props.allNotes.id,
+    });
+  }
+  addNoteLabelTemporary = (label, id) => {
+    let data = {
+      label: label,
+      isDeleted: false,
+      id: id,
+      userId: this.state.userId,
+    };
+    this.state.noteLabels.push(data);
+    this.setState({ noteLabels: this.state.noteLabels });
+  };
+
   handleMouseEnter = (event) => {
     switch (event.currentTarget.id) {
       case "colorBut":
@@ -159,12 +173,10 @@ class AllNotes extends Component {
         });
         break;
       case "butse":
-        setTimeout(() => {
-          this.setState({
-            moreMenuOpen: !this.state.moreMenuOpen,
-            moreMenuAnchor: event.currentTarget,
-          });
-        }, 100);
+        this.setState({
+          moreMenuOpen: !this.state.moreMenuOpen,
+          moreMenuAnchor: event.currentTarget,
+        });
         break;
       case "inputone":
         this.setState({
@@ -211,6 +223,7 @@ class AllNotes extends Component {
         break;
     }
   };
+
   removeLabeFromNote = (labelId, index) => {
     this.state.noteLabels.splice(index, 1);
     noteService
@@ -297,43 +310,38 @@ class AllNotes extends Component {
                   value={this.state.content}
                   placeholder="Take a Note..."
                 />
-
                 <div className="labelRemDate">
-                  {this.state.label == "" ? (
-                    <React.Fragment>
-                      {this.state.remainder.length !== 0 ? (
-                        <Chip
-                          clickable
-                          id="chip"
-                          deleteIcon={<DoneIcon />}
-                          label={
-                            <Typography
-                              style={{
-                                fontSize: "10px",
-                              }}
-                            ></Typography>
-                          }
-                        />
-                      ) : null}
-                    </React.Fragment>
-                  ) : null}
-                  {this.state.label ? (
-                    <Chip
-                      clickable
-                      id="chip"
-                      deleteIcon={<DoneIcon />}
-                      label={
-                        <Typography
-                          style={{
-                            fontSize: "10px",
-                          }}
-                        >
-                          {this.state.label}
-                        </Typography>
-                      }
-                    />
-                  ) : null}
+                  {this.state.alNotes.noteLabels.map((labelNotes, index) => (
+                    <div style={{ padding: "3px" }}>
+                      <Chip
+                        key={index}
+                        style={{ width: "auto" }}
+                        label={labelNotes.label}
+                        onDelete={() =>
+                          this.handleDeletelabel(labelNotes.id, index)
+                        }
+                        color="white"
+                        // value={this.state.date}
+                      />
+                    </div>
+                  ))}
                 </div>
+                {/* <div className="labRemDate">
+                  {this.state.noteLabels.map((ele, index) => {
+                    return (
+                      <div>
+                        <div>{ele.label}</div>
+                        <IconButton size="small">
+                          <HighlightOffIcon
+                            onClick={(e) =>
+                              this.removeLabeFromNote(ele.id, index)
+                            }
+                          />
+                        </IconButton>
+                      </div>
+                    );
+                  })}
+                </div> */}
 
                 {/* <div className="labelRemDate">
                   {this.state.noteLabels.map((ele, index) => {
@@ -391,22 +399,12 @@ class AllNotes extends Component {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Archive" arrow>
-                      <IconButton>
+                      <IconButton onClick={this.handleArchive}>
                         <ArchiveOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="More" arrow>
-                      <IconButton
-                        onClick={(event) => {
-                          setTimeout(() => {
-                            this.setState({
-                              moreMenuOpen: !this.state.moreMenuOpen,
-                              moreMenuAnchor: event.currentTarget,
-                              labelAnchor: event.currentTarget,
-                            });
-                          }, 100);
-                        }}
-                      >
+                    <Tooltip title="More Menu" arrow>
+                      <IconButton id="butse" onClick={this.handleOnClick}>
                         <MoreVertOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
