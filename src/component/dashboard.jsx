@@ -15,6 +15,9 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import People from "@material-ui/icons/ExitToApp";
+import PeopleIcon from "@material-ui/icons/AccountCircle";
+import ViewListIcon from "@material-ui/icons/ViewList";
+import ViewCompactIcon from "@material-ui/icons/ViewCompact";
 import SearchIcon from "@material-ui/icons/Search";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -44,6 +47,16 @@ const theme = createMuiTheme({
   },
 });
 
+const theme1 = createMuiTheme({
+  overrides: {
+    MuiPopover: {
+      paper: {
+        width: "20%",
+        height: "30%",
+      },
+    },
+  },
+});
 export default class dashboard extends Component {
   constructor(props) {
     super(props);
@@ -58,6 +71,9 @@ export default class dashboard extends Component {
       headerName: "",
       allNotes: [],
       labelNotes: [],
+      listGrid: false,
+      menuOpen: false,
+      menuAnchorEl: null,
     };
   }
   componentDidMount() {
@@ -72,6 +88,12 @@ export default class dashboard extends Component {
     localStorage.removeItem("userDetails");
     this.props.history.push("/login");
   };
+  handleClickProfile = (event) => {
+    this.setState({
+      menuOpen: true,
+      menuAnchorEl: event.currentTarget,
+    });
+  };
   getLabel = async () => {
     let array = [];
     await noteServices.getNoteLabel().then((res) => {
@@ -85,26 +107,7 @@ export default class dashboard extends Component {
       labelNotes: array,
     });
   };
-  containerRenderLable = async (label) => {
-    this.setState({ headerName: "Edit Labels" });
-    let labelNote;
-    await noteServices
-      .getNoteLabel(label)
-      .then((response) => (labelNote = response.data.data.data));
 
-    this.state.labelFilter = labelNote.map((allnote) => {
-      if (!allnote.isDeleted) {
-        return (
-          <AllNotes
-            key={allnote.id}
-            noteData={allnote}
-            containerRendering={this.containerRendering.bind(this)}
-          />
-        );
-      }
-    });
-    this.setState({ labelFilter: this.state.labelFilter });
-  };
   labelIdListChange = () => {
     this.setState({ labelIdList: this.state.labelIdList });
   };
@@ -137,7 +140,16 @@ export default class dashboard extends Component {
   handleScroll = (event) => {
     event.preventDefault();
   };
-
+  handleClickListGrid = (event) => {
+    this.setState({
+      listGrid: !this.state.listGrid,
+    });
+  };
+  handleClose = () => {
+    this.setState({
+      menuOpen: false,
+    });
+  };
   render() {
     let otherNotes = 0;
     let label = this.state.labelNotes.map((allnote) => {
@@ -156,6 +168,7 @@ export default class dashboard extends Component {
         return (
           <AllNotes
             key={allnote.id}
+            listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -169,6 +182,7 @@ export default class dashboard extends Component {
         return (
           <AllNotes
             key={allnote.id}
+            listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -181,6 +195,7 @@ export default class dashboard extends Component {
         return (
           <AllNotes
             key={allnote.id}
+            listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
           />
@@ -250,9 +265,16 @@ export default class dashboard extends Component {
 
               <div className="appicons">
                 <div>
-                  <Tooltip title="List View">
-                    <IconButton>
-                      <ViewStreamIcon />
+                  <Tooltip
+                    title={this.state.listGrid ? "List view" : "Grid view"}
+                    arrow
+                  >
+                    <IconButton onClick={this.handleClickListGrid}>
+                      {this.state.listGrid ? (
+                        <ViewListIcon id="reduceButSize" />
+                      ) : (
+                        <ViewCompactIcon id="reduceButSize" />
+                      )}
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -261,6 +283,32 @@ export default class dashboard extends Component {
                   <Tooltip title="logout">
                     <IconButton onClick={this.handleLogout}>
                       <People />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <div>
+                  <Tooltip
+                    title={
+                      <div>
+                        <Typography>Fundoo Account</Typography>
+                        <Typography>
+                          {
+                            JSON.parse(localStorage.getItem("userDetails"))
+                              .firstName
+                          }
+                        </Typography>
+                        <Typography>
+                          {
+                            JSON.parse(localStorage.getItem("userDetails"))
+                              .email
+                          }
+                        </Typography>
+                      </div>
+                    }
+                    arrow
+                  >
+                    <IconButton onClick={this.handleClickProfile}>
+                      <PeopleIcon />
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -288,7 +336,22 @@ export default class dashboard extends Component {
               )}
             </div>
           </div>
-
+          <MuiThemeProvider theme={theme1}>
+            <Popover
+              id="menu"
+              onClose={this.handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              anchorEl={this.state.menuAnchorEl}
+              open={this.state.menuOpen}
+            ></Popover>
+          </MuiThemeProvider>
           <SideMenu
             label={this.state.labelNotes}
             sideOpen={this.state.open}
