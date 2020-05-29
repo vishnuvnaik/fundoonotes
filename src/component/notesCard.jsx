@@ -10,12 +10,14 @@ import {
   Typography,
   Popover,
 } from "@material-ui/core";
+import AddLabel from "./addLabel";
 import CheckBox from "@material-ui/icons/CheckBox";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import pin from "../assets/pin.svg";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
@@ -65,6 +67,7 @@ class Notes extends Component {
       colorOpen: false,
       colorAnchor: null,
       labelIdList: [],
+      labelNotes: [],
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -93,62 +96,97 @@ class Notes extends Component {
   };
 
   addNotes = () => {
-    if (this.state.label === "") {
-      const field = {
-        title: this.state.title,
-        description: this.state.description,
-        reminder: this.state.remainder,
-        color: this.state.color,
-        isArchived: this.state.isArchived,
-        isPined: this.state.isPined,
-      };
-      noteServices.addnotes(field).then((res) => {
-        if (res.status === 200) {
+    for (let i = 0; i < this.state.labelNotes.length; i++) {
+      this.state.labelIdList.push(this.state.labelNotes[i].id);
+      console.log(this.state.labelNotes[i].id);
+    }
+    this.setState({ labelIdList: this.state.labelIdList });
+    if (this.state.title != "") {
+      const form_data = new FormData();
+      form_data.append("title", this.state.title);
+      form_data.append("description", this.state.description);
+      form_data.append("reminder", this.state.reminder);
+      form_data.append("isArchived", this.state.isArchived);
+      form_data.append("color", this.state.color);
+      form_data.append("labelIdList", JSON.stringify(this.state.labelIdList));
+
+      noteServices.addnotes(form_data).then((response) => {
+        if (response) {
+          this.changeCard();
         }
         this.props.getNotes();
-        this.setState({
-          collaborator: false,
-          cardChange: true,
-          title: "",
-          description: "",
-          remainder: "",
-          label: "",
-          color: "",
-        });
       });
-      this.changeCard();
-    } else {
-      const fieldtwo = {
-        title: this.state.title,
-        description: this.state.description,
-        reminder: this.state.remainder,
-        color: this.state.color,
-        isArchived: this.state.isArchived,
-        isPined: this.state.isPined,
-        label: this.state.label,
-        isDeleted: false,
-        userId: JSON.parse(localStorage.getItem("userDetails")).userId,
-        //noteIdList: [res.data.status.details.id]
-      };
-      this.changeCard();
 
-      noteServices.labelNote(fieldtwo).then(() => {
-        this.setState({
-          collaborator: false,
-          cardChange: true,
-          title: "",
-          content: "",
-          remainder: "",
-          label: "",
-          color: "",
-        });
-      });
+      this.setState({ title: "" });
+      this.setState({ description: "" });
+      this.setState({ color: "" });
+      this.setState({ labelIdList: [] });
+      this.setState({ labelNotes: [] });
+      //for close the main Note Box
+    } else {
+      this.changeCard();
     }
   };
-  archived = () => {
-    this.setState({
-      isArchived: true,
-    });
+  //   if (this.state.label === "") {
+  //     const field = {
+  //       title: this.state.title,
+  //       description: this.state.description,
+  //       reminder: this.state.remainder,
+  //       color: this.state.color,
+  //       isArchived: this.state.isArchived,
+  //       isPined: this.state.isPined,
+  //     };
+  //     noteServices.addnotes(field).then((res) => {
+  //       if (res.status === 200) {
+  //       }
+  //       this.props.getNotes();
+  //       this.setState({
+  //         collaborator: false,
+  //         cardChange: true,
+  //         title: "",
+  //         description: "",
+  //         remainder: "",
+  //         label: "",
+  //         color: "",
+  //       });
+  //     });
+  //     this.changeCard();
+  //   } else {
+  //     const fieldtwo = {
+  //       title: this.state.title,
+  //       description: this.state.description,
+  //       reminder: this.state.remainder,
+  //       color: this.state.color,
+  //       isArchived: this.state.isArchived,
+  //       isPined: this.state.isPined,
+  //       label: this.state.label,
+  //       isDeleted: false,
+  //       userId: JSON.parse(localStorage.getItem("userDetails")).userId,
+  //       //noteIdList: [res.data.status.details.id]
+  //     };
+  //     this.changeCard();
+
+  //     noteServices.labelNote(fieldtwo).then(() => {
+  //       this.setState({
+  //         collaborator: false,
+  //         cardChange: true,
+  //         title: "",
+  //         content: "",
+  //         remainder: "",
+  //         label: "",
+  //         color: "",
+  //       });
+  //     });
+  //   }
+  // };
+  // archived = () => {
+  //   this.setState({
+  //     isArchived: true,
+  //   });
+  // };
+  onClickArchive = async () => {
+    await this.setState({ isArchived: true });
+    this.addNotes();
   };
   handleClickMore = (event) => {
     this.setState({
@@ -162,6 +200,9 @@ class Notes extends Component {
     await this.setState({
       label: data,
     });
+  };
+  labelIdListChange = () => {
+    this.setState({ labelIdList: this.state.labelIdList });
   };
   labelClose = () => {
     this.setState({
@@ -178,6 +219,20 @@ class Notes extends Component {
       labelOpen: true,
       moreMenuOpen: false,
     });
+  };
+  labelNotes = (value) => {
+    console.log(value);
+    this.setState({ labelNotes: value });
+  };
+  labelIdListRemove = (index) => {
+    this.state.labelIdList.splice(index, 1);
+    this.setState({ labelIdList: this.state.labelIdList });
+  };
+  handleDeletelabel = (id, index) => {
+    if (index > -1) {
+      this.state.labelNotes.splice(index, 1);
+    }
+    this.setState({ labelNotes: this.state.labelNotes });
   };
   render() {
     let colObj = color.map((el, index) => {
@@ -285,7 +340,28 @@ class Notes extends Component {
               multiline={this.state.nextLine}
             ></InputBase>
           </div>
-
+          <div
+            className="cardToolbar"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              width: "100%",
+              padding: "5px",
+            }}
+          >
+            {this.state.labelNotes.map((labelNotes, index) => (
+              <div style={{ padding: "3px" }}>
+                <Chip
+                  key={index}
+                  style={{ width: "auto" }}
+                  label={labelNotes.label}
+                  onDelete={() => this.handleDeletelabel(labelNotes.id, index)}
+                  color="white"
+                />
+              </div>
+            ))}
+          </div>
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
               <div></div>
@@ -305,7 +381,7 @@ class Notes extends Component {
 
               <div>
                 <Tooltip title="Archive" arrow>
-                  <IconButton onClick={this.archived}>
+                  <IconButton onClick={this.onClickArchive}>
                     <ArchiveOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -317,6 +393,7 @@ class Notes extends Component {
                   </IconButton>
                 </Tooltip>
               </div>
+              <AddLabel labelNotes={this.labelNotes} />
             </Toolbar>
 
             <div className="closeButton">
@@ -355,7 +432,7 @@ class Notes extends Component {
               <div className="colorMenu">{colObj}</div>
             </Popover>
             {this.state.labelOpen ? (
-              <LabelMenu
+              <AddLabel
                 labelClose={this.labelClose}
                 changeLabel={this.changeLabel}
                 anchor={this.state.labelAnchor}
