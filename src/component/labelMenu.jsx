@@ -22,7 +22,7 @@ class LabelMenu extends Component {
       labels: [],
       enterLable: "",
     };
-    this.getLables();
+    this.getLabels();
   }
 
   handleClickOpen = () => {
@@ -35,16 +35,16 @@ class LabelMenu extends Component {
   editNotelabel = (labelId, index) => {
     let editdata = { label: this.state.labels[index].label };
     noteServices.updateNoteLabel(labelId, editdata);
-    this.getLables();
+    this.getLabels();
   };
   addLabel = () => {
     let userId = JSON.parse(localStorage.getItem("userDetails")).userId;
     noteServices.addNoteLabel(this.state.enterLable);
     this.setState({ enterLable: "" });
-    this.getLables();
-    this.getLables();
+    this.getLabels();
+    this.getLabels();
   };
-  getLables = async () => {
+  getLabels = async () => {
     await noteServices
       .getNoteLabel()
       .then((response) =>
@@ -52,8 +52,9 @@ class LabelMenu extends Component {
       );
   };
   deleteLabel = (labelId) => {
-    noteServices.deleteNotelable(labelId);
-    this.getLables();
+    noteServices.deleteNotelabel(labelId);
+    this.getLabels();
+    this.getLabels();
   };
   render() {
     return (
@@ -125,7 +126,7 @@ class LabelMenu extends Component {
                 </div>
               );
             })}
-            <div className="editLableFooter">
+            <div className="editLabelFooter">
               <Button
                 variant="contained"
                 color="primary"
