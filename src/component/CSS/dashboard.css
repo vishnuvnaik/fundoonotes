@@ -22,7 +22,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-content: center;
-  inline-size: 500px;
+  inline-size: 300px;
   border: 1px solid;
   border-radius: 10px;
   border-color: whitesmoke;
@@ -37,6 +37,7 @@
 }
 .sidefont {
   margin-left: 13px;
+  font-family: "Google Sans", Arial, sans-serif;
 }
 /* .list {
   flex: 1;
@@ -51,7 +52,7 @@
 .searchBox {
   display: flex;
   flex-direction: row;
-  width: 50%;
+  width: 300px;
   margin-right: 10px;
 }
 .MuiButtonBase-root.searchButton2 {
@@ -112,6 +113,7 @@
   margin-top: 50px;
   box-shadow: 0px 0px 2px 1px gray;
   inline-size: 500px;
+  border-radius: 5px;
 }
 .takeNote {
   margin-top: 0px;
@@ -233,7 +235,6 @@
   position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
   flex-direction: row;
 }
 
@@ -426,7 +427,7 @@
 
 .moreMenu_content {
   display: flex;
-
+  align-items: center;
   flex-wrap: wrap;
   padding: 10px;
 }
@@ -435,6 +436,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   opacity: 0.8;
 }
 
@@ -497,10 +499,136 @@
   }
 }
 #appBar_card {
-  width: 70%;
+  width: 600px;
   background-color: whitesmoke;
-  box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 1px 0px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.cardCloseBut {
+  position: absolute;
+  right: 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  width: 70px;
+  height: 30px;
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ________________________labels___________________ */
+.labelContainer {
+  background-color: white;
+  width: 200px;
+}
+.labelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.labelHeader > .MuiButtonBase-root {
+  margin-right: 10px;
+}
+.label > * {
+  margin-right: 20px;
+}
+.label > svg {
+  margin-left: 10px;
+}
+.label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  height: 43px;
+}
+
+.labelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.labelFooter > * {
+  margin-right: 10px;
+}
+.labelList > *:hover {
+  background-color: #dfdfdf;
+  border-radius: 0px 30px 30px 0px;
+}
+#simple-dialog-label {
+  width: 100%;
+}
+.addLabelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.addLabelHead > * {
+  margin-right: 10px;
+}
+.editLabellist {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30px;
+  margin-left: 10px;
+}
+.editLabelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+#dialogBoxtitleLabel {
+  height: 10px;
+}
+.labellistSelect {
+  display: flex;
+  align-items: center;
+}
+.labelInNote {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.labelInNote > * {
+  display: flex;
+  align-items: center;
+  background-color: #898a87;
+  justify-content: space-around;
+  border-radius: 20px 20px 20px 20px;
+  font-size: small;
+  padding: 5px;
+  margin-right: 10px;
+  height: 20px;
+}
+.lableAddInstanceHeading {
+  margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.addLabelOnNote {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.reminderHeading {
+  font-size: medium;
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.lableList > *:hover {
+  background-color: #dfdfdf;
+  border-radius: 0px 30px 30px 0px;
+}
+.lablelistSelect {
+  display: flex;
   align-items: center;
 }
