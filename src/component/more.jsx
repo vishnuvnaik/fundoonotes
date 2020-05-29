@@ -25,22 +25,8 @@ class MoreMenu extends Component {
     });
   };
 
-  handlelabel = (event) => {
-    const field2 = {
-      label: event.currentTarget,
-    };
-    noteService.noteLabel(field2).then((response) => this.props.getNote());
-  };
   labelIdListChange = () => {
     this.setState({ labelIdList: this.state.labelIdList });
-  };
-  handleClickLabel = (event) => {
-    this.setState({
-      menuOpen: false,
-      menuAnchor: false,
-      labelMenu: true,
-      labelAnchorEL: event.currentTarget,
-    });
   };
 
   render() {
