@@ -23,7 +23,7 @@ import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
 import LabelMenu from "./labelMenu";
 import MoreMenu from "./more";
-
+import Snackbar from "@material-ui/core/Snackbar";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 const theme = createMuiTheme({
   overrides: {
@@ -58,20 +58,26 @@ class AllNotes extends Component {
       isArchived: this.props.allNotes.isArchived,
       isDeleted: this.props.allNotes.isDeleted,
       label: this.props.allNotes.label,
-      labelIdList: this.props.allNotes.labelIdList,
+      labelIdList: props.allNotes.labelIdList,
       noteLabels: this.props.allNotes.noteLabels,
       noteIdList: this.props.allNotes.id,
       remainder: this.props.allNotes.reminder,
       userId: this.props.allNotes.userId,
       alNotes: this.props.allNotes,
+      modifiedDate: this.props.allNotes.modifiedDate,
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
       moreMenuAnchor: null,
+      remOpen: false,
+      remAnchor: null,
       colorOpen: false,
       colorAnchor: null,
       openDialog: false,
       visible: false,
+      snackbarOpen: false,
+      snackbarMsg: "",
+      snackbarMsgType: "",
     };
   }
   UNSAFE_componentWillReceiveProps(props) {
@@ -86,6 +92,7 @@ class AllNotes extends Component {
       noteLabels: props.allNotes.noteLabels,
       remainder: props.allNotes.reminder,
       noteIdList: props.allNotes.id,
+      modifiedDate: props.allNotes.modifiedDate,
     });
   }
   addNoteLabelTemporary = (label, id) => {
@@ -98,7 +105,16 @@ class AllNotes extends Component {
     this.state.noteLabels.push(data);
     this.setState({ noteLabels: this.state.noteLabels });
   };
-
+  displaySnackbar = (open, type, msg) => {
+    this.setState({
+      snackbarOpen: open,
+      snackbarMsgType: type,
+      snackbarMsg: msg,
+    });
+  };
+  snackbarClose = () => {
+    this.setState({ snackbarOpen: false });
+  };
   handleMouseEnter = (event) => {
     switch (event.currentTarget.id) {
       case "colorBut":
@@ -141,6 +157,10 @@ class AllNotes extends Component {
     };
     noteService.updateColor(field).then((res) => {
       this.props.getNote();
+      this.setState({
+        snackbarOpen: true,
+        snackbarMsg: "color changed",
+      });
     });
   };
   handleArchive = () => {
@@ -152,19 +172,35 @@ class AllNotes extends Component {
       console.log("done");
       this.props.getNote();
     });
+    this.setState({
+      snackbarOpen: true,
+      snackbarMsg: "note archived",
+    });
   };
+
   handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
   };
   handleChangeDescription = (event) => {
     this.setState({ content: event.target.value });
   };
-
+  handleClickMore = (event) => {
+    this.setState({
+      moreMenuOpen: !this.state.moreMenuOpen,
+      moreMenuAnchor: event.currentTarget,
+    });
+  };
   handleOnClick = (event) => {
     switch (event.currentTarget.id) {
       case "textone":
         this.setState({
           openDialog: true,
+        });
+        break;
+      case "butto":
+        this.setState({
+          remOpen: !this.state.remOpen,
+          remAnchor: event.currentTarget,
         });
         break;
       case "texttwo":
@@ -201,6 +237,10 @@ class AllNotes extends Component {
           if (res.status === 200) {
           }
           this.props.getNote();
+          this.setState({
+            snackbarOpen: true,
+            snackbarMsg: "note edited",
+          });
         });
         this.setState({
           collaborator: false,
@@ -261,6 +301,16 @@ class AllNotes extends Component {
     });
     return (
       <React.Fragment>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackbarOpen: false })}
+          message={this.state.snackbarMsg}
+        ></Snackbar>
         {this.state.openDialog ? (
           <MuiThemeProvider theme={theme}>
             <Dialog id="dialog_card" open={true}>
@@ -318,7 +368,7 @@ class AllNotes extends Component {
                         style={{ width: "auto" }}
                         label={labelNotes.label}
                         onDelete={() =>
-                          this.handleDeletelabel(labelNotes.id, index)
+                          this.removeLabeFromNote(labelNotes.id, index)
                         }
                         color="white"
                         // value={this.state.date}
@@ -326,39 +376,6 @@ class AllNotes extends Component {
                     </div>
                   ))}
                 </div>
-                {/* <div className="labRemDate">
-                  {this.state.noteLabels.map((ele, index) => {
-                    return (
-                      <div>
-                        <div>{ele.label}</div>
-                        <IconButton size="small">
-                          <HighlightOffIcon
-                            onClick={(e) =>
-                              this.removeLabeFromNote(ele.id, index)
-                            }
-                          />
-                        </IconButton>
-                      </div>
-                    );
-                  })}
-                </div> */}
-
-                {/* <div className="labelRemDate">
-                  {this.state.noteLabels.map((ele, index) => {
-                    return (
-                      <div>
-                        <div>{ele.label}</div>
-                        <IconButton size="small">
-                          <HighlightOffIcon
-                            onClick={(e) =>
-                              this.removeLabeFromNote(ele.id, index)
-                            }
-                          />
-                        </IconButton>
-                      </div>
-                    );
-                  })}
-                </div> */}
 
                 <div
                   className="arrangeCardToIcon"
@@ -383,14 +400,7 @@ class AllNotes extends Component {
                         id="colorBut"
                         onMouseEnter={this.handleMouseEnter}
                       >
-                        <img
-                          style={{
-                            height: "20px",
-                            opacity: ".5",
-                          }}
-                          src={coloricon}
-                          alt="c"
-                        />
+                        <PaletteOutlinedIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Add image" arrow>
@@ -408,17 +418,18 @@ class AllNotes extends Component {
                         <MoreVertOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
+
+                    <button
+                      style={{
+                        backgroundColor: this.state.color,
+                      }}
+                      id="normalCard"
+                      className="cardCloseBut"
+                      onClick={this.handleOnClick}
+                    >
+                      Close
+                    </button>
                   </div>
-                  <button
-                    style={{
-                      backgroundColor: this.state.color,
-                    }}
-                    id="normalCard"
-                    className="cardCloseBut"
-                    onClick={this.handleOnClick}
-                  >
-                    Close
-                  </button>
                 </div>
               </DialogContent>
             </Dialog>
@@ -439,7 +450,7 @@ class AllNotes extends Component {
                 : "0px 2px 5px 2px lightgray",
               backgroundColor: this.state.color,
             }}
-            className="gridCard"
+            className={this.props.listGrid ? "noteCard123Two" : "gridCard"}
           >
             <div className="cardTwoTopArr">
               <input
@@ -484,7 +495,22 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-
+            <div className="labelRemDate">
+              {this.state.alNotes.noteLabels.map((labelNotes, index) => (
+                <div style={{ padding: "3px" }}>
+                  <Chip
+                    key={index}
+                    style={{ width: "auto" }}
+                    label={labelNotes.label}
+                    onDelete={() =>
+                      this.removeLabeFromNote(labelNotes.id, index)
+                    }
+                    color="white"
+                    // value={this.state.date}
+                  />
+                </div>
+              ))}
+            </div>
             <div
               className="arrangeCardToIcon"
               style={{
@@ -497,7 +523,7 @@ class AllNotes extends Component {
                 }}
               >
                 <Tooltip title="Remainder" arrow>
-                  <IconButton>
+                  <IconButton id="butto" onClick={this.handleOnClick}>
                     <AddAlertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -531,6 +557,7 @@ class AllNotes extends Component {
                     <ArchiveOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
+
                 <Tooltip title="More" arrow>
                   <IconButton
                     onClick={(event) => {
