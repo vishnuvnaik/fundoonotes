@@ -1,28 +1,41 @@
-import React from "react";
+import React, { Component } from "react";
 import Popover from "@material-ui/core/Popover";
 import noteServices from "../services/noteServices";
 import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import ColorLensIcon from "@material-ui/icons/ColorLens";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
+import "./CSS/dashboard.css";
 import { addNoteLabel } from "../services/noteServices";
 
-export default class AddLabelNote extends React.Component {
+export default class AddLabelNote extends Component {
   constructor(props) {
     super(props);
     this.state = {
       anchorEl: null,
       open: false,
-      noteLabelList: this.props.allNotes.labelIdList,
+      noteLabelList: [],
+      addlabel: false,
       checked: false,
       labelList: [],
-      labelIdListChange: this.props.labelIdListChange,
+      labelIdListChange: props.labelIdListChange,
       instanceLabel: "",
+      setChecked: true,
+      labelNotes: [],
+      activeCheckboxes: [],
+      id: this.props.noteIdList,
     };
+    this.handleCheck = this.handleCheck.bind(this);
   }
-  getLables = async () => {
+  UNSAFE_componentWillReceiveProps(props) {
+    this.setState({
+      noteLabelList: props.labelIdList,
+    });
+  }
+  getLabels = async () => {
     await noteServices
       .getNoteLabel()
       .then((response) =>
@@ -30,37 +43,36 @@ export default class AddLabelNote extends React.Component {
       );
   };
   handleClick = (event) => {
-    this.getLables();
+    this.getLabels();
     this.setState({
       anchorEl: event.currentTarget,
       open: !this.state.open,
     });
   };
-  handleChange = (label, id) => {
-    let flag = false;
-    let indexMain;
-    if (this.state.noteLabelList.length > 0) {
-      this.state.noteLabelList.filter((e, index) => {
-        if (e.id !== id) {
-          return e;
-        } else {
-          indexMain = index;
-          flag = true;
-        }
-      });
-      if (flag) {
-        this.state.noteLabelList.splice(indexMain, 1);
-      } else {
-        this.state.noteLabelList.push({ label: label, id: id });
-      }
-    } else {
-      this.state.noteLabelList.push({ label: label, id: id });
-    }
-
-    this.setState({ noteLabelList: this.state.noteLabelList });
-    this.setState({ noteLabelList: this.state.noteLabelList });
-    this.state.labelIdListChange();
-  };
+  // handleChange = (label, id) => {
+  //   let flag = false;
+  //   let indexMain;
+  //   if (this.state.noteLabelList.length > 0) {
+  //     this.state.noteLabelList.filter((e, index) => {
+  //       if (e.id !== id) {
+  //         return e;
+  //       } else {
+  //         indexMain = index;
+  //         flag = true;
+  //       }
+  //     });
+  //     if (flag) {
+  //       this.state.noteLabelList.splice(indexMain, 1);
+  //     } else {
+  //       this.state.noteLabelList.push({ label: label, id: id });
+  //     }
+  //   } else {
+  //     this.state.noteLabelList.push({ label: label, id: id });
+  //   }
+  //   this.setState({ noteLabelList: this.state.noteLabelList });
+  //   this.setState({ noteLabelList: this.state.noteLabelList });
+  //   this.state.labelIdListChange();
+  // };
   onChangeInstanceLabel = (e) => {
     this.setState({ instanceLabel: e.target.value });
   };
@@ -77,7 +89,32 @@ export default class AddLabelNote extends React.Component {
       });
     }
   };
-
+  handleCheck = (labelList, labelId) => {
+    
+    let found = this.state.activeCheckboxes.includes(labelId);
+    if (found) {
+      this.setState({
+        activeCheckboxes: this.state.activeCheckboxes.filter(
+          (x) => x !== labelId
+        ),
+      });
+      const index = this.state.labelNotes.findIndex(
+        (labelNotes) => labelNotes.id === labelId
+      );
+      console.log(index, labelId);
+      if (index > -1) {
+        this.state.labelNotes.splice(index, 1);
+      }
+      this.setState({ labelNotes: this.state.labelNotes });
+      this.props.labelNotes(this.state.labelNotes);
+    } else {
+      this.setState({
+        activeCheckboxes: [...this.state.activeCheckboxes, labelId],
+      });
+      this.state.labelNotes.push(labelList);
+      this.props.labelNotes(this.state.labelNotes);
+    }
+  };
   render() {
     return (
       <div>
@@ -111,19 +148,44 @@ export default class AddLabelNote extends React.Component {
           </div>
           <div>
             <div>
-              {this.state.labelList.map((ele) => {
+              {this.state.labelList.map((labelList, index) => {
                 return (
-                  <div className="lablelistSelect">
-                    <Checkbox
-                      size="small"
-                      checked={this.checked}
-                      onChange={(e) => this.handleChange(ele.label, ele.id)}
-                      color="primary"
-                      inputProps={{ "aria-label": "secondary checkbox" }}
-                    />
-                    <div>{ele.label}</div>
-                  </div>
+                  <List>
+                    <div className="lablelistSelect">
+                      <Checkbox
+                        label={labelList.label}
+                        inputProps={{
+                          "aria-label": "checkbox with default color",
+                        }}
+                        onChange={() =>
+                          this.handleCheck(labelList, labelList.id)
+                        }
+                        checked={this.state.activeCheckboxes.includes(
+                          labelList.id
+                        )}
+                      />
+                      <Typography
+                        style={{ width: "100%" }}
+                        onClick={() => this.checkboxoutline(labelList)}
+                      >
+                        {labelList.label}
+                      </Typography>
+                    </div>
+                  </List>
                 );
+                // return (
+                //   <div className="lablelistSelect">
+                //     <Checkbox
+                //       label={labelList.label}
+                //       size="small"
+                //       checked={this.state.activeCheckboxes.includes(labelList.id)}
+                //       onChange={(e) => this.handleChange(ele.label, ele.id)}
+                //       color="primary"
+                //       inputProps={{ "aria-label": "secondary checkbox" }}
+                //     />
+                //     <div>{ele.label}</div>
+                //   </div>
+                // );
               })}
             </div>
           </div>
@@ -133,6 +195,28 @@ export default class AddLabelNote extends React.Component {
   }
 }
 
+// console.log(this.state.labelList[0].id);
+// console.log(label.id);
+
+// let labelPresent;
+// let updatedLabel;
+// let response = !this.state.noteLabelList.find((el) =>
+//   label.id === el.id ? true : false
+// )
+// let responce =
+//   this.state.noteLabelList.length === 0
+//     ? this.setState({
+//         noteLabelList: {
+//           ...this.state.noteLabelList,
+//           label,
+//         },
+//       })
+//     : ((updatedLabel = this.state.noteLabelList.filter((el) =>
+//         label.id !== el.id ? el : null
+//       )),
+//       this.setState({
+//         noteLabelList: updatedLabel,
+//       }));
 // constructor(props) {
 
 //   super(props);
