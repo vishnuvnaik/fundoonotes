@@ -90,7 +90,6 @@ export default class AddLabelNote extends Component {
     }
   };
   handleCheck = (labelList, labelId) => {
-    
     let found = this.state.activeCheckboxes.includes(labelId);
     if (found) {
       this.setState({
