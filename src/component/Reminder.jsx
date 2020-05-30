@@ -22,6 +22,14 @@ class ReminderComponent extends Component {
       reminder: "",
     };
   }
+  isReminder = (event) => {
+    const { currentTarget } = event;
+    this.setState({
+      open: !this.state.open,
+      anchorEl: currentTarget,
+    });
+    console.log("in reminder");
+  };
 
   render() {
     return (
@@ -29,6 +37,28 @@ class ReminderComponent extends Component {
         <IconButton onClick={(event) => this.isReminder(event)}>
           <NotificationsNone />
         </IconButton>
+        <Card>
+          <Popper
+            open={this.state.open}
+            anchorEl={this.state.anchorEl}
+            position="absolute"
+            z-index="1"
+          >
+            <Paper>
+              <div>
+                Reminders
+                <MenuItem onClick={(event) => this.today}>
+                  Later today : 08:00 PM
+                </MenuItem>
+              </div>
+              <div>
+                <MenuItem onClick={(event) => this.tomorrow}>
+                  Tomorrow : 08:00 AM
+                </MenuItem>
+              </div>
+            </Paper>
+          </Popper>
+        </Card>
       </div>
     );
   }
