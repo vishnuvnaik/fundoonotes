@@ -160,7 +160,7 @@ export async function addSubNoteLabel(lableId, noteId) {
     return err;
   }
 }
- async function addNoteLabel(label) {
+async function addNoteLabel(label) {
   try {
     let labelData = { label: label, isDeleted: false, userId: userData.userId };
     const response = await axios.post(
@@ -177,7 +177,7 @@ export async function addSubNoteLabel(lableId, noteId) {
     return err;
   }
 }
-async function deleteNotelable(labelId) {
+async function deleteNotelabel(labelId) {
   try {
     const response = await axios.delete(
       process.env.REACT_APP_BASE_URL +
@@ -229,6 +229,7 @@ export default {
   updateNotes,
   removeNoteLabel,
   addNoteLabel,
-  deleteNotelable,
+  deleteNotelabel,
   updateNoteLabel,
+  addSubNoteLabel,
 };
