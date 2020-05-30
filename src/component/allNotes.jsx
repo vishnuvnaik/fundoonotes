@@ -8,6 +8,8 @@ import {
   createMuiTheme,
   Popover,
   Chip,
+  Menu,
+  MenuItem,
   Typography,
 } from "@material-ui/core";
 import AddAlertOutlinedIcon from "@material-ui/icons/AddAlertOutlined";
@@ -19,12 +21,16 @@ import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
+import AddLabel from "./addLabel";
+
 import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
 import LabelMenu from "./labelMenu";
 import MoreMenu from "./more";
 import Snackbar from "@material-ui/core/Snackbar";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import AddLabelNote from "./addLabel";
+import AddSubLabel from "./addSubLabel";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -78,6 +84,8 @@ class AllNotes extends Component {
       snackbarOpen: false,
       snackbarMsg: "",
       snackbarMsgType: "",
+      labelNotes: [],
+      noteLabel: this.props.allNotes.noteLabels,
     };
   }
   UNSAFE_componentWillReceiveProps(props) {
@@ -102,8 +110,17 @@ class AllNotes extends Component {
       id: id,
       userId: this.state.userId,
     };
-    this.state.noteLabels.push(data);
-    this.setState({ noteLabels: this.state.noteLabels });
+    this.state.noteLabel.push(data);
+    this.setState({ noteLabel: this.state.noteLabel });
+  };
+  labelIdListChange = () => {
+    this.setState({ labelIdList: this.state.labelIdList });
+  };
+
+  moreClose = () => {
+    this.setState({
+      moreMenuOpen: false,
+    });
   };
   displaySnackbar = (open, type, msg) => {
     this.setState({
@@ -115,6 +132,7 @@ class AllNotes extends Component {
   snackbarClose = () => {
     this.setState({ snackbarOpen: false });
   };
+
   handleMouseEnter = (event) => {
     switch (event.currentTarget.id) {
       case "colorBut":
@@ -122,6 +140,7 @@ class AllNotes extends Component {
           colorOpen: true,
           colorAnchor: event.currentTarget,
         });
+
         break;
       case "divbutton":
         this.setState({
@@ -139,6 +158,7 @@ class AllNotes extends Component {
           colorOpen: true,
           colorAnchor: event.currentTarget,
         });
+
         break;
       case "divbutton":
         this.setState({
@@ -184,12 +204,7 @@ class AllNotes extends Component {
   handleChangeDescription = (event) => {
     this.setState({ content: event.target.value });
   };
-  handleClickMore = (event) => {
-    this.setState({
-      moreMenuOpen: !this.state.moreMenuOpen,
-      moreMenuAnchor: event.currentTarget,
-    });
-  };
+
   handleOnClick = (event) => {
     switch (event.currentTarget.id) {
       case "textone":
@@ -274,11 +289,24 @@ class AllNotes extends Component {
         }
       });
   };
+  labelNotes = (value) => {
+    console.log(value);
+    this.setState({ labelNotes: value });
+  };
   handleClickMore = (event) => {
     this.setState({
       moreMenuOpen: !this.state.moreMenuOpen,
       moreMenuAnchor: event.currentTarget,
-      labelAnchor: event.currentTarget,
+    });
+  };
+  deleteNote = () => {
+    const field = {
+      isDeleted: true,
+      noteIdList: [this.state.noteIdList],
+      labelIdList: [],
+    };
+    noteService.trashNote(field).then((res) => {
+      this.props.getNote();
     });
   };
   render() {
@@ -414,8 +442,8 @@ class AllNotes extends Component {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="More Menu" arrow>
-                      <IconButton id="butse" onClick={this.handleOnClick}>
-                        <MoreVertOutlinedIcon fontSize="small" />
+                      <IconButton onClick={this.handleClickMore}>
+                        <MoreVertOutlinedIcon />
                       </IconButton>
                     </Tooltip>
 
@@ -495,6 +523,7 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
+
             <div className="labelRemDate">
               {this.state.alNotes.noteLabels.map((labelNotes, index) => (
                 <div style={{ padding: "3px" }}>
@@ -511,6 +540,7 @@ class AllNotes extends Component {
                 </div>
               ))}
             </div>
+
             <div
               className="arrangeCardToIcon"
               style={{
@@ -557,19 +587,14 @@ class AllNotes extends Component {
                     <ArchiveOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
-
-                <Tooltip title="More" arrow>
-                  <IconButton
-                    onClick={(event) => {
-                      setTimeout(() => {
-                        this.setState({
-                          moreMenuOpen: !this.state.moreMenuOpen,
-                          moreMenuAnchor: event.currentTarget,
-                          labelAnchor: event.currentTarget,
-                        });
-                      }, 100);
-                    }}
-                  >
+                <MenuItem>
+                  <AddSubLabel
+                    alNotes={this.state.alNotes}
+                    addNoteLabelTemporary={this.addNoteLabelTemporary}
+                  />
+                </MenuItem>
+                <Tooltip title="Moreeee" arrow>
+                  <IconButton onClick={this.handleClickMore}>
                     <MoreVertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -579,14 +604,34 @@ class AllNotes extends Component {
               <LabelMenu anchor={this.state.labelAnchor} />
             ) : null}
             {this.state.moreMenuOpen ? (
-              <MoreMenu
-                menu={this.handleOnClick}
-                anchor={this.state.moreMenuAnchor}
-                id={this.state.noteIdList}
-                getNote={this.props.getNote}
-              />
+              <Popover
+                className="moreMenu_popper"
+                onClose={this.moreClose}
+                open={true}
+                anchorEl={this.state.moreMenuAnchor}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <div
+                  id="moreone"
+                  onClick={this.state.menu}
+                  className="moreMenu_content"
+                >
+                  <MenuItem>
+                    <AddLabel labelNotes={this.labelNotes} />
+                  </MenuItem>
+                </div>
+                <div className="moreMenu_content">
+                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
+                </div>
+              </Popover>
             ) : null}
-
             <Popover
               onClose={() => {
                 this.setState({
