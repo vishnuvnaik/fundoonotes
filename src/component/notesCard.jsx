@@ -7,7 +7,7 @@ import {
   Toolbar,
   Button,
   Chip,
-  Typography,
+  MenuItem,
   Popover,
 } from "@material-ui/core";
 import AddLabel from "./addLabel";
@@ -17,16 +17,15 @@ import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 import pin from "../assets/pin.svg";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
-import LabelMenu from "./labelMenu";
-import MoreMenu from "./more";
-import DoneIcon from "@material-ui/icons/Done";
+
 import Time from "react-time";
 import Palette from "@material-ui/icons/Palette";
+import AddLabelNote from "./addLabel";
 const color = [
   "#fff",
   "#a7ffeb",
@@ -127,63 +126,7 @@ class Notes extends Component {
       this.changeCard();
     }
   };
-  //   if (this.state.label === "") {
-  //     const field = {
-  //       title: this.state.title,
-  //       description: this.state.description,
-  //       reminder: this.state.remainder,
-  //       color: this.state.color,
-  //       isArchived: this.state.isArchived,
-  //       isPined: this.state.isPined,
-  //     };
-  //     noteServices.addnotes(field).then((res) => {
-  //       if (res.status === 200) {
-  //       }
-  //       this.props.getNotes();
-  //       this.setState({
-  //         collaborator: false,
-  //         cardChange: true,
-  //         title: "",
-  //         description: "",
-  //         remainder: "",
-  //         label: "",
-  //         color: "",
-  //       });
-  //     });
-  //     this.changeCard();
-  //   } else {
-  //     const fieldtwo = {
-  //       title: this.state.title,
-  //       description: this.state.description,
-  //       reminder: this.state.remainder,
-  //       color: this.state.color,
-  //       isArchived: this.state.isArchived,
-  //       isPined: this.state.isPined,
-  //       label: this.state.label,
-  //       isDeleted: false,
-  //       userId: JSON.parse(localStorage.getItem("userDetails")).userId,
-  //       //noteIdList: [res.data.status.details.id]
-  //     };
-  //     this.changeCard();
 
-  //     noteServices.labelNote(fieldtwo).then(() => {
-  //       this.setState({
-  //         collaborator: false,
-  //         cardChange: true,
-  //         title: "",
-  //         content: "",
-  //         remainder: "",
-  //         label: "",
-  //         color: "",
-  //       });
-  //     });
-  //   }
-  // };
-  // archived = () => {
-  //   this.setState({
-  //     isArchived: true,
-  //   });
-  // };
   onClickArchive = async () => {
     await this.setState({ isArchived: true });
     this.addNotes();
@@ -393,7 +336,6 @@ class Notes extends Component {
                   </IconButton>
                 </Tooltip>
               </div>
-              <AddLabel labelNotes={this.labelNotes} />
             </Toolbar>
 
             <div className="closeButton">
@@ -439,12 +381,37 @@ class Notes extends Component {
               />
             ) : null}
             {this.state.moreMenuOpen ? (
-              <MoreMenu
+              <Popover
+                className="moreMenu_popper"
+                onClose={this.moreClose}
+                open={true}
+                anchorEl={this.state.moreMenuAnchor}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <div
+                  id="moreone"
+                  onClick={this.state.menu}
+                  className="moreMenu_content"
+                >
+                  <MenuItem>
+                    <AddLabel labelNotes={this.labelNotes} />
+                  </MenuItem>
+                </div>
+              </Popover>
+            ) : /* <
                 moreClose={this.moreClose}
                 menu={this.handleOnClick}
                 anchor={this.state.moreMenuAnchor}
-              />
-            ) : null}
+              /> */
+
+            null}
           </div>
         </Card>
       </div>
