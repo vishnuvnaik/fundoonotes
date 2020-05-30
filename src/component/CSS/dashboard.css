@@ -631,4 +631,5 @@
 .lablelistSelect {
   display: flex;
   align-items: center;
+  height: 20px;
 }
