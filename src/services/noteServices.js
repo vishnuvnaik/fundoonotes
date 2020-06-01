@@ -121,7 +121,7 @@ async function removeNoteLabel(labelID, noteId) {
     let data = {};
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL +
-        "notes/" +
+        "/notes/" +
         noteId +
         "/addLabelToNotes/" +
         labelID +
@@ -138,15 +138,15 @@ async function removeNoteLabel(labelID, noteId) {
     return err;
   }
 }
-export async function addSubNoteLabel(lableId, noteId) {
+export async function addSubNoteLabel(labelId, noteId) {
   try {
     let data = {};
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL +
-        "notes/" +
+        "/notes/" +
         noteId +
         "/addLabelToNotes/" +
-        lableId +
+        labelId +
         "/add",
       data,
       {
