@@ -90,7 +90,11 @@ class SideMenu extends Component {
               </MenuItem>
             </div>
 
-            <div>
+            <div
+              onClick={() => {
+                this.props.change("Remainder");
+              }}
+            >
               <MenuItem>
                 <div>
                   <IconButton>
@@ -104,23 +108,6 @@ class SideMenu extends Component {
             <div className="sidefont">
               <LabelMenu />
             </div>
-            {/* <div
-              onClick={() => {
-                this.props.change("Edit Labels");
-              }}
-              className="note"
-            >
-              <MenuItem>
-                <div className="note">
-                  <IconButton>
-                    <CreateOutlinedIcon />
-                  </IconButton>
-                </div>
-                <div className="sidefont" onClick={this.props.handleClickOpen}>
-                  Edit Labels
-                </div>
-              </MenuItem>
-            </div> */}
 
             <Divider></Divider>
 
