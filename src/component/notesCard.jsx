@@ -67,6 +67,8 @@ class Notes extends Component {
       colorAnchor: null,
       labelIdList: [],
       labelNotes: [],
+      reminderMain: "",
+      reminderDisplay: "none",
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -104,7 +106,7 @@ class Notes extends Component {
       const form_data = new FormData();
       form_data.append("title", this.state.title);
       form_data.append("description", this.state.description);
-      form_data.append("reminder", this.state.reminder);
+      form_data.append("reminder", this.state.reminderMain);
       form_data.append("isArchived", this.state.isArchived);
       form_data.append("color", this.state.color);
       form_data.append("labelIdList", JSON.stringify(this.state.labelIdList));
@@ -176,6 +178,14 @@ class Notes extends Component {
       this.state.labelNotes.splice(index, 1);
     }
     this.setState({ labelNotes: this.state.labelNotes });
+  };
+  reminderMainSet = (data) => {
+    this.setState({ reminderMain: data });
+    this.setState({ reminderDisplay: "flex" });
+  };
+  reminderClose = () => {
+    this.setState({ reminderDisplay: "none" });
+    this.setState({ reminderMain: "" });
   };
   render() {
     let colObj = color.map((el, index) => {
@@ -312,7 +322,10 @@ class Notes extends Component {
                 <CollaboratorComponent />
               </div>
               <div>
-                <ReminderComponent />
+                <RemainderMenu
+                  reminderMainSet={this.reminderMainSet.bind(this)}
+                  reminderMain={this.state.reminderMain}
+                />
               </div>
               <div>
                 <Tooltip title="Change color" arrow>
