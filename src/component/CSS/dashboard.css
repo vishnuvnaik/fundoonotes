@@ -242,7 +242,7 @@
 /* Allnotes */
 .allNotes_position {
   margin-top: 40px;
-  width: 94%;
+  width: 84%;
   margin-left: 13%;
   margin-right: 13%;
   display: flex;
@@ -269,6 +269,34 @@
   padding: 10px;
   width: 100%;
   background-color: #fff;
+}
+.listView {
+  width: 265px;
+  margin: 1%;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+.gridView {
+  width: 600px;
+}
+.cardActions {
+  display: flex;
+  width: 100%;
+  visibility: hidden;
+}
+.cardRow {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+.cardRow > .MuiPaper-root {
+  width: 40%;
+  box-shadow: 0px 0px 7px 0px;
+}
+#notesCard {
+  box-shadow: 0px 2px 5px 2px;
 }
 
 .cardTwoTopArr {
