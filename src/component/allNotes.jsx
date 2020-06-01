@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   Tooltip,
+  Card,
   IconButton,
   Dialog,
   DialogContent,
@@ -22,10 +23,12 @@ import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
 import AddLabel from "./addLabel";
-
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
 import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
 import LabelMenu from "./labelMenu";
+import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import MoreMenu from "./more";
 import Snackbar from "@material-ui/core/Snackbar";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -71,6 +74,7 @@ class AllNotes extends Component {
       userId: this.props.allNotes.userId,
       alNotes: this.props.allNotes,
       modifiedDate: this.props.allNotes.modifiedDate,
+
       labelOpen: false,
       labelAnchor: null,
       moreMenuOpen: false,
@@ -586,15 +590,20 @@ class AllNotes extends Component {
                 </Tooltip>
                 <Tooltip title="Archive" arrow>
                   <IconButton onClick={this.handleArchive}>
-                    <ArchiveOutlinedIcon fontSize="small" />
+                    {this.state.isArchived ? (
+                      <UnarchiveIcon />
+                    ) : (
+                      <ArchiveOutlinedIcon fontSize="small" />
+                    )}
                   </IconButton>
                 </Tooltip>
-                {/*  <MenuItem>
+
+                {/*   <MenuItem>
                   <AddSubLabel
                     alNotes={this.state.alNotes}
                     addNoteLabelTemporary={this.addNoteLabelTemporary}
                   />
-                    </MenuItem> */}
+                  </MenuItem> */}
                 <Tooltip title="More" arrow>
                   <IconButton
                     onClick={(event) => {
@@ -611,6 +620,14 @@ class AllNotes extends Component {
                 </Tooltip>
               </div>
             </div>
+            {this.state.moreMenuOpen ? (
+              <MoreMenu
+                menu={this.handleOnClick}
+                anchor={this.state.moreMenuAnchor}
+                id={this.state.noteIdList}
+                getNote={this.props.getNote}
+              />
+            ) : null}
             <Popover
               onClose={() => {
                 this.setState({
@@ -630,7 +647,7 @@ class AllNotes extends Component {
                 horizontal: "center",
               }}
               anchorEl={this.state.colorAnchor}
-              id="colorbox"
+              id="colorBut"
               onMouseLeave={this.handleMouseLeave}
             >
               <div className="colorMenu">{colObj}</div>
@@ -647,7 +664,7 @@ class AllNotes extends Component {
                 open={true}
                 anchorEl={this.state.moreMenuAnchor}
                 anchorOrigin={{
-                  vertical: "center",
+                  vertical: "bottom",
                   horizontal: "center",
                 }}
                 transformOrigin={{
