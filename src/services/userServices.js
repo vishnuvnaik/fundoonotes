@@ -58,4 +58,5 @@ async function uploadUserProfile(data) {
     return err;
   }
 }
+
 export default { userRegistration, forgotPassword, login, uploadUserProfile };
