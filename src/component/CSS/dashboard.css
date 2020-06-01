@@ -235,13 +235,14 @@
   position: relative;
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: row;
 }
 
 /* Allnotes */
 .allNotes_position {
   margin-top: 40px;
-  width: 74%;
+  width: 94%;
   margin-left: 13%;
   margin-right: 13%;
   display: flex;
@@ -319,6 +320,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 150px;
+}
+#menu {
+  outline: none;
 }
 
 /* label menu */
@@ -632,4 +636,19 @@
   display: flex;
   align-items: center;
   height: 20px;
+}
+
+@media screen and (width: 1024px) {
+  .allNotes_position {
+    width: 58%;
+    margin-left: 21%;
+    margin-right: 21%;
+  }
+}
+@media screen and (width: 768px) {
+  .allNotes_position {
+    width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
 }
