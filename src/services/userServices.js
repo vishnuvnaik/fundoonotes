@@ -41,5 +41,21 @@ async function forgotPassword(data) {
     return err;
   }
 }
-
-export default { userRegistration, forgotPassword, login };
+async function uploadUserProfile(data) {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.UploadProfileImage,
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+export default { userRegistration, forgotPassword, login, uploadUserProfile };
