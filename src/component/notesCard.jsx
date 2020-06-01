@@ -17,7 +17,7 @@ import Brush from "@material-ui/icons/Brush";
 import Image from "@material-ui/icons/Image";
 import noteServices from "../services/noteServices";
 import "./CSS/dashboard.css";
-
+import RemainderMenu from "./remainderMenu";
 import pin from "../assets/pin.svg";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
