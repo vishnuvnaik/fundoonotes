@@ -34,6 +34,7 @@ import Notes from "./notesCard";
 import "./CSS/dashboard.css";
 import noteServices from "../services/noteServices";
 import AllNotes from "./allNotes";
+import userServices from "../services/userServices";
 import LabelMenu from "./labelMenu";
 const theme = createMuiTheme({
   overrides: {
@@ -74,6 +75,7 @@ export default class dashboard extends Component {
       listGrid: false,
       menuOpen: false,
       menuAnchorEl: null,
+      profileImage: JSON.parse(localStorage.getItem("userProfileImage")),
     };
   }
   componentDidMount() {
@@ -150,6 +152,15 @@ export default class dashboard extends Component {
       menuOpen: false,
     });
   };
+
+  onChangeProfile = (event) => {
+    let form_data = new FormData();
+    form_data.append("file", event.target.files[0]);
+    userServices.uploadUserProfile(form_data).then((response) => {
+      this.setState({ profileImage: response.data.status.imageUrl });
+      localStorage.setItem("userProfileImage", response.data.status.imageUrl);
+    });
+  };
   render() {
     let otherNotes = 0;
     let label = this.state.labelNotes.map((allnote) => {
@@ -192,6 +203,19 @@ export default class dashboard extends Component {
     });
     let trashObj = this.state.allNotes.map((allnote) => {
       if (allnote.isDeleted === true && allnote.isArchived === false) {
+        return (
+          <AllNotes
+            key={allnote.id}
+            listGrid={this.state.listGrid}
+            allNotes={allnote}
+            getNote={this.getNote}
+          />
+        );
+      }
+      return null;
+    });
+    let remObj = this.state.allNotes.map((allnote) => {
+      if (allnote.isDeleted === false && allnote.reminder.length !== 0) {
         return (
           <AllNotes
             key={allnote.id}
@@ -329,6 +353,8 @@ export default class dashboard extends Component {
                     </div>
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
+                  ) : this.state.headerName === "Remainder" ? (
+                    <div className="allNotes_position">{remObj}</div>
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
