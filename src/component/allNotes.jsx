@@ -289,6 +289,7 @@ class AllNotes extends Component {
         }
       });
   };
+
   labelNotes = (value) => {
     console.log(value);
     this.setState({ labelNotes: value });
@@ -297,6 +298,7 @@ class AllNotes extends Component {
     this.setState({
       moreMenuOpen: !this.state.moreMenuOpen,
       moreMenuAnchor: event.currentTarget,
+      labelAnchor: event.currentTarget,
     });
   };
   deleteNote = () => {
@@ -587,51 +589,28 @@ class AllNotes extends Component {
                     <ArchiveOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
-                <MenuItem>
+                {/*  <MenuItem>
                   <AddSubLabel
                     alNotes={this.state.alNotes}
                     addNoteLabelTemporary={this.addNoteLabelTemporary}
                   />
-                </MenuItem>
-                <Tooltip title="Moreeee" arrow>
-                  <IconButton onClick={this.handleClickMore}>
+                    </MenuItem> */}
+                <Tooltip title="More" arrow>
+                  <IconButton
+                    onClick={(event) => {
+                      setTimeout(() => {
+                        this.setState({
+                          moreMenuOpen: !this.state.moreMenuOpen,
+                          moreMenuAnchor: event.currentTarget,
+                        });
+                      }, 100);
+                    }}
+                  >
                     <MoreVertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </div>
             </div>
-            {this.state.labelOpen ? (
-              <LabelMenu anchor={this.state.labelAnchor} />
-            ) : null}
-            {this.state.moreMenuOpen ? (
-              <Popover
-                className="moreMenu_popper"
-                onClose={this.moreClose}
-                open={true}
-                anchorEl={this.state.moreMenuAnchor}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <div
-                  id="moreone"
-                  onClick={this.state.menu}
-                  className="moreMenu_content"
-                >
-                  <MenuItem>
-                    <AddLabel labelNotes={this.labelNotes} />
-                  </MenuItem>
-                </div>
-                <div className="moreMenu_content">
-                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
-                </div>
-              </Popover>
-            ) : null}
             <Popover
               onClose={() => {
                 this.setState({
@@ -656,6 +635,42 @@ class AllNotes extends Component {
             >
               <div className="colorMenu">{colObj}</div>
             </Popover>
+
+            {this.state.labelOpen ? (
+              <LabelMenu anchor={this.state.labelAnchor} />
+            ) : null}
+            {this.state.moreMenuOpen ? (
+              <Popover
+                id="menu"
+                className="moreMenu_popper"
+                onClose={this.moreClose}
+                open={true}
+                anchorEl={this.state.moreMenuAnchor}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <div
+                  onClick={this.handleClickMore}
+                  className="moreMenu_content"
+                >
+                  <MenuItem>
+                    <AddSubLabel
+                      alNotes={this.state.alNotes}
+                      addNoteLabelTemporary={this.addNoteLabelTemporary}
+                    />
+                  </MenuItem>
+                </div>
+                <div>
+                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
+                </div>
+              </Popover>
+            ) : null}
           </div>
         )}
       </React.Fragment>
