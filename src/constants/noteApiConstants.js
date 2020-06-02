@@ -8,4 +8,6 @@ module.exports = {
   trashNote: "/notes/trashNotes",
   archive: "/notes/archiveNotes",
   getLabel: "/noteLabels/getNoteLabelList",
+  addUpdateReminderNotes: "/notes/addUpdateReminderNotes",
+  removeReminderNotes: "/notes/removeReminderNotes",
 };
