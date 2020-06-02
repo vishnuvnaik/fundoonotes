@@ -31,20 +31,21 @@ class MoreMenu extends Component {
 
   render() {
     return (
-        <Popover
-          class="moreMenu_popper"
-          onClose={this.props.moreClose}
-          open={true}
-          anchorEl={this.props.anchor}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-        >
+      <Popover
+        class="moreMenu_popper"
+        onClose={this.props.moreClose}
+        open={true}
+        anchorEl={this.props.anchor}
+        keepMounted
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
         <div
           id="moreone"
           onClick={this.props.menu}
