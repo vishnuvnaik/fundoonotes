@@ -8,6 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
 import noteServices from "../services/noteServices";
 import Notes from "./notesCard";
+import "./CSS/dashboard.css";
 
 export default class AddLabelSubNote extends React.Component {
   constructor(props) {
