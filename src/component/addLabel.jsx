@@ -49,30 +49,7 @@ export default class AddLabelNote extends Component {
       open: !this.state.open,
     });
   };
-  // handleChange = (label, id) => {
-  //   let flag = false;
-  //   let indexMain;
-  //   if (this.state.noteLabelList.length > 0) {
-  //     this.state.noteLabelList.filter((e, index) => {
-  //       if (e.id !== id) {
-  //         return e;
-  //       } else {
-  //         indexMain = index;
-  //         flag = true;
-  //       }
-  //     });
-  //     if (flag) {
-  //       this.state.noteLabelList.splice(indexMain, 1);
-  //     } else {
-  //       this.state.noteLabelList.push({ label: label, id: id });
-  //     }
-  //   } else {
-  //     this.state.noteLabelList.push({ label: label, id: id });
-  //   }
-  //   this.setState({ noteLabelList: this.state.noteLabelList });
-  //   this.setState({ noteLabelList: this.state.noteLabelList });
-  //   this.state.labelIdListChange();
-  // };
+
   onChangeInstanceLabel = (e) => {
     this.setState({ instanceLabel: e.target.value });
   };
