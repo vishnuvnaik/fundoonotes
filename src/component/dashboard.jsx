@@ -36,6 +36,7 @@ import noteServices from "../services/noteServices";
 import AllNotes from "./allNotes";
 import userServices from "../services/userServices";
 import LabelMenu from "./labelMenu";
+import ImageUploader from "react-images-upload";
 const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
@@ -76,6 +77,7 @@ export default class dashboard extends Component {
       menuOpen: false,
       menuAnchorEl: null,
       profileImage: JSON.parse(localStorage.getItem("userProfileImage")),
+      image: [],
     };
   }
   componentDidMount() {
@@ -157,7 +159,7 @@ export default class dashboard extends Component {
     let form_data = new FormData();
     form_data.append("file", event.target.files[0]);
     userServices.uploadUserProfile(form_data).then((response) => {
-      this.setState({ profileImage: response.data.status.imageUrl });
+      this.setState({ image: response.data.status.imageUrl });
       localStorage.setItem("userProfileImage", response.data.status.imageUrl);
     });
   };
@@ -331,9 +333,11 @@ export default class dashboard extends Component {
                     }
                     arrow
                   >
-                    <IconButton onClick={this.handleClickProfile}>
-                      <PeopleIcon />
-                    </IconButton>
+                    <img
+                      onClick={this.handleClickProfile}
+                      src={this.state.profileImage}
+                      alt="User"
+                    />
                   </Tooltip>
                 </div>
               </div>
@@ -376,7 +380,40 @@ export default class dashboard extends Component {
               }}
               anchorEl={this.state.menuAnchorEl}
               open={this.state.menuOpen}
-            ></Popover>
+            >
+              <div className="userMenu">
+                <ImageUploader
+                  withIcon={true}
+                  buttonText="Choose images"
+                  onChange={this.changeImage}
+                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                  maxFileSize={5242880}
+                  withPreview={true}
+                />
+                {this.state.image.length !== 0 ? (
+                  <img
+                    className="user_img"
+                    onClick={() => {
+                      alert(this.state.image[0].name);
+                    }}
+                    src={this.state.image[0].name}
+                    alt="K"
+                  />
+                ) : null}
+                <div className="line_space" />
+                <Typography variant="h6">
+                  {JSON.parse(localStorage.getItem("userDetails")).firstName}{" "}
+                  {JSON.parse(localStorage.getItem("userDetails")).lastName}
+                </Typography>
+                <Typography color="textSecondary">
+                  {JSON.parse(localStorage.getItem("userDetails")).email}
+                </Typography>
+                <div className="line_space" />
+                <button onClick={this.handleLogout}>
+                  <Typography>sign out</Typography>
+                </button>
+              </div>
+            </Popover>
           </MuiThemeProvider>
           <SideMenu
             label={this.state.labelNotes}
