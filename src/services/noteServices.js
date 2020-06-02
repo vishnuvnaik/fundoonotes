@@ -216,6 +216,39 @@ async function updateNoteLabel(labelId, editLabel) {
     return err;
   }
 }
+async function removeReminderNote(noteID) {
+  try {
+    let noteData = { noteIdList: [noteID] };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + noteApiConstants.removeReminderNotes,
+      noteData,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+async function addUpdateReminderNote(addUpdateReminderdata) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + noteApiConstants.addUpdateReminderNotes,
+      addUpdateReminderdata,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   addnotes,
@@ -232,4 +265,6 @@ export default {
   deleteNotelabel,
   updateNoteLabel,
   addSubNoteLabel,
+  removeReminderNote,
+  addUpdateReminderNote,
 };
