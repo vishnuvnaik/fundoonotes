@@ -22,7 +22,6 @@ import pin from "../assets/pin.svg";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
-
 import Time from "react-time";
 import Palette from "@material-ui/icons/Palette";
 import AddLabelNote from "./addLabel";
@@ -68,6 +67,7 @@ class Notes extends Component {
       labelIdList: [],
       labelNotes: [],
       reminderMain: "",
+      displayReminder: "",
       reminderDisplay: "none",
     };
     this.openCard = this.openCard.bind(this);
@@ -121,6 +121,7 @@ class Notes extends Component {
       this.setState({ title: "" });
       this.setState({ description: "" });
       this.setState({ color: "" });
+      this.setState({ reminderMain: "" });
       this.setState({ labelIdList: [] });
       this.setState({ labelNotes: [] });
       //for close the main Note Box
@@ -169,6 +170,22 @@ class Notes extends Component {
     console.log(value);
     this.setState({ labelNotes: value });
   };
+  remainderMain = (value) => {
+    console.log(value);
+    this.setState({ remainderMain: value });
+  };
+  addUpdateReminder = (date) => {
+    let reminderData = { reminder: date, noteIdList: [this.state.noteID] };
+    noteServices.addUpdateReminderNote(reminderData).then((response) => {});
+    this.state.noteRefresh();
+  };
+  reminderClose = () => {
+    noteServices
+      .removeReminderNote(this.state.noteIdList)
+      .then((response) => {});
+    this.setState({ reminderDisplay: "none" });
+    this.setState({ reminderMain: " " });
+  };
   labelIdListRemove = (index) => {
     this.state.labelIdList.splice(index, 1);
     this.setState({ labelIdList: this.state.labelIdList });
@@ -183,10 +200,31 @@ class Notes extends Component {
     this.setState({ reminderMain: data });
     this.setState({ reminderDisplay: "flex" });
   };
-  reminderClose = () => {
-    this.setState({ reminderDisplay: "none" });
-    this.setState({ reminderMain: "" });
+  reminder = (reminderMain, id) => {
+    if (reminderMain != 0) {
+      return (
+        <div
+          className="CardToolbar"
+          style={{ paddingTop: "10px", width: "150px" }}
+        >
+          <Chip
+            style={{ width: "240px" }}
+            // icon={<img src={schedule} />}
+            label={reminderMain}
+            onDelete={() => this.handleDelete(id)}
+            color="white"
+            value={this.state.date}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
   };
+  // reminderClose = () => {
+  //   this.setState({ reminderDisplay: "none" });
+  //   this.setState({ reminderMain: "" });
+  // };
   render() {
     let colObj = color.map((el, index) => {
       return (
@@ -315,6 +353,18 @@ class Notes extends Component {
               </div>
             ))}
           </div>
+          <div className="cardToolbar">
+            {this.state.reminderMain !== "" ? (
+              <Chip
+                //key={index}
+                style={{ width: "auto" }}
+                label={this.state.reminderMain}
+                onDelete={() => this.reminderClose()}
+                color="white"
+              />
+            ) : null}
+          </div>
+
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
               <div></div>
@@ -418,13 +468,7 @@ class Notes extends Component {
                   </MenuItem>
                 </div>
               </Popover>
-            ) : /* <
-                moreClose={this.moreClose}
-                menu={this.handleOnClick}
-                anchor={this.state.moreMenuAnchor}
-              /> */
-
-            null}
+            ) : null}
           </div>
         </Card>
       </div>
