@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Tooltip,
-  Card,
   IconButton,
   Dialog,
   DialogContent,
@@ -9,31 +8,33 @@ import {
   createMuiTheme,
   Popover,
   Chip,
+  Card,
   Menu,
   MenuItem,
   Typography,
 } from "@material-ui/core";
 import AddAlertOutlinedIcon from "@material-ui/icons/AddAlertOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
-import PaletteOutlinedIcon from "@material-ui/icons/PaletteOutlined";
+import WatchLaterIcon from "@material-ui/icons/WatchLater";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
-import DoneIcon from "@material-ui/icons/Done";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
 import AddLabel from "./addLabel";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
+import Palette from "@material-ui/icons/PaletteOutlined";
 import LabelMenu from "./labelMenu";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import MoreMenu from "./more";
 import Snackbar from "@material-ui/core/Snackbar";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import AddLabelNote from "./addLabel";
-import AddSubLabel from "./addSubLabel";
+import AddLabelSubNote from "./addSubLabel";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -79,8 +80,6 @@ class AllNotes extends Component {
       labelAnchor: null,
       moreMenuOpen: false,
       moreMenuAnchor: null,
-      remOpen: false,
-      remAnchor: null,
       colorOpen: false,
       colorAnchor: null,
       openDialog: false,
@@ -90,6 +89,14 @@ class AllNotes extends Component {
       snackbarMsgType: "",
       labelNotes: [],
       noteLabel: this.props.allNotes.noteLabels,
+      NoteReminderMenuAnchor: null,
+      NoteReminderMenuOpen: false,
+      reminderMsg: this.props.allNotes.reminder[0]
+        ? props.allNotes.reminder[0]
+        : "",
+      reminderDisplay: this.props.allNotes.reminder[0] ? "flex" : "none",
+      displayReminder: "",
+      displayDatePick: "none",
     };
   }
   UNSAFE_componentWillReceiveProps(props) {
@@ -155,6 +162,13 @@ class AllNotes extends Component {
         break;
     }
   };
+  handleColorBut = (event) => {
+    this.setState({
+      colorOpen: !this.state.colorOpen,
+      colorAnchor: event.currentTarget,
+    });
+  };
+
   handleMouseLeave = (event) => {
     switch (event.currentTarget.id) {
       case "colorBut":
@@ -187,6 +201,24 @@ class AllNotes extends Component {
       });
     });
   };
+  timing = [
+    {
+      value: "morning8:00AM",
+      label: "morning8:00AM",
+    },
+    {
+      value: "afternoon1:00PM",
+      label: "afternoon1:00PM",
+    },
+    {
+      value: "evening4:00PM",
+      label: "evening4:00PM",
+    },
+    {
+      value: "night8:00PM",
+      label: "night8:00PM",
+    },
+  ];
   handleArchive = () => {
     const field = {
       isArchived: !this.state.isArchived,
@@ -201,7 +233,12 @@ class AllNotes extends Component {
       snackbarMsg: "note archived",
     });
   };
-
+  reminderHandler = (event) => {
+    this.setState({
+      NoteReminderMenuAnchor: event.currentTarget,
+      NoteReminderMenuOpen: !this.state.NoteReminderMenuOpen,
+    });
+  };
   handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
   };
@@ -216,12 +253,7 @@ class AllNotes extends Component {
           openDialog: true,
         });
         break;
-      case "butto":
-        this.setState({
-          remOpen: !this.state.remOpen,
-          remAnchor: event.currentTarget,
-        });
-        break;
+
       case "texttwo":
         this.setState({
           openDialog: true,
@@ -299,12 +331,14 @@ class AllNotes extends Component {
     this.setState({ labelNotes: value });
   };
   handleClickMore = (event) => {
-    this.setState({
-      moreMenuOpen: !this.state.moreMenuOpen,
-      moreMenuAnchor: event.currentTarget,
-      labelAnchor: event.currentTarget,
-    });
+    setTimeout(() => {
+      this.setState({
+        moreMenuOpen: !this.state.moreMenuOpen,
+        moreMenuAnchor: event.currentTarget,
+      });
+    }, 100);
   };
+
   deleteNote = () => {
     const field = {
       isDeleted: true,
@@ -315,7 +349,46 @@ class AllNotes extends Component {
       this.props.getNote();
     });
   };
+  removeReminder = () => {
+    noteService
+      .removeReminderNote(this.state.noteIdList)
+      .then((response) => {});
+    this.setState({ remainder: " " });
+  };
+  clickPickDate = () => {
+    this.setState({
+      displayReminder: this.state.displayReminder === "" ? "none" : "",
+    });
+    this.setState({
+      displayDatePick: this.state.displayDatePick === "" ? "none" : "",
+    });
+  };
+  handleChangeDate = (event) => {
+    this.setState({ date: event.target.value });
+  };
+  setReminderOnclick = (event) => {
+    let time = "";
+    let date = new Date();
+    if (event.target.getAttribute("time")) {
+      time = new Date(
+        date.setDate(
+          date.getDate() + parseInt(event.target.getAttribute("time"))
+        )
+      ).toString();
+    } else {
+      time = new Date(this.state.date).toString();
+    }
+    this.setState({ reminderMsg: time });
+    this.setState({ reminderDisplay: "flex" });
+    this.setState({ NoteReminderMenuOpen: !this.state.NoteReminderMenuOpen });
+    this.addUpdateReminder(time);
+  };
+  addUpdateReminder = (date) => {
+    let reminderData = { reminder: date, noteIdList: [this.state.noteIdList] };
+    noteService.addUpdateReminderNote(reminderData).then((response) => {});
+  };
   render() {
+    console.log(this.state.moreMenuOpen, "more");
     let colObj = color.map((el, index) => {
       return (
         <div
@@ -429,12 +502,17 @@ class AllNotes extends Component {
                         <PersonAddOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Change color" arrow>
+                    {/* <Tooltip title="Change color" arrow>
                       <IconButton
                         id="colorBut"
                         onMouseEnter={this.handleMouseEnter}
                       >
                         <PaletteOutlinedIcon />
+                      </IconButton>
+                </Tooltip> */}
+                    <Tooltip title="Change color" arrow>
+                      <IconButton onClick={this.handleColorBut}>
+                        <Palette />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Add image" arrow>
@@ -545,6 +623,19 @@ class AllNotes extends Component {
                   />
                 </div>
               ))}
+
+              {this.state.alNotes.reminder.map((remainders, index) => (
+                <div style={{ padding: "3px" }}>
+                  <Chip
+                    key={index}
+                    style={{ width: "180px" }}
+                    label={remainders}
+                    onDelete={() => this.removeReminder()}
+                    color="white"
+                    value={this.state.reminder}
+                  />
+                </div>
+              ))}
             </div>
 
             <div
@@ -559,10 +650,84 @@ class AllNotes extends Component {
                 }}
               >
                 <Tooltip title="Remainder" arrow>
-                  <IconButton id="butto" onClick={this.handleOnClick}>
+                  <IconButton onClick={this.reminderHandler}>
                     <AddAlertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
+                <Menu
+                  className="reminderMenu"
+                  style={{
+                    top: "50px",
+                  }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  anchorEl={this.state.NoteReminderMenuAnchor}
+                  keepMounted
+                  open={this.state.NoteReminderMenuOpen}
+                  onClose={this.reminderHandler}
+                >
+                  <div
+                    style={{
+                      display: this.state.displayReminder,
+                    }}
+                  >
+                    <li className="reminderHeading">Reminder</li>
+                    <MenuItem time="0" onClick={this.setReminderOnclick}>
+                      Later today 8:00 PM
+                    </MenuItem>
+                    <MenuItem time="1" onClick={this.setReminderOnclick}>
+                      Tomorrow 8:00 AM
+                    </MenuItem>
+                    <MenuItem time="7" onClick={this.setReminderOnclick}>
+                      Next Week 8:00 AM
+                    </MenuItem>
+                    <MenuItem onClick={this.clickPickDate}>
+                      <WatchLaterIcon />
+                      Pick date & time
+                    </MenuItem>
+                  </div>
+                  <div
+                    id="datePickBox"
+                    style={{
+                      display: this.state.displayDatePick,
+                    }}
+                  >
+                    <Typography onClick={this.clickPickDate}>
+                      <ArrowBackIcon />
+                      Pick Date & Time
+                    </Typography>
+                    <TextField
+                      id="date"
+                      type="date"
+                      onChange={this.handleChangeDate}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <TextField
+                      id={this.state.alNotes.id}
+                      select
+                      label="Time"
+                      value="morning8:00AM"
+                      // onChange={this.handleChangeTime}
+                      helperText="Please select your time"
+                    >
+                      {this.timing.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <Button onClick={this.setReminderOnclick}>Save</Button>
+                  </div>
+                </Menu>
+
                 <Tooltip title="Collaborator" arrow>
                   <IconButton>
                     <PersonAddOutlinedIcon fontSize="small" />
@@ -572,6 +737,7 @@ class AllNotes extends Component {
                   <IconButton
                     id="colorBut"
                     onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
                   >
                     <img
                       style={{
@@ -598,36 +764,46 @@ class AllNotes extends Component {
                   </IconButton>
                 </Tooltip>
 
-                {/*   <MenuItem>
-                  <AddSubLabel
-                    alNotes={this.state.alNotes}
-                    addNoteLabelTemporary={this.addNoteLabelTemporary}
-                  />
-                  </MenuItem> */}
+                {/* <div style={{ position: "relative" }}> */}
                 <Tooltip title="More" arrow>
-                  <IconButton
-                    onClick={(event) => {
-                      setTimeout(() => {
-                        this.setState({
-                          moreMenuOpen: !this.state.moreMenuOpen,
-                          moreMenuAnchor: event.currentTarget,
-                        });
-                      }, 100);
-                    }}
-                  >
+                  <IconButton onClick={this.handleClickMore}>
                     <MoreVertOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </div>
+              <Popover
+                //id="menu"
+                className="moreMenu_popper"
+                onClose={this.moreClose}
+                open={this.state.moreMenuOpen}
+                anchorEl={this.state.moreMenuAnchor}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <div
+                  //id="moreone"
+                  onClick={this.handleClickMore}
+                  className="moreMenu_content"
+                >
+                  <MenuItem>
+                    <AddLabelSubNote
+                      alNotes={this.state.alNotes}
+                      addNoteLabelTemporary={this.addNoteLabelTemporary}
+                    />
+                  </MenuItem>
+                </div>
+                <div>
+                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
+                </div>
+              </Popover>
             </div>
-            {this.state.moreMenuOpen ? (
-              <MoreMenu
-                menu={this.handleOnClick}
-                anchor={this.state.moreMenuAnchor}
-                id={this.state.noteIdList}
-                getNote={this.props.getNote}
-              />
-            ) : null}
+
             <Popover
               onClose={() => {
                 this.setState({
@@ -655,38 +831,6 @@ class AllNotes extends Component {
 
             {this.state.labelOpen ? (
               <LabelMenu anchor={this.state.labelAnchor} />
-            ) : null}
-            {this.state.moreMenuOpen ? (
-              <Popover
-                id="menu"
-                className="moreMenu_popper"
-                onClose={this.moreClose}
-                open={true}
-                anchorEl={this.state.moreMenuAnchor}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <div
-                  onClick={this.handleClickMore}
-                  className="moreMenu_content"
-                >
-                  <MenuItem>
-                    <AddSubLabel
-                      alNotes={this.state.alNotes}
-                      addNoteLabelTemporary={this.addNoteLabelTemporary}
-                    />
-                  </MenuItem>
-                </div>
-                <div>
-                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
-                </div>
-              </Popover>
             ) : null}
           </div>
         )}
