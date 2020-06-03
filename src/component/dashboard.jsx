@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import {
   AppBar,
   IconButton,
@@ -13,21 +12,16 @@ import {
   Popover,
   Card,
   ThemeProvider,
+  Avatar,
+  MenuItem,
 } from "@material-ui/core";
 import People from "@material-ui/icons/ExitToApp";
-import PeopleIcon from "@material-ui/icons/AccountCircle";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
 import SearchIcon from "@material-ui/icons/Search";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
-import Settings from "@material-ui/icons/Settings";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import ViewModuleIcon from "@material-ui/icons/ViewModule";
-import ViewStreamIcon from "@material-ui/icons/ViewStream";
-import Dialpad from "@material-ui/icons/Dialpad";
 import SideMenu from "./sideMenu";
 import keep from "../assets/keep.png";
 import Notes from "./notesCard";
@@ -76,8 +70,7 @@ export default class dashboard extends Component {
       listGrid: false,
       menuOpen: false,
       menuAnchorEl: null,
-      profileImage: JSON.parse(localStorage.getItem("userProfileImage")),
-      image: [],
+      profileImage: localStorage.getItem("userProfileImage"),
     };
   }
   componentDidMount() {
@@ -156,10 +149,12 @@ export default class dashboard extends Component {
   };
 
   onChangeProfile = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
     let form_data = new FormData();
     form_data.append("file", event.target.files[0]);
     userServices.uploadUserProfile(form_data).then((response) => {
-      this.setState({ image: response.data.status.imageUrl });
+      this.setState({ profileImage: response.data.status.imageUrl });
       localStorage.setItem("userProfileImage", response.data.status.imageUrl);
     });
   };
@@ -333,11 +328,23 @@ export default class dashboard extends Component {
                     }
                     arrow
                   >
-                    <img
-                      onClick={this.handleClickProfile}
-                      src={this.state.profileImage}
-                      alt="User"
-                    />
+                    <Avatar>
+                      <img
+                        onClick={this.handleClickProfile}
+                        src={
+                          this.state.profileImage == ""
+                            ? null
+                            : "http://fundoonotes.incubation.bridgelabz.com/" +
+                              this.state.profileImage
+                        }
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          backgroundColor: "black",
+                          borderRadius: "50px",
+                        }}
+                      />
+                    </Avatar>
                   </Tooltip>
                 </div>
               </div>
@@ -367,7 +374,49 @@ export default class dashboard extends Component {
             </div>
           </div>
           <MuiThemeProvider theme={theme1}>
-            <Popover
+            <div className="userMenu">
+              <Menu
+                id="menu"
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                anchorEl={this.state.menuAnchorEl}
+                keepMounted
+                open={this.state.menuOpen}
+                onClose={this.handleClose}
+              >
+                <input
+                  id="myInput"
+                  type="file"
+                  ref={(ref) => (this.upload = ref)}
+                  style={{ display: "none" }}
+                  onChange={this.onChangeProfile.bind(this)}
+                />
+                <MenuItem
+                  onClick={() => {
+                    this.upload.click();
+                  }}
+                >
+                  Profile Pic Upload
+                </MenuItem>
+                <MenuItem>
+                  <Typography variant="h6">
+                    {JSON.parse(localStorage.getItem("userDetails")).firstName}{" "}
+                    {JSON.parse(localStorage.getItem("userDetails")).lastName}
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {JSON.parse(localStorage.getItem("userDetails")).email}
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+            {/* <Popover
               id="menu"
               onClose={this.handleClose}
               anchorOrigin={{
@@ -413,7 +462,7 @@ export default class dashboard extends Component {
                   <Typography>sign out</Typography>
                 </button>
               </div>
-            </Popover>
+                  </Popover> */}
           </MuiThemeProvider>
           <SideMenu
             label={this.state.labelNotes}
