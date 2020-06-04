@@ -1,10 +1,9 @@
 import React from "react";
 import "./CSS/forget.css";
 import userServices from "../services/userServices";
-import { TextField, Card, IconButton } from "@material-ui/core";
+import { TextField, Card } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
 class ForgetPassword extends React.Component {
