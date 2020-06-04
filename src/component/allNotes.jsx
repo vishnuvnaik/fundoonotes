@@ -8,7 +8,6 @@ import {
   createMuiTheme,
   Popover,
   Chip,
-  Card,
   Menu,
   MenuItem,
   Typography,
@@ -24,16 +23,12 @@ import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
-import AddLabel from "./addLabel";
 import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
 import Palette from "@material-ui/icons/PaletteOutlined";
 import LabelMenu from "./labelMenu";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
-import MoreMenu from "./more";
 import Snackbar from "@material-ui/core/Snackbar";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import AddLabelNote from "./addLabel";
 import AddLabelSubNote from "./addSubLabel";
 const theme = createMuiTheme({
   overrides: {
