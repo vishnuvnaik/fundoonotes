@@ -6,7 +6,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import noteServices from "../services/noteServices";
 import Dialog from "@material-ui/core/Dialog";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import InputBase from "@material-ui/core/InputBase";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
