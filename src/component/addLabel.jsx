@@ -3,13 +3,10 @@ import Popover from "@material-ui/core/Popover";
 import noteServices from "../services/noteServices";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
-import IconButton from "@material-ui/core/IconButton";
-import ColorLensIcon from "@material-ui/icons/ColorLens";
-import { Menu, MenuItem, Button } from "@material-ui/core";
+import { MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
 import "./CSS/dashboard.css";
-import { addNoteLabel } from "../services/noteServices";
 
 export default class AddLabelNote extends Component {
   constructor(props) {
