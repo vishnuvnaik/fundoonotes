@@ -1,13 +1,9 @@
 import React from "react";
 import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import ColorLensIcon from "@material-ui/icons/ColorLens";
-import { Menu, MenuItem, Button } from "@material-ui/core";
+import { MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
 import noteServices from "../services/noteServices";
-import Notes from "./notesCard";
 import "./CSS/dashboard.css";
 
 export default class AddLabelSubNote extends React.Component {
