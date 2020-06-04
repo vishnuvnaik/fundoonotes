@@ -10,6 +10,7 @@ import {
   MenuItem,
   Popover,
 } from "@material-ui/core";
+import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import AddLabel from "./addLabel";
 import CheckBox from "@material-ui/icons/CheckBox";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
@@ -62,13 +63,13 @@ class Notes extends Component {
       isArchived: false,
       isPined: false,
       remOpen: false,
-      colorOpen: false,
-      colorAnchor: null,
+      collaborator: false,
       labelIdList: [],
       labelNotes: [],
       reminderMain: "",
       displayReminder: "",
       reminderDisplay: "none",
+     
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -102,7 +103,7 @@ class Notes extends Component {
       console.log(this.state.labelNotes[i].id);
     }
     this.setState({ labelIdList: this.state.labelIdList });
-    if (this.state.title != "") {
+    if (this.state.title !== "") {
       const form_data = new FormData();
       form_data.append("title", this.state.title);
       form_data.append("description", this.state.description);
@@ -200,8 +201,9 @@ class Notes extends Component {
     this.setState({ reminderMain: data });
     this.setState({ reminderDisplay: "flex" });
   };
+
   reminder = (reminderMain, id) => {
-    if (reminderMain != 0) {
+    if (reminderMain !== 0) {
       return (
         <div
           className="CardToolbar"
@@ -243,6 +245,7 @@ class Notes extends Component {
         />
       );
     });
+
     return !this.state.open ? (
       <div className="show">
         <Card className="notesCard">
@@ -367,7 +370,6 @@ class Notes extends Component {
 
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
-              <div></div>
               <div>
                 <CollaboratorComponent />
               </div>
