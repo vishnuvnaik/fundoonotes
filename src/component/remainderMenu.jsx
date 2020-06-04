@@ -8,6 +8,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "./CSS/dashboard.css";
+import Moment from "react-moment";
 
 export default class ReminderNewNote extends React.Component {
   constructor(props) {
