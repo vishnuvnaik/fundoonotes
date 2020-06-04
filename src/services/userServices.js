@@ -1,8 +1,7 @@
 import axios from "axios";
 import userApiConstants from "../constants/userApiConstants";
-
+// let userData = JSON.parse(localStorage.getItem("userDetails"));
 async function userRegistration(registerData) {
-  let userData = JSON.parse(localStorage.getItem("userDetails"));
   try {
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL + userApiConstants.registration,
@@ -15,7 +14,6 @@ async function userRegistration(registerData) {
 }
 
 async function login(loginData) {
-  let userData = JSON.parse(localStorage.getItem("userDetails"));
   try {
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL + userApiConstants.login,
@@ -30,7 +28,6 @@ async function login(loginData) {
 }
 
 async function forgotPassword(data) {
-  let userData = JSON.parse(localStorage.getItem("userDetails"));
   try {
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL + userApiConstants.forgotPassword,
@@ -58,5 +55,29 @@ async function uploadUserProfile(data) {
     return err;
   }
 }
+async function searchUserByWord(data) {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    let sendData = { searchWord: data };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.searchUserList,
+      sendData,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+}
 
-export default { userRegistration, forgotPassword, login, uploadUserProfile };
+export default {
+  userRegistration,
+  forgotPassword,
+  login,
+  uploadUserProfile,
+  searchUserByWord,
+};
