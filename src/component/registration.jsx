@@ -2,13 +2,7 @@ import React, { Component } from "react";
 import "./CSS/registration.css";
 //import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
-import {
-  TextField,
-  Button,
-  Card,
-  IconButton,
-  Snackbar,
-} from "@material-ui/core";
+import { TextField, Button, Card, Snackbar } from "@material-ui/core";
 import userServices from "../services/userServices";
 // import Snackbar from "@material-ui/core/Snackbar";
 // import CloseIcon from "@material-ui/icons/Close";
