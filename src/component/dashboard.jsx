@@ -71,6 +71,11 @@ export default class dashboard extends Component {
       menuOpen: false,
       menuAnchorEl: null,
       profileImage: localStorage.getItem("userProfileImage"),
+      crop: {
+        unit: '%',
+        width: 30,
+        aspect: 16 / 9,
+      },
     };
   }
   componentDidMount() {
@@ -354,7 +359,10 @@ export default class dashboard extends Component {
           <div className={this.state.open ? "moveMargin" : "moveMargin2"}>
             <div className="displayNotes">
               {this.state.search !== "" ? (
-                <div className="allNotes_position">{seaObj}</div>
+                <div>
+                  <Notes getNotes={this.getNote} />
+                  <div className="allNotes_position">{seaObj}</div>
+                </div>
               ) : (
                 <React.Fragment>
                   {this.state.headerName === "" ? (
@@ -365,7 +373,10 @@ export default class dashboard extends Component {
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
                   ) : this.state.headerName === "Remainder" ? (
-                    <div className="allNotes_position">{remObj}</div>
+                    <div>
+                      <Notes getNotes={this.getNote} />
+                      <div className="allNotes_position">{remObj}</div>
+                    </div>
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
@@ -374,7 +385,7 @@ export default class dashboard extends Component {
             </div>
           </div>
           <MuiThemeProvider theme={theme1}>
-            <div className="userMenu">
+            {/* <div className="userMenu">
               <Menu
                 id="menu"
                 anchorOrigin={{
@@ -415,8 +426,8 @@ export default class dashboard extends Component {
                 </MenuItem>
                 <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </Menu>
-            </div>
-            {/* <Popover
+                </div> */}
+            <Popover
               id="menu"
               onClose={this.handleClose}
               anchorOrigin={{
@@ -431,38 +442,45 @@ export default class dashboard extends Component {
               open={this.state.menuOpen}
             >
               <div className="userMenu">
-                <ImageUploader
-                  withIcon={true}
-                  buttonText="Choose images"
-                  onChange={this.changeImage}
-                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                  maxFileSize={5242880}
-                  withPreview={true}
+                <input
+                  id="myInput"
+                  type="file"
+                  ref={(ref) => (this.upload = ref)}
+                  style={{ display: "none" }}
+                  onChange={this.onChangeProfile.bind(this)}
                 />
-                {this.state.image.length !== 0 ? (
+                <Avatar>
                   <img
-                    className="user_img"
-                    onClick={() => {
-                      alert(this.state.image[0].name);
+                    onClick={this.handleClickProfile}
+                    src={
+                      this.state.profileImage == ""
+                        ? null
+                        : "http://fundoonotes.incubation.bridgelabz.com/" +
+                          this.state.profileImage
+                    }
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundColor: "gray",
+                      borderRadius: "50px",
                     }}
-                    src={this.state.image[0].name}
-                    alt="K"
                   />
-                ) : null}
-                <div className="line_space" />
-                <Typography variant="h6">
-                  {JSON.parse(localStorage.getItem("userDetails")).firstName}{" "}
-                  {JSON.parse(localStorage.getItem("userDetails")).lastName}
-                </Typography>
-                <Typography color="textSecondary">
-                  {JSON.parse(localStorage.getItem("userDetails")).email}
-                </Typography>
-                <div className="line_space" />
-                <button onClick={this.handleLogout}>
-                  <Typography>sign out</Typography>
-                </button>
+                </Avatar>
+                <MenuItem
+                  onClick={() => {
+                    this.upload.click();
+                  }}
+                >
+                  Update Profile
+                </MenuItem>
+                <MenuItem>
+                  <Typography color="textSecondary">
+                    {JSON.parse(localStorage.getItem("userDetails")).email}
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </div>
-                  </Popover> */}
+            </Popover>
           </MuiThemeProvider>
           <SideMenu
             label={this.state.labelNotes}
