@@ -318,6 +318,7 @@ class AllNotes extends Component {
           console.log("done");
         }
       });
+    this.props.getNote();
   };
 
   labelNotes = (value) => {
@@ -348,6 +349,7 @@ class AllNotes extends Component {
       .removeReminderNote(this.state.noteIdList)
       .then((response) => {});
     this.setState({ remainder: " " });
+    this.props.getNote();
   };
   clickPickDate = () => {
     this.setState({
@@ -380,6 +382,7 @@ class AllNotes extends Component {
   addUpdateReminder = (date) => {
     let reminderData = { reminder: date, noteIdList: [this.state.noteIdList] };
     noteService.addUpdateReminderNote(reminderData).then((response) => {});
+    this.props.getNote();
   };
   render() {
     console.log(this.state.moreMenuOpen, "more");
