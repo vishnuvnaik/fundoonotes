@@ -25,6 +25,7 @@ import CollaboratorComponent from "./Collaborator";
 import ReminderComponent from "./Reminder";
 import Time from "react-time";
 import Palette from "@material-ui/icons/Palette";
+import userServices from "../services/userServices";
 import AddLabelNote from "./addLabel";
 const color = [
   "#fff",
@@ -69,7 +70,13 @@ class Notes extends Component {
       reminderMain: "",
       displayReminder: "",
       reminderDisplay: "none",
-     
+      collabshow: false,
+      collaboratorName: "",
+      details: [],
+      collabatorArray: [],
+      collabatorValue: "",
+      collaborators: [],
+      userData: JSON.parse(localStorage.getItem("userDetails")),
     };
     this.openCard = this.openCard.bind(this);
   }
@@ -111,6 +118,10 @@ class Notes extends Component {
       form_data.append("isArchived", this.state.isArchived);
       form_data.append("color", this.state.color);
       form_data.append("labelIdList", JSON.stringify(this.state.labelIdList));
+      form_data.append(
+        "collaberators",
+        JSON.stringify(this.state.collaborators)
+      );
 
       noteServices.addnotes(form_data).then((response) => {
         if (response) {
@@ -125,6 +136,7 @@ class Notes extends Component {
       this.setState({ reminderMain: "" });
       this.setState({ labelIdList: [] });
       this.setState({ labelNotes: [] });
+      this.setState({ collaborators: [] });
       //for close the main Note Box
     } else {
       this.changeCard();
@@ -185,7 +197,7 @@ class Notes extends Component {
       .removeReminderNote(this.state.noteIdList)
       .then((response) => {});
     this.setState({ reminderDisplay: "none" });
-    this.setState({ reminderMain: " " });
+    this.setState({ reminderMain: "" });
   };
   labelIdListRemove = (index) => {
     this.state.labelIdList.splice(index, 1);
@@ -200,6 +212,24 @@ class Notes extends Component {
   reminderMainSet = (data) => {
     this.setState({ reminderMain: data });
     this.setState({ reminderDisplay: "flex" });
+  };
+  addCollab = (collab) => {
+    let matched = this.state.userData.email === collab.email ? true : false;
+    this.state.collaborators.map((user) => {
+      matched = user.email === collab.email ? true : matched;
+    });
+    if (matched) {
+      this.displaySnackbar(true, "info", "Collaboratore already exist.");
+      return;
+    }
+    this.state.collaborators.push(collab);
+    this.setState({ collaborators: this.state.collaborators });
+  };
+  removeCollab = (CID) => {
+    let filterCollab = this.state.collaborators.filter((collab) => {
+      return collab.userId !== CID;
+    });
+    this.setState({ collaborators: filterCollab });
   };
 
   reminder = (reminderMain, id) => {
@@ -223,10 +253,7 @@ class Notes extends Component {
       return null;
     }
   };
-  // reminderClose = () => {
-  //   this.setState({ reminderDisplay: "none" });
-  //   this.setState({ reminderMain: "" });
-  // };
+
   render() {
     let colObj = color.map((el, index) => {
       return (
@@ -358,20 +385,45 @@ class Notes extends Component {
           </div>
           <div className="cardToolbar">
             {this.state.reminderMain !== "" ? (
+              <div style={{ padding: "5px" }}>
+                <Chip
+                  //key={index}
+                  style={{ width: "auto" }}
+                  label={this.state.reminderMain}
+                  onDelete={() => this.reminderClose()}
+                  color="white"
+                />
+              </div>
+            ) : null}
+          </div>
+          <div className="collabAtNote">
+            {this.state.collaborators.map((collab) => {
+              return <div>{collab.firstName.charAt(0)}</div>;
+            })}
+          </div>
+          {/*   <div className="cardToolbar">
+            {this.state.collaborators.map((collab) => (
               <Chip
                 //key={index}
                 style={{ width: "auto" }}
-                label={this.state.reminderMain}
-                onDelete={() => this.reminderClose()}
+                label={collab.firstName.charAt(0)}
+                onDelete={() => this.removeCollab()}
                 color="white"
               />
-            ) : null}
-          </div>
+            ))}
+            </div> */}
 
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
               <div>
-                <CollaboratorComponent />
+                <CollaboratorComponent
+                  data={{
+                    userData: this.state.userData,
+                    collaborators: this.state.collaborators,
+                    removeCollab: this.removeCollab.bind(this),
+                    addCollab: this.addCollab.bind(this),
+                  }}
+                />
               </div>
               <div>
                 <RemainderMenu
