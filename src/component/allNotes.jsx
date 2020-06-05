@@ -11,6 +11,7 @@ import {
   Menu,
   MenuItem,
   Typography,
+  Toolbar,
 } from "@material-ui/core";
 import AddAlertOutlinedIcon from "@material-ui/icons/AddAlertOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
@@ -30,7 +31,7 @@ import LabelMenu from "./labelMenu";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import Snackbar from "@material-ui/core/Snackbar";
 import AddLabelSubNote from "./addSubLabel";
-
+import Collaborator from "./collabNote";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -92,6 +93,8 @@ class AllNotes extends Component {
       reminderDisplay: this.props.allNotes.reminder[0] ? "flex" : "none",
       displayReminder: "",
       displayDatePick: "none",
+      collaborators: this.props.allNotes.collaborators,
+      userData: JSON.parse(localStorage.getItem("userDetails")),
     };
   }
   UNSAFE_componentWillReceiveProps(props) {
@@ -385,6 +388,27 @@ class AllNotes extends Component {
     noteService.addUpdateReminderNote(reminderData).then((response) => {});
     this.props.getNote();
   };
+  clickOnUser = (user) => {
+    let matched = this.state.userData.email === user.email ? true : false;
+    this.state.collaborators.map((coll) => {
+      matched = user.email === coll.email ? true : matched;
+    });
+    if (matched) {
+      this.props.displaySnackbar(true, "info", "Collaboratore already exist.");
+      return;
+    }
+    this.state.collaborators.push(user);
+    this.setState({ collaborators: this.state.collaborators });
+    noteService.addcollaboratorsNotes(user, this.state.noteIdList);
+  };
+  removeCollab = (CID) => {
+    let filterCollab = this.state.collaborators.filter((collab) => {
+      return collab.userId !== CID;
+    });
+    noteService.removeCollaboratorsNotes(CID, this.state.noteIdList);
+    this.setState({ collaborators: filterCollab });
+  };
+
   render() {
     console.log(this.state.moreMenuOpen, "more");
     let colObj = color.map((el, index) => {
@@ -616,10 +640,10 @@ class AllNotes extends Component {
                     <Menu
                       className="subNotesMoreMenu"
                       style={{
-                        top: "50px",
+                        top: "20px",
                       }}
                       anchorOrigin={{
-                        vertical: "bottom",
+                        vertical: "center",
                         horizontal: "center",
                       }}
                       transformOrigin={{
@@ -639,7 +663,12 @@ class AllNotes extends Component {
                       </MenuItem>
 
                       <div>
-                        <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
+                        <MenuItem
+                          onClick={this.deleteNote}
+                          style={{ marginLeft: "50px" }}
+                        >
+                          Delete
+                        </MenuItem>
                       </div>
                     </Menu>
 
@@ -719,7 +748,11 @@ class AllNotes extends Component {
               value={this.state.content}
               placeholder="Take a Note..."
             />
-
+            <div className="collabAtNote">
+              {this.state.collaborators.map((collab) => {
+                return <div>{collab.firstName.charAt(0)}</div>;
+              })}
+            </div>
             <div className="labelRemDate">
               {this.state.alNotes.noteLabels.map((labelNotes, index) => (
                 <div style={{ padding: "3px" }}>
@@ -761,127 +794,131 @@ class AllNotes extends Component {
                   visibility: this.state.visible ? "visible" : "hidden",
                 }}
               >
-                <Tooltip title="Remainder" arrow>
-                  <IconButton onClick={this.reminderHandler}>
-                    <AddAlertOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  className="reminderMenu"
-                  style={{
-                    top: "50px",
-                  }}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                  anchorEl={this.state.NoteReminderMenuAnchor}
-                  keepMounted
-                  open={this.state.NoteReminderMenuOpen}
-                  onClose={this.reminderHandler}
-                >
-                  <div
+                <Toolbar className="CardToolbar">
+                  <Tooltip title="Remainder" arrow>
+                    <IconButton onClick={this.reminderHandler}>
+                      <AddAlertOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    className="reminderMenu"
                     style={{
-                      display: this.state.displayReminder,
+                      top: "50px",
                     }}
-                  >
-                    <li className="reminderHeading">Reminder</li>
-                    <MenuItem time="0" onClick={this.setReminderOnclick}>
-                      Later today 8:00 PM
-                    </MenuItem>
-                    <MenuItem time="1" onClick={this.setReminderOnclick}>
-                      Tomorrow 8:00 AM
-                    </MenuItem>
-                    <MenuItem time="7" onClick={this.setReminderOnclick}>
-                      Next Week 8:00 AM
-                    </MenuItem>
-                    <MenuItem onClick={this.clickPickDate}>
-                      <WatchLaterIcon />
-                      Pick date & time
-                    </MenuItem>
-                  </div>
-                  <div
-                    id="datePickBox"
-                    style={{
-                      display: this.state.displayDatePick,
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center",
                     }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                    anchorEl={this.state.NoteReminderMenuAnchor}
+                    keepMounted
+                    open={this.state.NoteReminderMenuOpen}
+                    onClose={this.reminderHandler}
                   >
-                    <Typography onClick={this.clickPickDate}>
-                      <ArrowBackIcon />
-                      Pick Date & Time
-                    </Typography>
-                    <TextField
-                      id="date"
-                      type="date"
-                      onChange={this.handleChangeDate}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                    <TextField
-                      id={this.state.alNotes.id}
-                      select
-                      label="Time"
-                      value="morning8:00AM"
-                      // onChange={this.handleChangeTime}
-                      helperText="Please select your time"
-                    >
-                      {this.timing.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <Button onClick={this.setReminderOnclick}>Save</Button>
-                  </div>
-                </Menu>
-
-                <Tooltip title="Collaborator" arrow>
-                  <IconButton>
-                    <PersonAddOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Change color" arrow>
-                  <IconButton
-                    id="colorBut"
-                    onMouseEnter={this.handleMouseEnter}
-                    onMouseLeave={this.handleMouseLeave}
-                  >
-                    <img
+                    <div
                       style={{
-                        height: "20px",
-                        opacity: ".5",
+                        display: this.state.displayReminder,
                       }}
-                      src={coloricon}
-                      alt="c"
+                    >
+                      <li className="reminderHeading">Reminder</li>
+                      <MenuItem time="0" onClick={this.setReminderOnclick}>
+                        Later today 8:00 PM
+                      </MenuItem>
+                      <MenuItem time="1" onClick={this.setReminderOnclick}>
+                        Tomorrow 8:00 AM
+                      </MenuItem>
+                      <MenuItem time="7" onClick={this.setReminderOnclick}>
+                        Next Week 8:00 AM
+                      </MenuItem>
+                      <MenuItem onClick={this.clickPickDate}>
+                        <WatchLaterIcon />
+                        Pick date & time
+                      </MenuItem>
+                    </div>
+                    <div
+                      id="datePickBox"
+                      style={{
+                        display: this.state.displayDatePick,
+                      }}
+                    >
+                      <Typography onClick={this.clickPickDate}>
+                        <ArrowBackIcon />
+                        Pick Date & Time
+                      </Typography>
+                      <TextField
+                        id="date"
+                        type="date"
+                        onChange={this.handleChangeDate}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <TextField
+                        id={this.state.alNotes.id}
+                        select
+                        label="Time"
+                        value="morning8:00AM"
+                        // onChange={this.handleChangeTime}
+                        helperText="Please select your time"
+                      >
+                        {this.timing.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <Button onClick={this.setReminderOnclick}>Save</Button>
+                    </div>
+                  </Menu>
+                  <Tooltip title="Collaborator" arrow>
+                    <Collaborator
+                      noteData={this.state.alNotes}
+                      collaborators={this.state.collaborators}
+                      clickOnUser={this.clickOnUser.bind(this)}
+                      removeCollab={this.removeCollab.bind(this)}
                     />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Add image" arrow>
-                  <IconButton>
-                    <ImageOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Archive" arrow>
-                  <IconButton onClick={this.handleArchive}>
-                    {this.state.isArchived ? (
-                      <UnarchiveIcon />
-                    ) : (
-                      <ArchiveOutlinedIcon fontSize="small" />
-                    )}
-                  </IconButton>
-                </Tooltip>
+                  </Tooltip>
+                  <Tooltip title="Change color" arrow>
+                    <IconButton
+                      id="colorBut"
+                      onMouseEnter={this.handleMouseEnter}
+                      onMouseLeave={this.handleMouseLeave}
+                    >
+                      <img
+                        style={{
+                          height: "20px",
+                          opacity: ".5",
+                        }}
+                        src={coloricon}
+                        alt="c"
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Add image" arrow>
+                    <IconButton>
+                      <ImageOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Archive" arrow>
+                    <IconButton onClick={this.handleArchive}>
+                      {this.state.isArchived ? (
+                        <UnarchiveIcon />
+                      ) : (
+                        <ArchiveOutlinedIcon fontSize="small" />
+                      )}
+                    </IconButton>
+                  </Tooltip>
 
-                {/* <div style={{ position: "relative" }}> */}
-                <Tooltip title="More" arrow>
-                  <IconButton onClick={this.handleClickMore}>
-                    <MoreVertOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
+                  {/* <div style={{ position: "relative" }}> */}
+                  <Tooltip title="More" arrow>
+                    <IconButton onClick={this.handleClickMore}>
+                      <MoreVertOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </Toolbar>
                 <Menu
                   className="subNotesMoreMenu"
                   style={{
@@ -908,7 +945,7 @@ class AllNotes extends Component {
                   </MenuItem>
 
                   <div>
-                    <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
+                    <MenuItem onClick={this.deleteNote}>Delete</MenuItem>
                   </div>
                 </Menu>
               </div>
