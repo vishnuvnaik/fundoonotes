@@ -249,6 +249,42 @@ async function addUpdateReminderNote(addUpdateReminderdata) {
     return err;
   }
 }
+async function addcollaboratorsNotes(user, noteID) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + noteID + "/AddcollaboratorsNotes",
+      user,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+
+async function removeCollaboratorsNotes(userID, noteID) {
+  try {
+    const response = await axios.delete(
+      process.env.REACT_APP_BASE_URL +
+        noteID +
+        "/removeCollaboratorsNotes" +
+        "/" +
+        userID,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   addnotes,
@@ -267,4 +303,6 @@ export default {
   addSubNoteLabel,
   removeReminderNote,
   addUpdateReminderNote,
+  addcollaboratorsNotes,
+  removeCollaboratorsNotes,
 };
