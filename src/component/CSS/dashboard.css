@@ -117,6 +117,7 @@
   height: 43px;
   inline-size: 500px;
 }
+
 .show {
   display: flex;
   position: relative;
@@ -180,15 +181,6 @@
 .toolbarAndClose {
   display: flex;
   flex-direction: row;
-}
-
-.notesCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  height: 43px;
-  inline-size: 600px;
 }
 
 .cardlist {
@@ -265,7 +257,7 @@
   margin-left: 13%;
   margin-right: 13%;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   flex-wrap: wrap;
 }
 #visible {
@@ -278,7 +270,6 @@
   height: auto;
   border-radius: 10px;
   padding: 10px;
-
   width: 270px;
 }
 .noteCard123Two {
@@ -689,7 +680,83 @@
   font-size: medium;
   margin-right: 5px;
 }
-
+/* ___________________________________Collab__________________________________________*/
+/* .collaborator {
+  width: 500px;
+} */
+/* .collabPop {
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  /* align-items: center; 
+} */
+.collabTitle {
+  margin-left: 10px;
+  font-weight: 100;
+  font-size: large;
+}
+.collaboratorListBox {
+  width: 100%;
+  margin-top: 10px;
+}
+.collaboratorListBox > * {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.collaboratorOwner {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+.collaboratorOwner > * {
+  margin-right: 20px;
+}
+/* .collaboratorDetails {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+} */
+#searchedListPopover {
+  max-width: 40%;
+}
+#searchedListPopover > .MuiButtonBase-root.MuiListItem-root {
+  max-width: 40%;
+}
+.emailIcon {
+  background-color: aliceblue;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 10%;
+  font-size: 26px;
+  border-radius: 29px;
+  padding-bottom: 5px;
+  margin-right: 13px;
+  text-transform: capitalize;
+}
+.collabAtNote {
+  display: flex;
+}
+.collabAtNote > div {
+  background-color: whitesmoke;
+  box-shadow: 0px 1px 5px 2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+}
+.collabPop {
+  width: 500px;
+}
+.collabAction {
+  display: flex;
+  flex-direction: row-reverse;
+}
 @media screen and (width: 1024px) {
   .allNotes_position {
     width: 58%;
@@ -700,6 +767,11 @@
 @media screen and (width: 768px) {
   .allNotes_position {
     width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+  .notesCard {
+    width: 50%;
     margin-left: 11%;
     margin-right: 11%;
   }
