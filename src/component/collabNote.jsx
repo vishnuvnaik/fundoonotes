@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React from "react";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -8,12 +8,13 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-import { searchUserByWord } from "../services/userServices";
+import userServices from "../services/userServices";
 import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { Avatar, Tooltip } from "@material-ui/core";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-export default class Collaborator extends Component {
+export default class Collaborator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,9 +24,9 @@ export default class Collaborator extends Component {
       listOpen: false,
       listAnchorEl: null,
       searchedList: [],
-      profileImage: localStorage.getItem('userProfileImage'),
+      profileImage: localStorage.getItem("userProfileImage"),
     };
-    
+  }
 
   handleClick = (e) => {
     this.setState({
@@ -35,15 +36,19 @@ export default class Collaborator extends Component {
   };
   onChangeSearch = (e) => {
     this.setState({ searchWord: e.target.value });
-    searchUserByWord(e.target.value).then((response) =>
-      this.setState({ searchedList: response.data.data.details })
-    );
+    userServices
+      .searchUserByWord(e.target.value)
+      .then((response) =>
+        this.setState({ searchedList: response.data.data.details })
+      );
   };
   listHandleClose = (e) => {
-    searchUserByWord('aaaa').then((response) =>
-      this.setState({ searchedList: response.data.data.details })
-    );
-    
+    userServices
+      .searchUserByWord(this.state.searchWord)
+      .then((response) =>
+        this.setState({ searchedList: response.data.data.details })
+      );
+
     this.setState({
       listOpen: !this.state.listOpen,
       listAnchorEl: e.currentTarget,
@@ -51,12 +56,13 @@ export default class Collaborator extends Component {
   };
   render() {
     return (
-      <div className="collaborator">
-        <IconButton onClick={this.handleClick}>
-          <PersonAddIcon />
-        </IconButton>
+      <div className="arrangeCardToIcon">
+        <Tooltip title="Collab" arrow>
+          <IconButton onClick={this.handleClick}>
+            <PersonAddIcon />
+          </IconButton>
+        </Tooltip>
         <Popover
-         
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           onClose={this.handleClick}
@@ -69,53 +75,62 @@ export default class Collaborator extends Component {
             horizontal: "center",
           }}
         >
-          <Card  className='collabPop' >
-            <div className="callaboratorTitle">Collaborators</div>
+          <Card className="collabPop">
+            <div className="collabTitle">Collaborators</div>
             <Divider />
             <CardContent>
-
               <div className="collaboratorOwner">
-                
-                <img
-                  src={
-                    process.env.REACT_APP_DOMAIN_URL + this.state.profileImage
-                  }
-                  onClick={this.handleClick}
-                  className="profile_logo"
-                />
-                  <div className="collaboratorDetails">
-                    <Typography>
-                      {this.props.noteData.user.firstName +
-                        " " +
-                        this.props.noteData.user.lastName}
-                      (Owner)
-                    </Typography>
-                    <Typography color="textSecondary">
-                      {this.props.noteData.user.email}
-                    </Typography>
-
+                <Avatar>
+                  <img
+                    onClick={this.handleClick}
+                    src={
+                      this.state.profileImage == ""
+                        ? null
+                        : "http://fundoonotes.incubation.bridgelabz.com/" +
+                          this.state.profileImage
+                    }
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundColor: "black",
+                      borderRadius: "50px",
+                    }}
+                  />
+                </Avatar>
+                <div className="collaboratorDetails">
+                  <Typography>
+                    {this.props.noteData.user.firstName +
+                      " " +
+                      this.props.noteData.user.lastName}
+                    (Owner)
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {this.props.noteData.user.email}
+                  </Typography>
                 </div>
               </div>
-              
+
               <div className="collaboratorListBox">
-                
-                {this.props.collaborators.map(callaber => {
+                {this.props.collaborators.map((collaber) => {
                   return (
                     <div>
                       <div className="emailIcon">
-                        {callaber.firstName.charAt(0)}
+                        {collaber.firstName.charAt(0)}
                       </div>
                       <div className="collaboratorDetails">
                         <Typography>
-                          {callaber.firstName +
-                            " " +
-                            callaber.lastName}
+                          {collaber.firstName + " " + collaber.lastName}
                         </Typography>
                         <Typography color="textSecondary">
-                          {callaber.email}
+                          {collaber.email}
                         </Typography>
                       </div>
-                      <HighlightOffIcon onClick={e => this.props.removeCollab(callaber.userId)} fontSize="large"/>
+                      <HighlightOffIcon
+                        onClick={(e) =>
+                          this.props.removeCollab(collaber.userId)
+                        }
+                        fontSize="large"
+                      />
                     </div>
                   );
                 })}
