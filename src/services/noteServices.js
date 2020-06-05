@@ -252,7 +252,10 @@ async function addUpdateReminderNote(addUpdateReminderdata) {
 async function addcollaboratorsNotes(user, noteID) {
   try {
     const response = await axios.post(
-      process.env.REACT_APP_BASE_URL + noteID + "/AddcollaboratorsNotes",
+      process.env.REACT_APP_BASE_URL +
+        "/notes/" +
+        noteID +
+        "/AddcollaboratorsNotes",
       user,
       {
         headers: {
@@ -270,6 +273,7 @@ async function removeCollaboratorsNotes(userID, noteID) {
   try {
     const response = await axios.delete(
       process.env.REACT_APP_BASE_URL +
+        "/notes/" +
         noteID +
         "/removeCollaboratorsNotes" +
         "/" +
