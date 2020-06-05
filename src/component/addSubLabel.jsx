@@ -82,12 +82,7 @@ export default class AddLabelSubNote extends React.Component {
   render() {
     return (
       <div>
-        <MenuItem
-          //  aria-describedby={id}
-          variant="contained"
-          color="grey"
-          onClick={this.handleClick}
-        >
+        <MenuItem color="grey" onClick={this.handleClick}>
           Add Label
         </MenuItem>
         <Popover
