@@ -178,6 +178,9 @@
   justify-content: flex-start;
   margin-left: -20px;
 }
+.subNotesMoreMenu {
+  font-size: small;
+}
 .toolbarAndClose {
   display: flex;
   flex-direction: row;
@@ -756,6 +759,31 @@
 .collabAction {
   display: flex;
   flex-direction: row-reverse;
+}
+.noteQuestion {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.noteQuestionHide {
+  display: none;
+}
+.emptySidebarMsg {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: gray;
+}
+.emptySidebarMsg > .MuiSvgIcon-root {
+  height: 10%;
+  width: 77%;
+}
+.emptySidebarMsgContainer {
+  margin-left: 300px;
+  margin-top: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media screen and (width: 1024px) {
   .allNotes_position {
