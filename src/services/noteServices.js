@@ -289,6 +289,46 @@ async function removeCollaboratorsNotes(userID, noteID) {
     return err;
   }
 }
+async function askQuestion(message, noteID) {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    let data = { message: message, notesId: noteID };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        "/questionAndAnswerNotes/addQuestionAndAnswer",
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+
+async function replyQuestion(message, parentID) {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    let data = { message: message };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        "/questionAndAnswerNotes/reply/" +
+        parentID,
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   addnotes,
@@ -309,4 +349,6 @@ export default {
   addUpdateReminderNote,
   addcollaboratorsNotes,
   removeCollaboratorsNotes,
+  askQuestion,
+  replyQuestion,
 };
