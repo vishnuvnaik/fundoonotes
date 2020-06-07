@@ -12,6 +12,7 @@ import {
   MenuItem,
   Typography,
   Toolbar,
+  Divider,
 } from "@material-ui/core";
 import AddAlertOutlinedIcon from "@material-ui/icons/AddAlertOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
@@ -32,6 +33,7 @@ import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import Snackbar from "@material-ui/core/Snackbar";
 import AddLabelSubNote from "./addSubLabel";
 import Collaborator from "./collabNote";
+
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -95,7 +97,11 @@ class AllNotes extends Component {
       displayDatePick: "none",
       collaborators: this.props.allNotes.collaborators,
       userData: JSON.parse(localStorage.getItem("userDetails")),
+      askedQuestion: "",
     };
+    if (this.state.alNotes.questionAndAnswerNotes.length > 0) {
+      this.state.askedQuestion = this.state.alNotes.questionAndAnswerNotes[0].message;
+    }
   }
   UNSAFE_componentWillReceiveProps(props) {
     this.setState({
@@ -129,6 +135,7 @@ class AllNotes extends Component {
   moreClose = () => {
     this.setState({
       moreMenuOpen: false,
+      moreMenuAnchor: null,
     });
   };
   displaySnackbar = (open, type, msg) => {
@@ -226,16 +233,28 @@ class AllNotes extends Component {
       console.log("done");
       this.props.getNote();
     });
-    this.setState({
-      snackbarOpen: true,
-      snackbarMsg: "note archived",
-    });
+    if (this.state.isArchived == true) {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMsg: "note unArchived",
+      });
+    } else {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMsg: "note archived",
+      });
+    }
   };
   reminderHandler = (event) => {
     this.setState({
       NoteReminderMenuAnchor: event.currentTarget,
       NoteReminderMenuOpen: !this.state.NoteReminderMenuOpen,
     });
+  };
+  askQuesHandle = () => {
+    if (this.state.alNotes.questionAndAnswerNotes.length > 0) {
+      this.state.askedQuestion = this.state.alNotes.questionAndAnswerNotes[0].message;
+    }
   };
   handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
@@ -313,7 +332,7 @@ class AllNotes extends Component {
     }
   };
 
-  removeLabeFromNote = (labelId, index) => {
+  removeLabelFromNote = (labelId, index) => {
     this.state.noteLabels.splice(index, 1);
     noteService
       .removeNoteLabel(labelId, this.state.noteIdList)
@@ -497,7 +516,7 @@ class AllNotes extends Component {
                         style={{ width: "auto" }}
                         label={labelNotes.label}
                         onDelete={() =>
-                          this.removeLabeFromNote(labelNotes.id, index)
+                          this.removeLabelFromNote(labelNotes.id, index)
                         }
                         color="white"
                         // value={this.state.date}
@@ -665,7 +684,7 @@ class AllNotes extends Component {
                       <div>
                         <MenuItem
                           onClick={this.deleteNote}
-                          style={{ marginLeft: "50px" }}
+                          style={{ marginLeft: "25px" }}
                         >
                           Delete
                         </MenuItem>
@@ -761,7 +780,7 @@ class AllNotes extends Component {
                     style={{ width: "auto" }}
                     label={labelNotes.label}
                     onDelete={() =>
-                      this.removeLabeFromNote(labelNotes.id, index)
+                      this.removeLabelFromNote(labelNotes.id, index)
                     }
                     color="white"
                     // value={this.state.date}
@@ -902,7 +921,7 @@ class AllNotes extends Component {
                       <ImageOutlinedIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Archive" arrow>
+                  <Tooltip>
                     <IconButton onClick={this.handleArchive}>
                       {this.state.isArchived ? (
                         <UnarchiveIcon />
@@ -919,36 +938,60 @@ class AllNotes extends Component {
                     </IconButton>
                   </Tooltip>
                 </Toolbar>
-                <Menu
-                  className="subNotesMoreMenu"
-                  style={{
-                    top: "50px",
-                  }}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                  anchorEl={this.state.moreMenuAnchor}
-                  keepMounted
-                  open={this.state.moreMenuOpen}
-                  onClose={this.moreClose}
-                >
-                  <MenuItem>
-                    <AddLabelSubNote
-                      alNotes={this.state.alNotes}
-                      addNoteLabelTemporary={this.addNoteLabelTemporary}
-                    />
-                  </MenuItem>
+                <div>
+                  <Menu
+                    className="subNotesMoreMenu"
+                    style={{
+                      top: "50px",
+                    }}
+                    getContentAnchorEl={null}
+                    anchorOrigin={{ vertical: "center", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                    anchorEl={this.state.moreMenuAnchor}
+                    keepMounted
+                    open={this.state.moreMenuOpen}
+                    onClose={this.moreClose}
+                  >
+                    <MenuItem>
+                      <AddLabelSubNote
+                        alNotes={this.state.alNotes}
+                        addNoteLabelTemporary={this.addNoteLabelTemporary}
+                      />
+                    </MenuItem>
 
-                  <div>
-                    <MenuItem onClick={this.deleteNote}>Delete</MenuItem>
-                  </div>
-                </Menu>
+                    <MenuItem
+                      onClick={this.deleteNote}
+                      style={{ marginLeft: "25px" }}
+                    >
+                      Delete
+                    </MenuItem>
+
+                    <MenuItem
+                      onClick={(e) => {
+                        this.props.containerRendering(
+                          this.state.alNotes,
+                          "queAndAns"
+                        );
+                      }}
+                    >
+                      Ask Question
+                    </MenuItem>
+                  </Menu>
+                </div>
+
+                <div
+                  className={
+                    this.state.askedQuestion === ""
+                      ? "noteQuestionHide"
+                      : "noteQuestion"
+                  }
+                >
+                  <Divider />
+                  <div className="qAndaTitle">Question Asked</div>
+                  <div>{this.state.askedQuestion}</div>
+                </div>
               </div>
+
               {/*   <Menu
                 //id="menu"
                 className="moreMenu_popper"
