@@ -67,6 +67,7 @@ class CollaboratorComponent extends Component {
     this.setState({
       listOpen: !this.state.listOpen,
       listAnchorEl: e.currentTarget,
+      searchWord: "",
     });
   };
 
@@ -144,7 +145,7 @@ class CollaboratorComponent extends Component {
                         onClick={(e) =>
                           this.props.data.removeCollab(callaber.userId)
                         }
-                        fontSize="large"
+                        fontSize="small"
                       />
                     </div>
                   );
