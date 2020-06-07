@@ -52,6 +52,7 @@ export default class Collaborator extends React.Component {
     this.setState({
       listOpen: !this.state.listOpen,
       listAnchorEl: e.currentTarget,
+      searchWord: "",
     });
   };
   render() {
@@ -129,7 +130,7 @@ export default class Collaborator extends React.Component {
                         onClick={(e) =>
                           this.props.removeCollab(collaber.userId)
                         }
-                        fontSize="large"
+                        fontSize="small"
                       />
                     </div>
                   );
