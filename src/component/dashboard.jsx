@@ -31,6 +31,8 @@ import AllNotes from "./allNotes";
 import userServices from "../services/userServices";
 import LabelMenu from "./labelMenu";
 import ImageUploader from "react-images-upload";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import QueAndAns from "./qAndA";
 const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
@@ -71,8 +73,10 @@ export default class dashboard extends Component {
       menuOpen: false,
       menuAnchorEl: null,
       profileImage: localStorage.getItem("userProfileImage"),
+      singleNoteData: [],
+      containerRender: "queAndAns",
       crop: {
-        unit: '%',
+        unit: "%",
         width: 30,
         aspect: 16 / 9,
       },
@@ -82,6 +86,12 @@ export default class dashboard extends Component {
     this.getNote();
     this.getLabel();
   }
+  containerRendering = (data, renderComponent) => {
+    if (data) {
+      this.setState({ singleNoteData: data });
+    }
+    this.setState({ headerName: renderComponent });
+  };
   handleDrawer() {
     this.setState({ open: !this.state.open });
   }
@@ -184,6 +194,7 @@ export default class dashboard extends Component {
             listGrid={this.state.listGrid}
             allNotes={allnote}
             getNote={this.getNote}
+            containerRendering={this.containerRendering.bind(this)}
           />
         );
       }
@@ -372,11 +383,27 @@ export default class dashboard extends Component {
                     </div>
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
-                  ) : this.state.headerName === "Remainder" ? (
+                  ) : this.state.headerName === "queAndAns" ? (
                     <div>
-                      <Notes getNotes={this.getNote} />
-                      <div className="allNotes_position">{remObj}</div>
+                      <QueAndAns
+                        noteData={this.state.singleNoteData}
+                        containerRendering={this.containerRendering.bind(this)}
+                      />
                     </div>
+                  ) : this.state.headerName === "Remainder" ? (
+                    remObj.length > 0 ? (
+                      <div>
+                        <Notes getNotes={this.getNote} />
+                        <div className="allNotes_position">{remObj}</div>
+                      </div>
+                    ) : (
+                      <div className="emptySidebarMsgContainer">
+                        <div className="emptySidebarMsg">
+                          <NotificationsNoneIcon />
+                          <div>Notes with upcoming reminders appear here</div>
+                        </div>
+                      </div>
+                    )
                   ) : this.state.headerName === "Trash" ? (
                     <div className="allNotes_position">{trashObj}</div>
                   ) : null}
