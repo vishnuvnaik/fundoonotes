@@ -1,19 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import { Divider, Typography, IconButton } from "@material-ui/core";
+import { Divider, Typography } from "@material-ui/core";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
-import UndoIcon from "@material-ui/icons/Undo";
-import { askQuestion } from "../services/noteServices";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import StarIcon from "@material-ui/icons/Star";
-
 import noteServices from "../services/noteServices";
 
-export default class QueAndAns extends React.Component {
+export default class QueAndAns extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,8 +17,6 @@ export default class QueAndAns extends React.Component {
       chatTime: "",
       reply: false,
       parentId: "",
-      rating: 0,
-      like: "",
       replyList: [],
     };
   }
@@ -79,16 +70,7 @@ export default class QueAndAns extends React.Component {
       this.setState({
         parentId: this.props.noteData.questionAndAnswerNotes[0].id,
       });
-      if (this.props.noteData.questionAndAnswerNotes[0].rate.length > 0) {
-        this.setState({
-          rating: this.props.noteData.questionAndAnswerNotes[0].rate[0].rate,
-        });
-      }
-      if (this.props.noteData.questionAndAnswerNotes[0].like.length > 0) {
-        this.setState({
-          like: this.props.noteData.questionAndAnswerNotes[0].like[0].like,
-        });
-      }
+
       this.setState({ replyList: this.props.noteData.questionAndAnswerNotes });
       this.setState({ question: true });
     }
@@ -149,27 +131,6 @@ export default class QueAndAns extends React.Component {
           <div className="queAnsHeader">
             <div>
               <h5>{this.state.chatTime}</h5>
-            </div>
-            <div className="ratingRight">
-              <IconButton
-                onClick={(e) => this.setState({ reply: !this.state.reply })}
-              >
-                <UndoIcon />
-              </IconButton>
-              <IconButton onClick={this.likeQuestion}>
-                {this.state.like ? (
-                  <ThumbUpAltIcon color="primary" />
-                ) : (
-                  <ThumbUpAltIcon />
-                )}
-              </IconButton>
-              <IconButton onClick={this.likeQuestion}>
-                {this.state.like ? (
-                  <ThumbDownAltIcon />
-                ) : (
-                  <ThumbDownAltIcon color="primary" />
-                )}
-              </IconButton>
             </div>
           </div>
           <div className="questionList">
