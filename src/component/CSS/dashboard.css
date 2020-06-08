@@ -257,11 +257,12 @@
 .allNotes_position {
   margin-top: 40px;
   width: 84%;
-  margin-left: 13%;
+  margin-left: 15%;
   margin-right: 13%;
   display: flex;
   /* flex-direction: row; */
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 #visible {
   padding-top: 5px;
@@ -269,11 +270,14 @@
 
 .gridCard {
   position: relative;
+  display: flex;
+  flex-direction: column;
   margin: 1%;
   height: auto;
   border-radius: 10px;
   padding: 10px;
   width: 270px;
+  justify-content: flex-start;
 }
 .noteCard123Two {
   position: relative;
@@ -356,10 +360,10 @@
 }
 .labelRemDate {
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   width: 100%;
   margin-top: 5px;
-  align-items: center;
+  align-items: flex-start;
 }
 .labelRemDate span {
   font-size: 12px;
@@ -785,6 +789,71 @@
   justify-content: center;
   align-items: center;
 }
+.queAnsDialog {
+  margin: 20px;
+}
+.queAnsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.queAnsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+}
+.noteQuesion {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.noteQuesionHide {
+  display: none;
+}
+.margin-20px {
+  margin: 20px;
+}
+.replyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px;
+}
+.replyList {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px;
+}
+#editorDialog {
+  width: 900px;
+}
+.questionList {
+  margin: 10px;
+}
+/* #askBtn {
+  display: flex;
+  flex-direction: row-reverse;
+} */
+.queAndAnsNoteData {
+  margin: 10px;
+}
+.show-margin {
+  display: none;
+}
+.rdw-editor-main {
+  height: 20px;
+
+  overflow: auto;
+  box-sizing: border-box;
+}
+.hide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (width: 1024px) {
   .allNotes_position {
     width: 58%;
@@ -799,8 +868,29 @@
     margin-right: 11%;
   }
   .notesCard {
-    width: 50%;
-    margin-left: 11%;
-    margin-right: 11%;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 22px;
+    inline-size: 250px;
+  }
+  .show {
+    display: flex;
+    position: relative;
+    margin-left: 220px;
+    margin-top: 25px;
+    box-shadow: 0px 0px 2px 1px gray;
+    inline-size: 250px;
+    border-radius: 5px;
+  }
+  .gridCard {
+    position: relative;
+    margin: 1%;
+    height: auto;
+    border-radius: 10px;
+    padding: 10px;
+    width: 135px;
+    justify-items: center;
   }
 }
