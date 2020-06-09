@@ -916,8 +916,15 @@ class AllNotes extends Component {
                       />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Add image" arrow>
-                    <IconButton>
+                  <Tooltip title="QuestionAndAns" arrow>
+                    <IconButton
+                      onClick={(e) => {
+                        this.props.containerRendering(
+                          this.state.alNotes,
+                          "queAndAns"
+                        );
+                      }}
+                    >
                       <ImageOutlinedIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
@@ -945,7 +952,7 @@ class AllNotes extends Component {
                       top: "50px",
                     }}
                     getContentAnchorEl={null}
-                    anchorOrigin={{ vertical: "center", horizontal: "center" }}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }}
                     anchorEl={this.state.moreMenuAnchor}
                     keepMounted
@@ -974,7 +981,9 @@ class AllNotes extends Component {
                         );
                       }}
                     >
-                      Ask Question
+                      {this.state.askedQuestion !== ""
+                        ? "Show Question"
+                        : "Ask Question"}
                     </MenuItem>
                   </Menu>
                 </div>
@@ -987,42 +996,22 @@ class AllNotes extends Component {
                   }
                 >
                   <Divider />
-                  <div className="qAndaTitle">Question Asked</div>
-                  <div>{this.state.askedQuestion}</div>
+                  <div className="hidden">
+                    <div
+                      className="qAndaTitle"
+                      onClick={(e) => {
+                        this.props.containerRendering(
+                          this.state.alNotes,
+                          "queAndAns"
+                        );
+                      }}
+                    >
+                      Question Asked
+                    </div>
+                    <div>{this.state.askedQuestion}</div>
+                  </div>
                 </div>
               </div>
-
-              {/*   <Menu
-                //id="menu"
-                className="moreMenu_popper"
-                onClose={this.moreClose}
-                open={this.state.moreMenuOpen}
-                anchorEl={this.state.moreMenuAnchor}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <div
-                  //id="moreone"
-                  onClick={this.handleClickMore}
-                  className="moreMenu_content"
-                >
-                  <MenuItem>
-                    <AddLabelSubNote
-                      alNotes={this.state.alNotes}
-                      addNoteLabelTemporary={this.addNoteLabelTemporary}
-                    />
-                  </MenuItem>
-                </div>
-                <div>
-                  <MenuItem onClick={this.deleteNote}> Delete</MenuItem>
-                </div>
-              </Menu> */}
             </div>
 
             <Popover
