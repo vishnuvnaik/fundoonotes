@@ -329,6 +329,25 @@ async function replyQuestion(message, parentID) {
     return err;
   }
 }
+async function likeQuestion(like, parentID) {
+  try {
+    let data = { like: like };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        "/questionAndAnswerNotes/like/" +
+        parentID,
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   addnotes,
@@ -351,4 +370,5 @@ export default {
   removeCollaboratorsNotes,
   askQuestion,
   replyQuestion,
+  likeQuestion,
 };
