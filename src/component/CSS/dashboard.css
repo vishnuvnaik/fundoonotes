@@ -790,12 +790,21 @@
   align-items: center;
 }
 .queAnsDialog {
-  margin: 20px;
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+
+  /* margin-left: 400px; */
+  /* align-items: center; */
 }
 .queAnsTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.qAndaTitle {
+  font-weight: bold;
+  cursor: pointer;
 }
 .queAnsHeader {
   display: flex;
@@ -807,6 +816,12 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
+  justify-content: center;
+  width: 500px;
+}
+.closeButton {
+  display: flex;
+  flex-direction: row-reverse;
 }
 .noteQuesionHide {
   display: none;
@@ -837,21 +852,42 @@
   flex-direction: row-reverse;
 } */
 .queAndAnsNoteData {
-  margin: 10px;
+  margin: 20px;
+  font-weight: bold;
+}
+.hide {
+  display: none;
+}
+.showNew {
+  display: block;
+  margin-top: 5px;
+  flex-direction: column;
 }
 .show-margin {
   display: none;
 }
-.rdw-editor-main {
-  height: 20px;
 
-  overflow: auto;
-  box-sizing: border-box;
+.hideReply {
+  display: none;
 }
-.hide {
+
+.showReply {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ratingMain {
+  display: flex;
+  align-items: center;
+}
+.ratingRight {
+  display: flex;
+  align-items: center;
+}
+#askBtn {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 @media screen and (width: 1024px) {
