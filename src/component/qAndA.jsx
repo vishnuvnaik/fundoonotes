@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import { Divider, Typography } from "@material-ui/core";
+import { Divider, Typography, IconButton } from "@material-ui/core";
 import { Editor } from "react-draft-wysiwyg";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
+import UndoIcon from "@material-ui/icons/Undo";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import noteServices from "../services/noteServices";
+import "./CSS/dashboard.css";
 
 export default class QueAndAns extends Component {
   constructor(props) {
@@ -17,6 +21,7 @@ export default class QueAndAns extends Component {
       chatTime: "",
       reply: false,
       parentId: "",
+      like: "",
       replyList: [],
     };
   }
@@ -25,6 +30,9 @@ export default class QueAndAns extends Component {
   };
 
   onEditorStateChange = (editorState) => {
+    this.setState({ editorState });
+  };
+  onEditorStateChangeRep = (editorState) => {
     this.setState({ editorState });
   };
   onClickQueAns = () => {
@@ -47,7 +55,7 @@ export default class QueAndAns extends Component {
           }).format(new Date(res.data.data.details.createdDate)),
         });
         this.setState({ question: true });
-        this.setState({ editorState: EditorState.createEmpty() });
+        this.setState({ editorState: "" });
       });
   };
   clickShowMsgHideEditor = () => {
@@ -88,6 +96,35 @@ export default class QueAndAns extends Component {
       });
     this.setState({ reply: !this.state.reply });
   };
+  likeQuestion = () => {
+    noteServices
+      .likeQuestion(!this.state.like, this.state.parentId)
+      .then((res) => {
+        this.setState({ like: !this.state.like });
+      });
+  };
+  likeReply(likeDt, replyId) {
+    noteServices.likeQuestion(likeDt, replyId).then((res) => {
+      let replyFilList = this.state.replyList.map((reply) => {
+        if (reply.id === replyId) {
+          if (reply.like.length) {
+            let dt = Object.assign({}, reply, {
+              like: [{ userId: reply.id, like: likeDt }],
+            });
+            return dt;
+          } else {
+            let dt = Object.assign({}, reply, {
+              like: [{ userId: replyId, like: likeDt }],
+            });
+            return dt;
+          }
+        } else {
+          return reply;
+        }
+      });
+      this.setState({ replyList: replyFilList });
+    });
+  }
 
   render() {
     return (
@@ -96,17 +133,22 @@ export default class QueAndAns extends Component {
           <div className="queAndAnsNoteData">
             <div className="queAnsTitle fontWeight-600">
               <div>{this.props.noteData.title}</div>
-              <div>
+              {/* <div>
                 <Button onClick={(e) => this.props.containerRendering("", "")}>
                   Close
                 </Button>
-              </div>
+              </div> */}
             </div>
             <div className="fontWeight-600">
               {this.props.noteData.description}
             </div>
           </div>
-          <div className={this.state.question ? "hide" : "show"}>
+          <div className={this.state.question ? "hide" : "noteQuesion"}>
+            <div className="closeButton">
+              <Button onClick={(e) => this.props.containerRendering("", "")}>
+                Close
+              </Button>
+            </div>
             <Editor
               editorState={this.state.editorState}
               placeholder="enter question"
@@ -127,10 +169,37 @@ export default class QueAndAns extends Component {
           </div>
         </div>
         <Divider />
-        <div className={this.state.question ? "show margin-20px" : "hide"}>
+        <div className={this.state.question ? "showNew margin-20px" : "hide"}>
+          <div style={{ fontWeight: "bold " }}>Question Asked</div>
+          <div className="closeButton">
+            <Button onClick={(e) => this.props.containerRendering("", "")}>
+              Close
+            </Button>
+          </div>
           <div className="queAnsHeader">
             <div>
               <h5>{this.state.chatTime}</h5>
+            </div>
+            <div className="ratingRight">
+              <IconButton
+                onClick={(e) => this.setState({ reply: !this.state.reply })}
+              >
+                <UndoIcon />
+              </IconButton>
+              <IconButton onClick={this.likeQuestion}>
+                {this.state.like ? (
+                  <ThumbUpAltIcon color="primary" />
+                ) : (
+                  <ThumbUpAltIcon />
+                )}
+              </IconButton>
+              <IconButton onClick={this.likeQuestion}>
+                {this.state.like ? (
+                  <ThumbDownAltIcon />
+                ) : (
+                  <ThumbDownAltIcon color="primary" />
+                )}
+              </IconButton>
             </div>
           </div>
           <div className="questionList">
@@ -139,7 +208,9 @@ export default class QueAndAns extends Component {
         </div>
         {this.state.replyList.map((reply) => {
           return (
-            <div className={this.state.question ? "show margin-20px" : "hide"}>
+            <div
+              className={this.state.question ? "showNew margin-20px" : "hide"}
+            >
               <Divider />
               <div className="replyHeader">
                 <div>
@@ -154,6 +225,47 @@ export default class QueAndAns extends Component {
                     }).format(new Date(reply.createdDate))}
                   </h5>
                 </div>
+                <div className="ratingRight">
+                  {/* <IconButton onClick={e => this.setState({reply:!this.state.reply})}>
+                    <UndoIcon />
+                  </IconButton> */}
+                  <IconButton
+                    onClick={(e) =>
+                      this.likeReply(
+                        reply.like.length ? !reply.like[0].like : true,
+                        reply.id
+                      )
+                    }
+                  >
+                    {reply.like.length ? (
+                      reply.like[0].like ? (
+                        <ThumbUpAltIcon color="primary" />
+                      ) : (
+                        <ThumbUpAltIcon />
+                      )
+                    ) : (
+                      <ThumbUpAltIcon />
+                    )}
+                  </IconButton>
+                  <IconButton
+                    onClick={(e) =>
+                      this.likeReply(
+                        reply.like.length ? !reply.like[0].like : true,
+                        reply.id
+                      )
+                    }
+                  >
+                    {reply.like.length ? (
+                      reply.like[0].like ? (
+                        <ThumbDownAltIcon />
+                      ) : (
+                        <ThumbDownAltIcon color="primary" />
+                      )
+                    ) : (
+                      <ThumbDownAltIcon />
+                    )}
+                  </IconButton>
+                </div>
               </div>
               <div className="replyList">
                 <Typography variant="h5">{reply.message}</Typography>
@@ -162,14 +274,14 @@ export default class QueAndAns extends Component {
           );
         })}
         <Divider />
-        <div className={this.state.reply ? "show margin-20px" : "hide"}>
+        <div className={this.state.reply ? "showNew margin-20px" : "hide"}>
           <Editor
             editorState={this.state.editorState}
             placeholder="enter your reply"
             toolbarClassName="toolbarClassName"
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
-            onEditorStateChange={this.onEditorStateChange}
+            onEditorStateChange={this.onEditorStateChangeRep}
           />
           <div id="askBtn">
             <Button
