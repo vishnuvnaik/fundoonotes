@@ -33,6 +33,8 @@ import LabelMenu from "./labelMenu";
 import ImageUploader from "react-images-upload";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import QueAndAns from "./qAndA";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
@@ -75,6 +77,7 @@ export default class dashboard extends Component {
       profileImage: localStorage.getItem("userProfileImage"),
       singleNoteData: [],
       containerRender: "queAndAns",
+      src: null,
       crop: {
         unit: "%",
         width: 30,
@@ -163,17 +166,83 @@ export default class dashboard extends Component {
     });
   };
 
-  onChangeProfile = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+  onChangeProfile = (crop) => {
+    // event.stopPropagation();
+    // event.preventDefault();
     let form_data = new FormData();
-    form_data.append("file", event.target.files[0]);
+    form_data.append("file", crop);
     userServices.uploadUserProfile(form_data).then((response) => {
-      this.setState({ profileImage: response.data.status.imageUrl });
+      this.setState({ crop: response.data.status.imageUrl });
       localStorage.setItem("userProfileImage", response.data.status.imageUrl);
     });
   };
+  onCropChange = (crop, percentCrop) => {
+    // You could also use percentCrop:
+    // this.setState({ crop: percentCrop });
+    this.setState({ crop });
+  };
+  onImageLoaded = (image) => {
+    this.imageRef = image;
+  };
+
+  onCropComplete = (crop) => {
+    this.makeClientCrop(crop);
+  };
+  async makeClientCrop(crop) {
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImageUrl = await this.getCroppedImg(
+        this.imageRef,
+        crop,
+        "newFile.jpeg"
+      );
+      this.setState({ croppedImageUrl });
+    }
+  }
+  getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          //reject(new Error('Canvas is empty'));
+          console.error("Canvas is empty");
+          return;
+        }
+        blob.name = fileName;
+        window.URL.revokeObjectURL(this.fileUrl);
+        this.fileUrl = window.URL.createObjectURL(blob);
+        resolve(this.fileUrl);
+      }, "image/jpeg");
+    });
+  }
+  onSelectFile = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () =>
+        this.setState({ src: reader.result })
+      );
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
   render() {
+    const { croppedImageUrl } = this.state;
+
     let otherNotes = 0;
     let label = this.state.labelNotes.map((allnote) => {
       otherNotes++;
@@ -280,25 +349,26 @@ export default class dashboard extends Component {
                   </div>
                 </div>
               </div>
-
-              <Card id="appBar_card">
-                <Tooltip title="Search" arrow>
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </Tooltip>
-                <InputBase
-                  placeholder="Search"
-                  value={this.state.search}
-                  onChange={this.handleChangeSearch}
-                  fullWidth
-                />
-                <Tooltip title="Clear search" arrow>
-                  <IconButton onClick={this.clearSearch}>
-                    <CloseIcon />
-                  </IconButton>
-                </Tooltip>
-              </Card>
+              {this.state.headerName !== "queAndAns" ? (
+                <Card id="appBar_card">
+                  <Tooltip title="Search" arrow>
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <InputBase
+                    placeholder="Search"
+                    value={this.state.search}
+                    onChange={this.handleChangeSearch}
+                    fullWidth
+                  />
+                  <Tooltip title="Clear search" arrow>
+                    <IconButton onClick={this.clearSearch}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Card>
+              ) : null}
 
               <div className="appicons">
                 <div>
@@ -469,7 +539,33 @@ export default class dashboard extends Component {
               open={this.state.menuOpen}
             >
               <div className="userMenu">
-                <input
+                <div className="App">
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={this.onSelectFile}
+                    />
+                  </div>
+                  {this.state.src && (
+                    <ReactCrop
+                      src={this.state.src}
+                      crop={this.state.crop}
+                      ruleOfThirds
+                      onImageLoaded={this.onImageLoaded}
+                      onComplete={this.onCropComplete}
+                      onChange={this.onCropChange}
+                    />
+                  )}
+                  {croppedImageUrl && (
+                    <img
+                      alt="Crop"
+                      style={{ maxWidth: "100%" }}
+                      src={croppedImageUrl}
+                    />
+                  )}
+                </div>
+                {/*   <input
                   id="myInput"
                   type="file"
                   ref={(ref) => (this.upload = ref)}
@@ -499,7 +595,24 @@ export default class dashboard extends Component {
                   }}
                 >
                   Update Profile
-                </MenuItem>
+                </MenuItem> */}
+                <Avatar>
+                  <img
+                    onClick={this.handleClickProfile}
+                    src={
+                      this.state.profileImage == ""
+                        ? null
+                        : "http://fundoonotes.incubation.bridgelabz.com/" +
+                          this.state.profileImage
+                    }
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundColor: "gray",
+                      borderRadius: "50px",
+                    }}
+                  />
+                </Avatar>
                 <MenuItem>
                   <Typography color="textSecondary">
                     {JSON.parse(localStorage.getItem("userDetails")).email}
