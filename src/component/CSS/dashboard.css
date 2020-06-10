@@ -257,7 +257,7 @@
 .allNotes_position {
   margin-top: 40px;
   width: 84%;
-  margin-left: 15%;
+  margin-left: 13%;
   margin-right: 13%;
   display: flex;
   /* flex-direction: row; */
@@ -790,9 +790,12 @@
   align-items: center;
 }
 .queAnsDialog {
-  display: "flex";
+  display: "flex"; /* block it was */
   justify-content: "center";
   align-items: "center";
+  height: 378px;
+  width: 700px;
+  margin-left: 325px;
 
   /* margin-left: 400px; */
   /* align-items: center; */
@@ -861,7 +864,7 @@
 .showNew {
   display: block;
   margin-top: 5px;
-  flex-direction: column;
+  flex-direction: row;
 }
 .show-margin {
   display: none;
