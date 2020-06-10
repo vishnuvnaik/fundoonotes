@@ -987,30 +987,29 @@ class AllNotes extends Component {
                     </MenuItem>
                   </Menu>
                 </div>
-
+              </div>
+            </div>
+            <div
+              className={
+                this.state.askedQuestion === ""
+                  ? "noteQuestionHide"
+                  : "noteQuestion"
+              }
+            >
+              <Divider />
+              <div className="hidden">
                 <div
-                  className={
-                    this.state.askedQuestion === ""
-                      ? "noteQuestionHide"
-                      : "noteQuestion"
-                  }
+                  className="qAndaTitle"
+                  onClick={(e) => {
+                    this.props.containerRendering(
+                      this.state.alNotes,
+                      "queAndAns"
+                    );
+                  }}
                 >
-                  <Divider />
-                  <div className="hidden">
-                    <div
-                      className="qAndaTitle"
-                      onClick={(e) => {
-                        this.props.containerRendering(
-                          this.state.alNotes,
-                          "queAndAns"
-                        );
-                      }}
-                    >
-                      Question Asked
-                    </div>
-                    <div>{this.state.askedQuestion}</div>
-                  </div>
+                  Question Asked
                 </div>
+                <div>{this.state.askedQuestion}</div>
               </div>
             </div>
 
