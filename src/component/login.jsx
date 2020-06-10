@@ -6,6 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import userServices from "../services/userServices";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import CardContent from "@material-ui/core/CardContent";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -97,68 +98,71 @@ class Login extends React.Component {
     return (
       <div className="login_Form">
         <Card class="login_Container">
-          <Typography className="app_name" variant="h5" color="textSecondary">
-            <span style={{ color: "red" }}>F</span>
-            <span style={{ color: "blue" }}>U</span>
-            <span style={{ color: "green" }}>N</span>
-            <span style={{ color: "maroon" }}>D</span>
-            <span style={{ color: "red" }}>O</span>
-            <span style={{ color: "blue" }}>O</span>
-          </Typography>
-          <div className="login">Sign in</div>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            open={this.state.snackbarOpen}
-            autoHideDuration={3000}
-            onClose={() => this.setState({ snackbarOpen: false })}
-            message={this.state.snackbarMessage}
-          ></Snackbar>
+          <CardContent>
+            <Typography className="app_name" variant="h5" color="textSecondary">
+              <span style={{ color: "red" }}>F</span>
+              <span style={{ color: "blue" }}>U</span>
+              <span style={{ color: "green" }}>N</span>
+              <span style={{ color: "maroon" }}>D</span>
+              <span style={{ color: "red" }}>O</span>
+              <span style={{ color: "blue" }}>O</span>
+            </Typography>
+            <div className="login">Sign in</div>
+            <Snackbar
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              open={this.state.snackbarOpen}
+              autoHideDuration={3000}
+              onClose={() => this.setState({ snackbarOpen: false })}
+              message={this.state.snackbarMessage}
+            ></Snackbar>
 
-          <div className="emailAndPass" data-test="EMAIL">
-            <TextField
-              required
-              variant="outlined"
-              label="email"
-              type="text"
-              value={this.state.email}
-              error={this.state.errs["email"]}
-              helperText={this.state.errs["email"]}
-              variant="outlined"
-              onChange={this.onchangeEmail}
-            />
-          </div>
-          <div className="emailAndPass">
-            <TextField
-              required
-              variant="outlined"
-              label="password"
-              type="password"
-              value={this.state.password}
-              error={this.state.errs["password"]}
-              helperText={this.state.errs["password"]}
-              onChange={this.onchangePassword}
-            />
-          </div>
-          <div className="forget_style" onClick={this.forget}>
-            <span>Forgot password</span>
-          </div>
-          <div className="set_Button">
-            <Button
-              id="styled_component"
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={this.onSubmit}
-            >
-              LOGIN
-            </Button>
-          </div>
-          <div className="createAccount" onClick={this.create}>
-            <span>Create Account</span>
-          </div>
+            <div className="emailAndPass">
+              <TextField
+                id="emailLogin"
+                required
+                variant="outlined"
+                label="email"
+                value={this.state.email}
+                error={this.state.errs["email"]}
+                helperText={this.state.errs["email"]}
+                variant="outlined"
+                onChange={this.onchangeEmail}
+              />
+            </div>
+            <div className="emailAndPass">
+              <TextField
+                id="passLogin"
+                required
+                variant="outlined"
+                label="password"
+                type="password"
+                value={this.state.password}
+                error={this.state.errs["password"]}
+                helperText={this.state.errs["password"]}
+                onChange={this.onchangePassword}
+              />
+            </div>
+            <div className="forget_style" onClick={this.forget}>
+              <span>Forgot password</span>
+            </div>
+            <div className="set_Button">
+              <Button
+                id="styled_component"
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={this.onSubmit}
+              >
+                LOGIN
+              </Button>
+            </div>
+            <div className="createAccount" onClick={this.create}>
+              <span>Create Account</span>
+            </div>
+          </CardContent>
         </Card>
       </div>
     );
