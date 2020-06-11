@@ -342,6 +342,7 @@ class AllNotes extends Component {
         }
       });
     this.props.getNote();
+    this.props.getNote();
   };
 
   labelNotes = (value) => {
