@@ -4,4 +4,5 @@ module.exports = {
   forgotPassword: "/user/reset",
   UploadProfileImage: "/user/uploadProfileImage",
   searchUserList: "/user/searchUserList",
+  resetpassword: "/user/reset-password",
 };
