@@ -73,6 +73,21 @@ async function searchUserByWord(data) {
     throw err;
   }
 }
+async function resetPassword(data, access_token) {
+  const localtoken = localStorage.getItem("token");
+
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.resetpassword,
+      data,
+      { params: { access_token } }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
 
 export default {
   userRegistration,
@@ -80,4 +95,5 @@ export default {
   login,
   uploadUserProfile,
   searchUserByWord,
+  resetPassword,
 };
