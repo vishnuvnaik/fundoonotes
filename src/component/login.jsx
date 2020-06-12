@@ -97,7 +97,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login_Form">
-        <Card class="login_Container">
+        <Card className="login_Container">
           <CardContent>
             <Typography className="app_name" variant="h5" color="textSecondary">
               <span style={{ color: "red" }}>F</span>
