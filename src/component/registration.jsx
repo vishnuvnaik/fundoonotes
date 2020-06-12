@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./CSS/registration.css";
 //import CloseIcon from "@material-ui/icons/Close";
-import { withRouter } from "react-router-dom";
 import { TextField, Button, Card, Snackbar } from "@material-ui/core";
 import userServices from "../services/userServices";
 // import Snackbar from "@material-ui/core/Snackbar";
@@ -168,6 +167,7 @@ class Registration extends Component {
               <TextField
                 required
                 fullWidth
+                id="firstBut"
                 variant="outlined"
                 label="firstname"
                 type="text"
@@ -179,6 +179,7 @@ class Registration extends Component {
               <TextField
                 fullWidth
                 required
+                id="lastBut"
                 label="lastname"
                 variant="outlined"
                 type="text"
@@ -192,6 +193,7 @@ class Registration extends Component {
             <TextField
               required
               label="email"
+              id="emailReg"
               fullWidth
               variant="outlined"
               type="text"
@@ -203,6 +205,7 @@ class Registration extends Component {
             <div>
               <TextField
                 required
+                id="passReg"
                 label="password"
                 fullWidth
                 variant="outlined"
@@ -249,4 +252,4 @@ class Registration extends Component {
     );
   }
 }
-export default withRouter(Registration);
+export default Registration;
