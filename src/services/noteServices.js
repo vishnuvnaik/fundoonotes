@@ -310,14 +310,13 @@ async function askQuestion(message, noteID) {
 }
 
 async function replyQuestion(message, parentID) {
-  let userData = JSON.parse(localStorage.getItem("userDetails"));
   try {
-    let data = { message: message };
+    let userData = JSON.parse(localStorage.getItem("userDetails"));
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL +
         "/questionAndAnswerNotes/reply/" +
         parentID,
-      data,
+      message,
       {
         headers: {
           Authorization: userData.id,
@@ -329,9 +328,8 @@ async function replyQuestion(message, parentID) {
     return err;
   }
 }
-async function likeQuestion(like, parentID) {
+async function likeQuestion(data, parentID) {
   try {
-    let data = { like: like };
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL +
         "/questionAndAnswerNotes/like/" +
@@ -346,6 +344,18 @@ async function likeQuestion(like, parentID) {
     return response;
   } catch (err) {
     return err;
+  }
+}
+async function getNotesDetail(id) {
+  try {
+    const response = await axios.get(
+      process.env.REACT_APP_BASE_URL + noteApiConstants.getNotesDetail + id,
+      { headers: { Authorization: userData.id } }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 }
 
@@ -371,4 +381,5 @@ export default {
   askQuestion,
   replyQuestion,
   likeQuestion,
+  getNotesDetail,
 };
