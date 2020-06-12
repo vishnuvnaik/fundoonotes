@@ -74,7 +74,7 @@ async function searchUserByWord(data) {
   }
 }
 async function resetPassword(data, access_token) {
-  const localtoken = localStorage.getItem("token");
+  // const localtoken = localStorage.getItem("token");
 
   try {
     const response = await axios.post(
