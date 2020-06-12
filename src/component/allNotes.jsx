@@ -430,7 +430,6 @@ class AllNotes extends Component {
   };
 
   render() {
-    console.log(this.state.moreMenuOpen, "more");
     let colObj = color.map((el, index) => {
       return (
         <div
