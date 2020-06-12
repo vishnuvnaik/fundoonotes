@@ -10,4 +10,5 @@ module.exports = {
   getLabel: "/noteLabels/getNoteLabelList",
   addUpdateReminderNotes: "/notes/addUpdateReminderNotes",
   removeReminderNotes: "/notes/removeReminderNotes",
+  getNotesDetail: "/notes/getNotesDetail/",
 };
