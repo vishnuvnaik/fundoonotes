@@ -85,11 +85,12 @@ export default class Collaborator extends React.Component {
                   <img
                     onClick={this.handleClick}
                     src={
-                      this.state.profileImage == ""
+                      this.state.profileImage === ""
                         ? null
                         : "http://fundoonotes.incubation.bridgelabz.com/" +
                           this.state.profileImage
                     }
+                    alt="usr"
                     style={{
                       width: "50px",
                       height: "50px",
