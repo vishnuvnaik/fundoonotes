@@ -1,0 +1,159 @@
+.queandanstitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.queandadialog {
+  width: 80%;
+}
+
+.queandadisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+.asked {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 134px;
+  justify-content: space-between;
+  font-weight: 500;
+}
+.closebutton {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  margin-right: 135px;
+}
+.closebutton1 {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  margin-right: 150px;
+  margin-bottom: 10px;
+}
+.quePresent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quePresent1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+.askButton {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.repPresent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.repPresent1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+.repButton {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  width: 90%;
+}
+.displayRep {
+  display: flex;
+  justify-content: center;
+}
+.displayRepInner {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  width: 80%;
+}
+
+.fileLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.picStyle {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: gray;
+}
+.nameandqueDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.namelikerow {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5px;
+}
+
+.replyButt {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.likerow {
+  padding-left: 5px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.likeRow1 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.dislike {
+  display: flex;
+  width: 20px;
+  height: 20px;
+}
+.dislike1 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 5px;
+}
+.likeBut {
+  padding-left: 5px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.likeBut2 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.likeBut3 {
+  display: flex;
+  width: 20px;
+  height: 20px;
+}
+.likeButEnd {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 5px;
+}
