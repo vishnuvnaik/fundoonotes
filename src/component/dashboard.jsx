@@ -179,6 +179,7 @@ export default class dashboard extends Component {
   onCropChange = (crop, percentCrop) => {
     // You could also use percentCrop:
     // this.setState({ crop: percentCrop });
+
     this.setState({ crop });
   };
   onImageLoaded = (image) => {
@@ -554,7 +555,7 @@ export default class dashboard extends Component {
                       ruleOfThirds
                       onImageLoaded={this.onImageLoaded}
                       onComplete={this.onCropComplete}
-                      onChange={this.onCropChange}
+                      onChange={this.onChangeProfile.bind(this)}
                     />
                   )}
                   {croppedImageUrl && (
