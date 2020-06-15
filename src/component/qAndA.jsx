@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import {
-  Divider,
-  Typography,
-  IconButton,
-  Tooltip,
-  List,
-} from "@material-ui/core";
+import { Divider, Typography, List } from "@material-ui/core";
 import { Editor } from "react-draft-wysiwyg";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
-import UndoIcon from "@material-ui/icons/Undo";
 import { EditorState } from "draft-js";
 import reply_black from "../assets/reply_black.png";
 import thumb_up from "../assets/thumb_up.png";
@@ -54,7 +45,6 @@ export default class QueAndAns extends Component {
     });
     noteServices.getNotesDetail(this.props.noteData.id).then((response) => {
       if (response.status === 200) {
-        //  this.props.sendtrash(true);
         this.setState({
           data: response.data.data.data[0],
           questionAndAnswerNotes:
@@ -133,7 +123,7 @@ export default class QueAndAns extends Component {
         console.log(response);
         if (response.status === 200) {
           this.setState({
-            showReply: false,
+            reply: false,
             message: response.data.data.details.message,
             editorState: "",
           });
@@ -164,6 +154,9 @@ export default class QueAndAns extends Component {
     var content = message.replace(/<[^>]*>/g, "");
     return content;
   };
+  closeReply = () => {
+    this.setState({ reply: false });
+  };
 
   render() {
     return (
@@ -182,7 +175,7 @@ export default class QueAndAns extends Component {
           <div>
             <div
               className="closebutton"
-              onClick={(e) => this.props.containerRendering("", "")}
+              onClick={() => this.props.containerRendering("", "")}
             >
               Close
             </div>
@@ -207,7 +200,7 @@ export default class QueAndAns extends Component {
               Ask A Question
               <div
                 className="closebutton1"
-                onClick={(e) => this.props.containerRendering("", "")}
+                onClick={() => this.props.containerRendering("", "")}
               >
                 Close
               </div>
@@ -228,7 +221,7 @@ export default class QueAndAns extends Component {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(e) => this.onClickQueAns()}
+                onClick={() => this.onClickQueAns()}
               >
                 Ask
               </Button>
@@ -248,7 +241,10 @@ export default class QueAndAns extends Component {
                 />
               </div>
             </div>
-            <div className="repButton" onClick={(e) => this.replyBack()}>
+            <div className="repButton" onClick={() => this.closeReply()}>
+              Close
+            </div>
+            <div className="repButton" onClick={() => this.replyBack()}>
               Reply
             </div>
           </div>
@@ -270,12 +266,6 @@ export default class QueAndAns extends Component {
                           className="picStyle"
                         />
                       </label>
-                      <input
-                        type="file"
-                        onChange={this.onChange}
-                        id="file-input"
-                        style={{ display: "none" }}
-                      />
 
                       <div className="nameandqueDisplay">
                         <Typography>
@@ -340,7 +330,7 @@ export default class QueAndAns extends Component {
                                   )
                                 }
                                 className="likeBut3"
-                              />{" "}
+                              />
                             </div>
                             <div className="likeButEnd">
                               <div>0 Likes</div>
