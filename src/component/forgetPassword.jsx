@@ -18,7 +18,6 @@ class ForgetPassword extends React.Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    console.log("hello");
     let errs = {};
     let formIsValid = true;
     const errors = this.validate(this.state);
@@ -103,6 +102,7 @@ class ForgetPassword extends React.Component {
               variant="outlined"
               label="email"
               type="text"
+              id="emailForg"
               value={this.state.email}
               error={this.state.errs["email"]}
               helperText={this.state.errs["email"]}
