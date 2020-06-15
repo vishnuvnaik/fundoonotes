@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Popover, Dialog, Menu, MenuItem } from "@material-ui/core";
 import noteService from "../services/noteServices";
-import LabelMenu from "./labelMenu";
 import AddLabelNote from "./addLabel";
 import "./CSS/dashboard.css";
 class MoreMenu extends Component {
@@ -46,11 +45,7 @@ class MoreMenu extends Component {
           horizontal: "center",
         }}
       >
-        <div
-          id="moreone"
-          onClick={this.props.menu}
-          className="moreMenu_content"
-        >
+        <div id="moreone" onClick={this.props.menu} className="moreMenu_content">
           <MenuItem>
             <AddLabelNote />
           </MenuItem>
