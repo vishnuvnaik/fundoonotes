@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
@@ -163,7 +162,7 @@ class ResetPassword extends Component {
               <TextField
                 hintText="Password"
                 floatingLabelText="Password"
-                id="btnReset"
+                id="newPass"
                 variant="outlined"
                 type="password"
                 label="NewPassword"
@@ -176,7 +175,7 @@ class ResetPassword extends Component {
               <TextField
                 hintText="Password"
                 floatingLabelText="Password"
-                id="ConfirmPassword"
+                id="confPassword"
                 variant="outlined"
                 type="password"
                 label="Re-enter New Password"
