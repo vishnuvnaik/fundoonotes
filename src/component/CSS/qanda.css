@@ -70,6 +70,7 @@
   justify-content: flex-end;
   cursor: pointer;
   width: 90%;
+  flex-direction: row;
 }
 .displayRep {
   display: flex;
