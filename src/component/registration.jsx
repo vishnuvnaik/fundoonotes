@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./CSS/registration.css";
+import { withRouter } from "react-router-dom";
 //import CloseIcon from "@material-ui/icons/Close";
 import { TextField, Button, Card, Snackbar } from "@material-ui/core";
 import userServices from "../services/userServices";
@@ -252,4 +253,4 @@ class Registration extends Component {
     );
   }
 }
-export default Registration;
+export default withRouter(Registration);
