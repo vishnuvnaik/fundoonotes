@@ -141,11 +141,7 @@
   width: 200px;
   padding: 4px 16px 12px 16px;
 }
-.CardToolbar {
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  margin-left: -20px;
-}
+
 .toolbarAndClose {
   display: flex;
   flex-direction: row;
