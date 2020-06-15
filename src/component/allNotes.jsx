@@ -33,7 +33,6 @@ import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import Snackbar from "@material-ui/core/Snackbar";
 import AddLabelSubNote from "./addSubLabel";
 import Collaborator from "./collabNote";
-
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -519,7 +518,6 @@ class AllNotes extends Component {
                           this.removeLabelFromNote(labelNotes.id, index)
                         }
                         color="white"
-                        // value={this.state.date}
                       />
                     </div>
                   ))}
@@ -543,7 +541,6 @@ class AllNotes extends Component {
                     backgroundColor: this.state.color,
                   }}
                 >
-                  {/* comes on the click only */}
                   <div>
                     <Tooltip title="Remainder" arrow>
                       <IconButton onClick={this.reminderHandler}>
@@ -627,14 +624,6 @@ class AllNotes extends Component {
                         <PersonAddOutlinedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    {/* <Tooltip title="Change color" arrow>
-                      <IconButton
-                        id="colorBut"
-                        onMouseEnter={this.handleMouseEnter}
-                      >
-                        <PaletteOutlinedIcon />
-                      </IconButton>
-                </Tooltip> */}
                     <Tooltip title="Change color" arrow>
                       <IconButton onClick={this.handleColorBut}>
                         <Palette />
