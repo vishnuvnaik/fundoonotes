@@ -26,6 +26,9 @@ describe("Login Component", () => {
       });
       expect(wrapper.state("password")).toEqual("qwertyuiop");
     });
+    it("should respond to button click", () => {
+      
+    });
   });
 });
 describe("Test case for testing login component", () => {
