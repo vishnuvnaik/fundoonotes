@@ -10,23 +10,21 @@ import {
   MenuItem,
   Popover,
 } from "@material-ui/core";
-import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import AddLabel from "./addLabel";
-import CheckBox from "@material-ui/icons/CheckBox";
-import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
-import Brush from "@material-ui/icons/Brush";
-import Image from "@material-ui/icons/Image";
+import {
+  CheckBox,
+  MoreVertOutlined,
+  Brush,
+  Image,
+  ArchiveOutlined,
+  Palette,
+} from "@material-ui/icons";
 import noteServices from "../services/noteServices";
-import "./CSS/dashboard.css";
 import RemainderMenu from "./remainderMenu";
 import pin from "../assets/pin.svg";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import "./CSS/notesCard.css";
 import CollaboratorComponent from "./Collaborator";
-import ReminderComponent from "./Reminder";
-import Time from "react-time";
-import Palette from "@material-ui/icons/Palette";
-import userServices from "../services/userServices";
-import AddLabelNote from "./addLabel";
+
 const color = [
   "#fff",
   "#a7ffeb",
@@ -81,11 +79,10 @@ class Notes extends Component {
     this.openCard = this.openCard.bind(this);
   }
 
-  async openCard() {
-    await this.setState({ open: !this.state.open });
-    console.log("In open card");
+  openCard = () => {
+    this.setState({ open: !this.state.open });
     console.log(this.state.open);
-  }
+  };
 
   userNoteRefresh = async () => {
     await noteServices.getnotes().then(async (response) => {
@@ -137,14 +134,13 @@ class Notes extends Component {
       this.setState({ labelIdList: [] });
       this.setState({ labelNotes: [] });
       this.setState({ collaborators: [] });
-      //for close the main Note Box
     } else {
       this.changeCard();
     }
   };
 
-  onClickArchive = async () => {
-    await this.setState({ isArchived: true });
+  onClickArchive = () => {
+    this.setState({ isArchived: true });
     this.addNotes();
   };
   handleClickMore = (event) => {
@@ -155,8 +151,8 @@ class Notes extends Component {
     });
   };
 
-  changeLabel = async (data) => {
-    await this.setState({
+  changeLabel = (data) => {
+    this.setState({
       label: data,
     });
   };
@@ -189,13 +185,11 @@ class Notes extends Component {
   };
   addUpdateReminder = (date) => {
     let reminderData = { reminder: date, noteIdList: [this.state.noteID] };
-    noteServices.addUpdateReminderNote(reminderData).then((response) => {});
+    noteServices.addUpdateReminderNote(reminderData).then(() => {});
     this.state.noteRefresh();
   };
   reminderClose = () => {
-    noteServices
-      .removeReminderNote(this.state.noteIdList)
-      .then((response) => {});
+    noteServices.removeReminderNote(this.state.noteIdList).then(() => {});
     this.setState({ reminderDisplay: "none" });
     this.setState({ reminderMain: "" });
   };
@@ -241,7 +235,6 @@ class Notes extends Component {
         >
           <Chip
             style={{ width: "240px" }}
-            // icon={<img src={schedule} />}
             label={reminderMain}
             onDelete={() => this.handleDelete(id)}
             color="white"
@@ -280,7 +273,7 @@ class Notes extends Component {
             className="takeNote"
             style={{ marginTop: "0px", marginLeft: "1em", fontWeight: "bold" }}
             placeholder="Take a note..."
-            onClick={(event) => this.openCard()}
+            onClick={() => this.openCard()}
           ></InputBase>
           <div>
             <Tooltip title="New List">
@@ -401,17 +394,6 @@ class Notes extends Component {
               return <div>{collab.firstName.charAt(0)}</div>;
             })}
           </div>
-          {/*   <div className="cardToolbar">
-            {this.state.collaborators.map((collab) => (
-              <Chip
-                //key={index}
-                style={{ width: "auto" }}
-                label={collab.firstName.charAt(0)}
-                onDelete={() => this.removeCollab()}
-                color="white"
-              />
-            ))}
-            </div> */}
 
           <div className="toolbarAndClose">
             <Toolbar className="CardToolbar">
@@ -442,14 +424,14 @@ class Notes extends Component {
               <div>
                 <Tooltip title="Archive" arrow>
                   <IconButton onClick={this.onClickArchive}>
-                    <ArchiveOutlinedIcon fontSize="small" />
+                    <ArchiveOutlined fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </div>
               <div>
                 <Tooltip title="More" arrow>
                   <IconButton onClick={this.handleClickMore}>
-                    <MoreVertOutlinedIcon fontSize="small" />
+                    <MoreVertOutlined fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </div>
