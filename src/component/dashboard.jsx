@@ -15,13 +15,15 @@ import {
   Avatar,
   MenuItem,
 } from "@material-ui/core";
-import People from "@material-ui/icons/ExitToApp";
-import ViewListIcon from "@material-ui/icons/ViewList";
-import ViewCompactIcon from "@material-ui/icons/ViewCompact";
-import SearchIcon from "@material-ui/icons/Search";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import {
+  ExitToApp,
+  ViewList,
+  ViewCompact,
+  Search,
+  Close,
+  NotificationsNone,
+} from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
 import SideMenu from "./sideMenu";
 import keep from "../assets/keep.png";
 import Notes from "./notesCard";
@@ -31,7 +33,7 @@ import AllNotes from "./allNotes";
 import userServices from "../services/userServices";
 import LabelMenu from "./labelMenu";
 import ImageUploader from "react-images-upload";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+
 import QueAndAns from "./qAndA";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -167,8 +169,6 @@ export default class dashboard extends Component {
   };
 
   onChangeProfile = (crop) => {
-    // event.stopPropagation();
-    // event.preventDefault();
     let form_data = new FormData();
     form_data.append("file", crop);
     userServices.uploadUserProfile(form_data).then((response) => {
@@ -177,9 +177,6 @@ export default class dashboard extends Component {
     });
   };
   onCropChange = (crop, percentCrop) => {
-    // You could also use percentCrop:
-    // this.setState({ crop: percentCrop });
-
     this.setState({ crop });
   };
   onImageLoaded = (image) => {
@@ -354,7 +351,7 @@ export default class dashboard extends Component {
                 <Card id="appBar_card">
                   <Tooltip title="Search" arrow>
                     <IconButton>
-                      <SearchIcon />
+                      <Search />
                     </IconButton>
                   </Tooltip>
                   <InputBase
@@ -365,7 +362,7 @@ export default class dashboard extends Component {
                   />
                   <Tooltip title="Clear search" arrow>
                     <IconButton onClick={this.clearSearch}>
-                      <CloseIcon />
+                      <Close />
                     </IconButton>
                   </Tooltip>
                 </Card>
@@ -379,9 +376,9 @@ export default class dashboard extends Component {
                   >
                     <IconButton onClick={this.handleClickListGrid}>
                       {this.state.listGrid ? (
-                        <ViewListIcon id="reduceButSize" />
+                        <ViewList id="reduceButSize" />
                       ) : (
-                        <ViewCompactIcon id="reduceButSize" />
+                        <ViewCompact id="reduceButSize" />
                       )}
                     </IconButton>
                   </Tooltip>
@@ -390,7 +387,7 @@ export default class dashboard extends Component {
                 <div>
                   <Tooltip title="logout">
                     <IconButton onClick={this.handleLogout}>
-                      <People />
+                      <ExitToApp />
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -470,7 +467,7 @@ export default class dashboard extends Component {
                     ) : (
                       <div className="emptySidebarMsgContainer">
                         <div className="emptySidebarMsg">
-                          <NotificationsNoneIcon />
+                          <NotificationsNone />
                           <div>Notes with upcoming reminders appear here</div>
                         </div>
                       </div>
@@ -483,48 +480,6 @@ export default class dashboard extends Component {
             </div>
           </div>
           <MuiThemeProvider theme={theme1}>
-            {/* <div className="userMenu">
-              <Menu
-                id="menu"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                anchorEl={this.state.menuAnchorEl}
-                keepMounted
-                open={this.state.menuOpen}
-                onClose={this.handleClose}
-              >
-                <input
-                  id="myInput"
-                  type="file"
-                  ref={(ref) => (this.upload = ref)}
-                  style={{ display: "none" }}
-                  onChange={this.onChangeProfile.bind(this)}
-                />
-                <MenuItem
-                  onClick={() => {
-                    this.upload.click();
-                  }}
-                >
-                  Profile Pic Upload
-                </MenuItem>
-                <MenuItem>
-                  <Typography variant="h6">
-                    {JSON.parse(localStorage.getItem("userDetails")).firstName}{" "}
-                    {JSON.parse(localStorage.getItem("userDetails")).lastName}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    {JSON.parse(localStorage.getItem("userDetails")).email}
-                  </Typography>
-                </MenuItem>
-                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
-              </Menu>
-                </div> */}
             <Popover
               id="menu"
               onClose={this.handleClose}
@@ -566,37 +521,7 @@ export default class dashboard extends Component {
                     />
                   )}
                 </div>
-                {/*   <input
-                  id="myInput"
-                  type="file"
-                  ref={(ref) => (this.upload = ref)}
-                  style={{ display: "none" }}
-                  onChange={this.onChangeProfile.bind(this)}
-                />
-                <Avatar>
-                  <img
-                    onClick={this.handleClickProfile}
-                    src={
-                      this.state.profileImage == ""
-                        ? null
-                        : "http://fundoonotes.incubation.bridgelabz.com/" +
-                          this.state.profileImage
-                    }
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      backgroundColor: "gray",
-                      borderRadius: "50px",
-                    }}
-                  />
-                </Avatar>
-                <MenuItem
-                  onClick={() => {
-                    this.upload.click();
-                  }}
-                >
-                  Update Profile
-                </MenuItem> */}
+
                 <Avatar>
                   <img
                     onClick={this.handleClickProfile}
