@@ -28,9 +28,8 @@ class ResetPassword extends Component {
       pass: null,
     };
   }
-  Reset = async () => {
-    // event.preventDefault();
-    await this.validator();
+  Reset = () => {
+    this.validator();
     let data = {
       newPassword: this.state.password,
     };
@@ -39,16 +38,14 @@ class ResetPassword extends Component {
     console.log(data, id);
 
     if (this.state.helperTextpassowrd === "") {
-      if (this.state.pass == true) {
+      if (this.state.pass === true) {
         userServices.resetPassword(data, id).then((response) => {
           console.log(response);
-          if (response.statusText == "No Content") {
+          if (response.statusText === "No Content") {
             this.setState({
               snackbaropen: true,
               snackbarmsg: "Succefully changed.",
             });
-            //  localStorage.setItem("id", response.data.id);
-
             this.props.history.push({
               pathname: "/login",
             });
@@ -68,7 +65,7 @@ class ResetPassword extends Component {
     }
   };
   validator = () => {
-    if (this.state.password != "") {
+    if (this.state.password !== "") {
       if (
         /[\@\#\$\%\^\&\*\(\)\_\+\!]/.test(this.state.password) &&
         /[a-z]/.test(this.state.password) &&
@@ -87,14 +84,14 @@ class ResetPassword extends Component {
           password: this.state.password,
         });
       }
-    } else if (this.state.password == "") {
+    } else if (this.state.password === "") {
       this.setState({
         helperTextpassowrd: "Enter the password",
         error: true,
         password: this.state.password,
       });
     }
-    if (this.state.confirmpassword == "") {
+    if (this.state.confirmpassword === "") {
       this.setState({
         helperTextCpassowrd: "Enter the confirm password",
         error: true,
@@ -107,7 +104,6 @@ class ResetPassword extends Component {
 
   //close snackbar
   handleClose = (event) => {
-    // event.preventDefault();
     this.setState({ snackbaropen: false });
   };
   onchangePassword = (event) => {
