@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import "./CSS/registration.css";
 import { withRouter } from "react-router-dom";
-//import CloseIcon from "@material-ui/icons/Close";
 import { TextField, Button, Card, Snackbar } from "@material-ui/core";
 import userServices from "../services/userServices";
-// import Snackbar from "@material-ui/core/Snackbar";
-// import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
 class Registration extends Component {
@@ -108,8 +105,8 @@ class Registration extends Component {
     }
   };
 
-  onchangeRePassword = async (event) => {
-    await this.setState({ rePassword: event.target.value });
+  onchangeRePassword = (event) => {
+    this.setState({ rePassword: event.target.value });
     this.checkPassword();
   };
 
