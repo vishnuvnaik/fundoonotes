@@ -14,22 +14,24 @@ import {
   Toolbar,
   Divider,
 } from "@material-ui/core";
-import AddAlertOutlinedIcon from "@material-ui/icons/AddAlertOutlined";
-import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
-import WatchLaterIcon from "@material-ui/icons/WatchLater";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import {
+  AddAlertOutlined,
+  PersonAddOutlined,
+  WatchLater,
+  ArrowBack,
+  ImageOutlined,
+  ArchiveOutlined,
+  MoreVertOutlined,
+  PaletteOutlined,
+  Unarchive,
+} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
 import "./CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
-import Palette from "@material-ui/icons/PaletteOutlined";
 import LabelMenu from "./labelMenu";
-import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import Snackbar from "@material-ui/core/Snackbar";
 import AddLabelSubNote from "./addSubLabel";
 import Collaborator from "./collabNote";
@@ -544,7 +546,7 @@ class AllNotes extends Component {
                   <div>
                     <Tooltip title="Remainder" arrow>
                       <IconButton onClick={this.reminderHandler}>
-                        <AddAlertOutlinedIcon fontSize="small" />
+                        <AddAlertOutlined fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -581,7 +583,7 @@ class AllNotes extends Component {
                           Next Week 8:00 AM
                         </MenuItem>
                         <MenuItem onClick={this.clickPickDate}>
-                          <WatchLaterIcon />
+                          <WatchLater />
                           Pick date & time
                         </MenuItem>
                       </div>
@@ -592,7 +594,7 @@ class AllNotes extends Component {
                         }}
                       >
                         <Typography onClick={this.clickPickDate}>
-                          <ArrowBackIcon />
+                          <ArrowBack />
                           Pick Date & Time
                         </Typography>
                         <TextField
@@ -621,27 +623,27 @@ class AllNotes extends Component {
                     </Menu>
                     <Tooltip title="Collaborator" arrow>
                       <IconButton>
-                        <PersonAddOutlinedIcon fontSize="small" />
+                        <PersonAddOutlined fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Change color" arrow>
                       <IconButton onClick={this.handleColorBut}>
-                        <Palette />
+                        <PaletteOutlined />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Add image" arrow>
                       <IconButton>
-                        <ImageOutlinedIcon fontSize="small" />
+                        <ImageOutlined fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Archive" arrow>
                       <IconButton onClick={this.handleArchive}>
-                        <ArchiveOutlinedIcon fontSize="small" />
+                        <ArchiveOutlined fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="More Menu" arrow>
                       <IconButton onClick={this.handleClickMore}>
-                        <MoreVertOutlinedIcon />
+                        <MoreVertOutlined />
                       </IconButton>
                     </Tooltip>
 
@@ -805,7 +807,7 @@ class AllNotes extends Component {
                 <Toolbar className="CardToolbar">
                   <Tooltip title="Remainder" arrow>
                     <IconButton onClick={this.reminderHandler}>
-                      <AddAlertOutlinedIcon fontSize="small" />
+                      <AddAlertOutlined fontSize="small" />
                     </IconButton>
                   </Tooltip>
                   <Menu
@@ -842,7 +844,7 @@ class AllNotes extends Component {
                         Next Week 8:00 AM
                       </MenuItem>
                       <MenuItem onClick={this.clickPickDate}>
-                        <WatchLaterIcon />
+                        <WatchLater />
                         Pick date & time
                       </MenuItem>
                     </div>
@@ -853,7 +855,7 @@ class AllNotes extends Component {
                       }}
                     >
                       <Typography onClick={this.clickPickDate}>
-                        <ArrowBackIcon />
+                        <ArrowBack />
                         Pick Date & Time
                       </Typography>
                       <TextField
@@ -914,15 +916,15 @@ class AllNotes extends Component {
                         );
                       }}
                     >
-                      <ImageOutlinedIcon fontSize="small" />
+                      <ImageOutlined fontSize="small" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip>
                     <IconButton onClick={this.handleArchive}>
                       {this.state.isArchived ? (
-                        <UnarchiveIcon />
+                        <Unarchive />
                       ) : (
-                        <ArchiveOutlinedIcon fontSize="small" />
+                        <ArchiveOutlined fontSize="small" />
                       )}
                     </IconButton>
                   </Tooltip>
@@ -930,7 +932,7 @@ class AllNotes extends Component {
                   {/* <div style={{ position: "relative" }}> */}
                   <Tooltip title="More" arrow>
                     <IconButton onClick={this.handleClickMore}>
-                      <MoreVertOutlinedIcon fontSize="small" />
+                      <MoreVertOutlined fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </Toolbar>
