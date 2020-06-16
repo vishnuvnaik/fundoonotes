@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import settingsIcon from "@material-ui/icons/Settings";
-import WbIncandescentIcon from "@material-ui/icons/WbIncandescent";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import ArchiveIcon from "@material-ui/icons/Archive";
-import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
-import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
+import {
+  WbIncandescent,
+  NotificationsNone,
+  Archive,
+  DeleteSweep,
+  LabelOutlined,
+} from "@material-ui/icons";
 import "./CSS/dashboard.css";
-import LabelIcon from "@material-ui/icons/Label";
 import LabelMenu from "./labelMenu";
 import {
   SwipeableDrawer,
@@ -55,7 +54,7 @@ class SideMenu extends Component {
             }}
             className="note"
           >
-            <LabelOutlinedIcon
+            <LabelOutlined
               style={{
                 marginLeft: "20px",
               }}
@@ -79,11 +78,10 @@ class SideMenu extends Component {
                 onClick={() => {
                   this.props.change("");
                 }}
-                // onClick={(event) => this.openNotes(event)}
               >
                 <div>
                   <IconButton>
-                    <WbIncandescentIcon />
+                    <WbIncandescent />
                   </IconButton>
                 </div>
                 <div className="sidefont">Notes</div>
@@ -98,7 +96,7 @@ class SideMenu extends Component {
               <MenuItem>
                 <div>
                   <IconButton>
-                    <NotificationsNoneIcon />
+                    <NotificationsNone />
                   </IconButton>
                 </div>
                 <div className="sidefont">Reminders</div>
@@ -120,7 +118,7 @@ class SideMenu extends Component {
               <MenuItem>
                 <div>
                   <IconButton>
-                    <ArchiveIcon />
+                    <Archive />
                   </IconButton>
                 </div>
                 <div className="sidefont">Archive</div>
@@ -136,7 +134,7 @@ class SideMenu extends Component {
               <MenuItem>
                 <div>
                   <IconButton>
-                    <DeleteSweepIcon />
+                    <DeleteSweep />
                   </IconButton>
                 </div>
                 <div className="sidefont">Trash</div>
