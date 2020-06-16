@@ -31,9 +31,6 @@ import "./CSS/dashboard.css";
 import noteServices from "../services/noteServices";
 import AllNotes from "./allNotes";
 import userServices from "../services/userServices";
-import LabelMenu from "./labelMenu";
-import ImageUploader from "react-images-upload";
-
 import QueAndAns from "./qAndA";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
