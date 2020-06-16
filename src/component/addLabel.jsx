@@ -6,7 +6,7 @@ import List from "@material-ui/core/List";
 import { MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
-import "./CSS/dashboard.css";
+import "./CSS/addLabel.css";
 
 export default class AddLabelNote extends Component {
   constructor(props) {
@@ -97,11 +97,11 @@ export default class AddLabelNote extends Component {
         <Popover
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "center",
+            horizontal: "bottom",
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
+            vertical: "bottom",
+            horizontal: "bottom",
           }}
           open={this.state.open}
           keepMounted
@@ -146,19 +146,6 @@ export default class AddLabelNote extends Component {
                     </div>
                   </List>
                 );
-                // return (
-                //   <div className="lablelistSelect">
-                //     <Checkbox
-                //       label={labelList.label}
-                //       size="small"
-                //       checked={this.state.activeCheckboxes.includes(labelList.id)}
-                //       onChange={(e) => this.handleChange(ele.label, ele.id)}
-                //       color="primary"
-                //       inputProps={{ "aria-label": "secondary checkbox" }}
-                //     />
-                //     <div>{ele.label}</div>
-                //   </div>
-                // );
               })}
             </div>
           </div>
@@ -167,97 +154,3 @@ export default class AddLabelNote extends Component {
     );
   }
 }
-
-// console.log(this.state.labelList[0].id);
-// console.log(label.id);
-
-// let labelPresent;
-// let updatedLabel;
-// let response = !this.state.noteLabelList.find((el) =>
-//   label.id === el.id ? true : false
-// )
-// let responce =
-//   this.state.noteLabelList.length === 0
-//     ? this.setState({
-//         noteLabelList: {
-//           ...this.state.noteLabelList,
-//           label,
-//         },
-//       })
-//     : ((updatedLabel = this.state.noteLabelList.filter((el) =>
-//         label.id !== el.id ? el : null
-//       )),
-//       this.setState({
-//         noteLabelList: updatedLabel,
-//       }));
-// constructor(props) {
-
-//   super(props);
-//   this.state = {
-//     anchorEl: null,
-//     open: false,
-//     noteLabelList: this.props.labelIdList,
-//     checked: false,
-//     labelList: [],
-//     labelIdListChange: this.props.labelIdListChange,
-//     noteData: this.props.allNote,
-//     instanceLabel: "",
-//     addNoteLabelTemporary: this.props.addNoteLabelTemporary,
-//   };
-// }
-// getLables = async () => {
-//   await noteServices
-//     .getNoteLabel()
-//     .then((response) =>
-//       this.setState({ labelList: response.data.data.details })
-//     );
-// };
-// handleClick = (event) => {
-//   this.getLables();
-//   this.setState({
-//     anchorEl: event.currentTarget,
-//     open: !this.state.open,
-//   });
-// };
-// handleChange = (label, id) => {
-//   let filter = [];
-//   let flag = false;
-//   let indexMain;
-//   if (this.state.noteLabelList.length > 0) {
-//     this.state.noteLabelList.filter((e, index) => {
-//       if (e.id !== id) {
-//         return e;
-//       } else {
-//         indexMain = index;
-//         flag = true;
-//       }
-//     });
-//     if (flag) {
-//       this.state.noteLabelList.splice(indexMain, 1);
-//     } else {
-//       this.state.noteLabelList.push({ label: label, id: id });
-//     }
-//   } else {
-//     this.state.noteLabelList.push({ label: label, id: id });
-//   }
-
-//   this.setState({ noteLabelList: this.state.noteLabelList });
-//   this.setState({ noteLabelList: this.state.noteLabelList });
-//   this.state.labelIdListChange();
-// };
-// addLabelNote = (label, id) => {
-//   this.state.addNoteLabelTemporary(label, id);
-//   addNoteLabel(id, this.state.noteData.id).then((response) => {});
-// };
-// onChangeInstanceLabel = (e) => {
-//   this.setState({ instanceLabel: e.target.value });
-// };
-// addInstanceLabel = () => {
-//   if (this.state.instanceLabel) {
-//     noteServices.addNoteLabel(this.state.instanceLabel).then((response) => {
-//       this.addLabelNote(response.data.label, response.data.id);
-//       this.setState({ instanceLabel: "" });
-//       this.state.noteRefresh();
-//     });
-//   }
-// };
