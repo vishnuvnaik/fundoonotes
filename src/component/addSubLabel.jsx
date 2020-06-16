@@ -36,7 +36,6 @@ export default class AddLabelSubNote extends React.Component {
     });
   };
   handleChange = (label, id) => {
-    let filter = [];
     let flag = false;
     let indexMain;
     if (this.state.noteLabelList.length > 0) {
