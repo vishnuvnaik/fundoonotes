@@ -33,10 +33,7 @@ class ResetPassword extends Component {
     let data = {
       newPassword: this.state.password,
     };
-
-    const id = localStorage.getItem("id");
-    console.log(data, id);
-
+    const id = JSON.parse(localStorage.getItem("id"));
     if (this.state.helperTextpassowrd === "") {
       if (this.state.pass === true) {
         userServices.resetPassword(data, id).then((response) => {

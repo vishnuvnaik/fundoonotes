@@ -1,5 +1,6 @@
 import axios from "axios";
 import userApiConstants from "../constants/userApiConstants";
+
 async function userRegistration(registerData) {
   try {
     const response = await axios.post(

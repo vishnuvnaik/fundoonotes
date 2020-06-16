@@ -83,14 +83,6 @@ class Notes extends Component {
     this.setState({ open: !this.state.open });
     console.log(this.state.open);
   };
-
-  userNoteRefresh = async () => {
-    await noteServices.getnotes().then(async (response) => {
-      if (response.data.data.data) {
-        await this.setState({ notes: response.data.data.data });
-      }
-    });
-  };
   changeCard = () => {
     this.openCard();
   };
@@ -167,6 +159,13 @@ class Notes extends Component {
   moreClose = () => {
     this.setState({
       moreMenuOpen: false,
+    });
+  };
+  userNoteRefresh = async () => {
+    await noteServices.getnotes().then(async (response) => {
+      if (response.data.data.data) {
+        await this.setState({ notes: response.data.data.data });
+      }
     });
   };
   moreone = () => {
