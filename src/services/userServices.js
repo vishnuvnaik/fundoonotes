@@ -1,6 +1,5 @@
 import axios from "axios";
 import userApiConstants from "../constants/userApiConstants";
-// let userData = JSON.parse(localStorage.getItem("userDetails"));
 async function userRegistration(registerData) {
   try {
     const response = await axios.post(
@@ -74,8 +73,6 @@ async function searchUserByWord(data) {
   }
 }
 async function resetPassword(data, access_token) {
-  // const localtoken = localStorage.getItem("token");
-
   try {
     const response = await axios.post(
       process.env.REACT_APP_BASE_URL + userApiConstants.resetpassword,
