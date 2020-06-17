@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
-import Login from "./component/login";
-import Registration from "./component/registration";
+import Login from "./Pages/Login";
+import Registration from "./Pages/Registration";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ForgetPassword from "./component/forgetPassword";
-import Dashboard from "./component/dashboard";
-import ResetPassword from "./component/ResetPassword";
+import ForgetPassword from "./Pages/Forgetpassword";
+import Dashboard from "./Pages/Dashboard";
+import ResetPassword from "./Pages/Resetpassword";
+import services from "./component/Services";
 
 class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/registration" component={Registration}></Route>
           <Route path="/login" component={Login}></Route>
+          <Route path="/" exact component={services}></Route>
           <Route path="/forgetPassword" component={ForgetPassword}></Route>
           <Route path="/ResetPassword/" component={ResetPassword}></Route>
           <Route path="/dashboard" component={Dashboard} />
