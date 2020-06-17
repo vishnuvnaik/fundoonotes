@@ -6,7 +6,7 @@ import List from "@material-ui/core/List";
 import { MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
-import "./CSS/addLabel.css";
+import "../CSS/addLabel.css";
 
 export default class AddLabelNote extends Component {
   constructor(props) {

@@ -6,8 +6,8 @@ import {
   DeleteSweep,
   LabelOutlined,
 } from "@material-ui/icons";
-import "./CSS/dashboard.css";
-import LabelMenu from "./labelMenu";
+import "../CSS/dashboard.css";
+import LabelMenu from "./Labelmenu";
 import {
   SwipeableDrawer,
   List,
@@ -43,7 +43,7 @@ class SideMenu extends Component {
       label: props.label,
     });
   }
-
+  CloseFun = () => {};
   render() {
     let label = this.state.label.map((ele) => {
       return (
@@ -71,6 +71,7 @@ class SideMenu extends Component {
           anchor="left"
           variant="persistent"
           open={this.props.sideOpen}
+          onClose={this.CloseFun}
         >
           <List className="list">
             <div className="note">

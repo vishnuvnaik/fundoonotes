@@ -10,7 +10,7 @@ import {
   MenuItem,
   Popover,
 } from "@material-ui/core";
-import AddLabel from "./addLabel";
+import AddLabel from "./Addlabel";
 import {
   CheckBox,
   MoreVertOutlined,
@@ -20,9 +20,9 @@ import {
   Palette,
 } from "@material-ui/icons";
 import noteServices from "../services/noteServices";
-import RemainderMenu from "./remainderMenu";
+import RemainderMenu from "./Remaindermenu";
 import pin from "../assets/pin.svg";
-import "./CSS/notesCard.css";
+import "../CSS/notesCard.css";
 import CollaboratorComponent from "./Collaborator";
 
 const color = [
@@ -442,7 +442,7 @@ class Notes extends Component {
                   backgroundColor: this.state.color,
                 }}
                 form="styled_component"
-                color="offwhite "
+                color="inherit"
                 onClick={(event) => this.addNotes(event)}
               >
                 Close

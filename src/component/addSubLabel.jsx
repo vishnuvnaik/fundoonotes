@@ -4,7 +4,7 @@ import { MenuItem, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputBase from "@material-ui/core/InputBase";
 import noteServices from "../services/noteServices";
-import "./CSS/addLabel.css";
+import "../CSS/addLabel.css";
 
 export default class AddLabelSubNote extends React.Component {
   constructor(props) {

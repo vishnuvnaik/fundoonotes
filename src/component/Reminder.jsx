@@ -9,7 +9,7 @@ import {
   Button,
   Popper,
 } from "@material-ui/core";
-import "./CSS/dashboard.css";
+import "../CSS/dashboard.css";
 import NotificationsNone from "@material-ui/icons/NotificationsNone";
 
 class ReminderComponent extends Component {

@@ -16,13 +16,8 @@ import {
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import PersonAddIcon from "@material-ui/icons/PersonAddOutlined";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
 import userServices from "../services/userServices";
-import "./CSS/dashboard.css";
-import noteServices from "../services/noteServices";
+import "../CSS/dashboard.css";
 class CollaboratorComponent extends Component {
   constructor(props) {
     super(props);
@@ -142,7 +137,7 @@ class CollaboratorComponent extends Component {
                         </Typography>
                       </div>
                       <HighlightOffIcon
-                        onClick={(e) =>
+                        onClick={() =>
                           this.props.data.removeCollab(callaber.userId)
                         }
                         fontSize="small"
@@ -182,7 +177,7 @@ class CollaboratorComponent extends Component {
                     return (
                       <MenuItem
                         key={user.id}
-                        onClick={(e) => this.props.data.addCollab(user)}
+                        onClick={() => this.props.data.addCollab(user)}
                       >
                         <div>{user.firstName + " " + user.lastName}</div>
                         <div>{"[" + user.email + "]"}</div>

@@ -8,7 +8,7 @@ import thumb_up from "../assets/thumb_up.png";
 import thumb_down from "../assets/thumb_down.png";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import noteServices from "../services/noteServices";
-import "./CSS/qanda.css";
+import "../CSS/qanda.css";
 
 export default class QueAndAns extends Component {
   constructor(props) {
@@ -94,8 +94,8 @@ export default class QueAndAns extends Component {
         this.setState({ editorState: "" });
       });
   };
-  dislikeButton = async (id) => {
-    await this.setState({ like: false });
+  dislikeButton = (id) => {
+    this.setState({ like: false });
     let data = {
       like: this.state.like,
     };
@@ -132,8 +132,8 @@ export default class QueAndAns extends Component {
       });
   };
 
-  likeButton = async (id) => {
-    await this.setState({ like: true });
+  likeButton = (id) => {
+    this.setState({ like: true });
     let data = {
       like: this.state.like,
     };
@@ -255,7 +255,7 @@ export default class QueAndAns extends Component {
                 return (
                   <div className="displayRep">
                     <div className="displayRepInner">
-                      <label for="file-input" className="fileLabel">
+                      <label htmlFor="file-input" className="fileLabel">
                         <img
                           src={
                             this.state.profileImageFromRes == ""

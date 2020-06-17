@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Popover, Dialog, Menu, MenuItem } from "@material-ui/core";
 import noteService from "../services/noteServices";
 import AddLabelNote from "./addLabel";
-import "./CSS/dashboard.css";
+import "../CSS/dashboard.css";
 class MoreMenu extends Component {
   constructor(props) {
     super(props);

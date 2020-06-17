@@ -29,12 +29,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import pin from "../assets/pin.svg";
 import noteService from "../services/noteServices";
-import "./CSS/dashboard.css";
+import "../CSS/dashboard.css";
 import coloricon from "../assets/color.svg";
-import LabelMenu from "./labelMenu";
+import LabelMenu from "./Labelmenu";
 import Snackbar from "@material-ui/core/Snackbar";
-import AddLabelSubNote from "./addSubLabel";
-import Collaborator from "./collabNote";
+import AddLabelSubNote from "./Addsublabel";
+import Collaborator from "./Collabnote";
 const theme = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -786,7 +786,7 @@ class AllNotes extends Component {
                     style={{ width: "180px" }}
                     label={remainders}
                     onDelete={() => this.removeReminder()}
-                    color="white"
+                    color="default"
                     value={this.state.reminder}
                   />
                 </div>
@@ -942,7 +942,6 @@ class AllNotes extends Component {
                     style={{
                       top: "50px",
                     }}
-                    getContentAnchorEl={null}
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }}
                     anchorEl={this.state.moreMenuAnchor}

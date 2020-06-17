@@ -12,7 +12,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import "./CSS/dashboard.css";
+import "../CSS/dashboard.css";
 class LabelMenu extends Component {
   constructor(props) {
     super(props);

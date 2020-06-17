@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import "./CSS/dashboard.css";
+import "../CSS/dashboard.css";
 
 export default class ReminderNewNote extends React.Component {
   constructor(props) {
