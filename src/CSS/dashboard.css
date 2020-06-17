@@ -1,0 +1,861 @@
+.nameAndlogo {
+  display: flex;
+  flex-direction: row;
+}
+.user_img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+.userMenu {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  outline: none;
+}
+
+.appBar {
+  box-shadow: 0px 0px 0px 0px;
+}
+.headerName {
+  display: flex;
+  margin-top: 10px;
+  margin-left: 10px;
+  color: gray;
+}
+.menuAndlogo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  inline-size: 300px;
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: whitesmoke;
+  background-color: whitesmoke;
+}
+
+#searchbar {
+  display: flex;
+  align-items: center;
+  margin: 4px;
+  height: 34px;
+}
+.sidefont {
+  margin-left: 13px;
+  font-family: "Google Sans", Arial, sans-serif;
+}
+/* .list {
+  flex: 1;
+  width: 250px;
+  overflow-y: scroll;
+} */
+.appicons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.searchBox {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  margin-right: 10px;
+}
+.MuiButtonBase-root.searchButton2 {
+  display: none;
+}
+.header_left {
+  display: flex;
+  width: 20%;
+}
+
+#roundbutton {
+  background-color: #ffe8a4;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.keep_img {
+  width: 40px;
+  height: 40px;
+  margin-top: 5px;
+}
+
+.keepImageSpace {
+  margin-left: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.tooltip {
+  display: none;
+}
+.tooltip-on-hover:hover + .tooltip {
+  display: block;
+}
+.list {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  flex: 1;
+  width: 240px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.notesCard {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 43px;
+  inline-size: 500px;
+}
+
+.show {
+  display: flex;
+  position: relative;
+  margin-left: 420px;
+  margin-top: 50px;
+  box-shadow: 0px 0px 2px 1px gray;
+  inline-size: 500px;
+  border-radius: 5px;
+}
+.takeNote {
+  margin-top: 0px;
+}
+
+.in {
+  border-bottom: 0px;
+  border-bottom-color: white;
+}
+.inp {
+  text-align: start;
+  display: flex;
+  width: 200px;
+  padding: 4px 16px 12px 16px;
+}
+
+.toolbarAndClose {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.closeButton {
+  display: flex;
+  flex-direction: row;
+  margin-top: 17px;
+  margin-left: 0px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.titleNote {
+  display: flex;
+  flex-direction: row;
+  padding: 4px 16px 12px 16px;
+  margin-left: -15px;
+  position: relative;
+  width: 420px;
+}
+.titleAndPin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px 16px 12px 16px;
+}
+.CardToolbar {
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: -20px;
+}
+.subNotesMoreMenu {
+  font-size: small;
+}
+.toolbarAndClose {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardlist {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+.chipLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.menu-open {
+  padding: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 100%;
+  color: black;
+}
+
+/* .ShowCard {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-color: #ffe8a4;
+  border-style: thin;
+  border-radius: 15px;
+} */
+
+.Showlist {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-color: #ffe8a4;
+  border-style: thin;
+  border-radius: 15px;
+}
+
+.displayNotes {
+  position: relative;
+  height: auto;
+  width: 100%;
+  top: 9vh;
+}
+
+.moveMargin {
+  margin-left: 200px;
+  transition: 0.5s;
+}
+
+.moveMargin2 {
+  margin-left: 0px;
+  transition: 0.5s;
+}
+
+.arrangeCardToIcon {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* Allnotes */
+.allNotes_position {
+  margin-top: 40px;
+  width: 84%;
+  margin-left: 13%;
+  margin-right: 13%;
+  display: flex;
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+#visible {
+  padding-top: 5px;
+}
+
+.gridCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 1%;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  width: 270px;
+  justify-content: flex-start;
+}
+.noteCard123Two {
+  position: relative;
+  margin: 1%;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 235px;
+  width: 500px;
+  background-color: #fff;
+}
+
+.cardTwoTopArr {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.inputTwo {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  width: 90%;
+  height: fit-content;
+  margin-right: 10px;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+}
+
+.inputThree {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  width: 100%;
+  margin-right: 10px;
+  border: none;
+  outline: none;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+.colorIcons {
+  display: flex;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.colorMenu {
+  box-shadow: 0px 2px 10px 2px lightgray;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 150px;
+}
+#menu {
+  outline: none;
+}
+
+/* label menu */
+#chip {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.label_container {
+  height: auto;
+  width: 220px;
+  z-index: 9;
+  top: 36%;
+  left: 44%;
+  box-shadow: 0px 2px 10px 2px lightgray;
+  background: white;
+  position: fixed;
+}
+.labelRemDate {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  margin-top: 5px;
+  align-items: flex-start;
+}
+.labelRemDate span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+.onlyDate {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  width: 100%;
+}
+.labelAdd_pos {
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+}
+.labelAdd_pos span {
+  opacity: 0.8;
+  margin-left: 20px;
+}
+.label_conTop {
+  padding: 10px;
+}
+
+.label_search {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.label_search input {
+  padding-left: 2px;
+  outline: none;
+  border: none;
+}
+
+.label_search img {
+  opacity: 0.6;
+}
+
+.label_conBot {
+  max-height: 40vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.label_contents {
+  width: 100%;
+  padding: 10px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.label_contents img {
+  opacity: 0.6;
+  margin-right: 10px;
+}
+
+.label_contents:hover {
+  background-color: lightgray;
+}
+.labelMargin {
+  margin-left: 15px;
+}
+
+/* more */
+.moremenu_container {
+  width: 300px;
+  background: white;
+  box-shadow: 0px 2px 10px 2px lightgray;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.moreMenu_content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.moreMenu_content span {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  opacity: 0.8;
+}
+
+.moreMenu_content:hover {
+  background-color: lightgray;
+}
+
+.moreMenu_popper {
+  width: 300px;
+  display: flex;
+
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.drawerNames {
+  height: 8vh;
+  width: 100%;
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+  display: flex;
+  align-items: center;
+}
+.drawerNamesLabel {
+  height: 8vh;
+  width: 100%;
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+  display: flex;
+  align-items: center;
+}
+.drawerNamesLabel span {
+  letter-spacing: 1px;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 40px;
+}
+.nameMargin {
+  margin-left: 40px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.iconSpace {
+  margin-left: 20px;
+}
+
+.labelMargin {
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-left: 20px;
+}
+
+@media screen and (width: 768px) {
+  .allNotes_position {
+    width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+}
+#appBar_card {
+  width: 600px;
+  background-color: whitesmoke;
+  box-shadow: 0px 0px 1px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.cardCloseBut {
+  position: absolute;
+  right: 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  width: 70px;
+  height: 30px;
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ________________________labels___________________ */
+.labelContainer {
+  background-color: white;
+  width: 200px;
+}
+.labelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.labelHeader > .MuiButtonBase-root {
+  margin-right: 10px;
+}
+.label > * {
+  margin-right: 20px;
+}
+.label > svg {
+  margin-left: 10px;
+}
+.label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  height: 43px;
+}
+
+.labelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.labelFooter > * {
+  margin-right: 10px;
+}
+.labelList > *:hover {
+  background-color: #dfdfdf;
+  border-radius: 0px 30px 30px 0px;
+}
+#simple-dialog-label {
+  width: 100%;
+}
+.addLabelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.addLabelHead > * {
+  margin-right: 10px;
+}
+.editLabellist {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30px;
+  margin-left: 10px;
+}
+.editLabelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+#dialogBoxtitleLabel {
+  height: 10px;
+}
+.labellistSelect {
+  display: flex;
+  align-items: center;
+}
+.labelInNote {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.labelInNote > * {
+  display: flex;
+  align-items: center;
+  background-color: #898a87;
+  justify-content: space-around;
+  border-radius: 20px 20px 20px 20px;
+  font-size: small;
+  padding: 5px;
+  margin-right: 10px;
+  height: 20px;
+}
+.lableAddInstanceHeading {
+  margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.addLabelOnNote {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.reminderHeading {
+  font-size: medium;
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.lableList > *:hover {
+  background-color: #dfdfdf;
+  border-radius: 0px 30px 30px 0px;
+}
+.lablelistSelect {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+.addReminderMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: small;
+  font-weight: 700;
+  width: 65%;
+  background-color: antiquewhite;
+  border-radius: 22px 22px 22px 22px;
+  margin-bottom: 12px;
+}
+
+#datePickBox > * {
+  margin: 10px;
+  font-size: small;
+}
+#datePickBox .MuiInputBase-root {
+  font-size: small;
+}
+#datePickBox {
+  display: flex;
+  flex-direction: column;
+}
+.reminderMenu .MuiButtonBase-root {
+  font-size: small;
+  margin-top: 5px;
+}
+.reminderMenu .MuiSvgIcon-root {
+  font-size: medium;
+  margin-right: 5px;
+}
+/* ___________________________________Collab__________________________________________*/
+/* .collaborator {
+  width: 500px;
+} */
+/* .collabPop {
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  /* align-items: center; 
+} */
+.collabTitle {
+  margin-left: 10px;
+  font-weight: 100;
+  font-size: large;
+}
+.collaboratorListBox {
+  width: 100%;
+  margin-top: 10px;
+}
+.collaboratorListBox > * {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.collaboratorOwner {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+.collaboratorOwner > * {
+  margin-right: 20px;
+}
+/* .collaboratorDetails {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+} */
+#searchedListPopover {
+  max-width: 40%;
+}
+#searchedListPopover > .MuiButtonBase-root.MuiListItem-root {
+  max-width: 40%;
+}
+.emailIcon {
+  background-color: aliceblue;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 10%;
+  font-size: 26px;
+  border-radius: 29px;
+  padding-bottom: 5px;
+  margin-right: 13px;
+  text-transform: capitalize;
+}
+.collabAtNote {
+  display: flex;
+}
+.collabAtNote > div {
+  background-color: whitesmoke;
+  box-shadow: 0px 1px 5px 2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+}
+.collabPop {
+  width: 500px;
+}
+.collabAction {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.noteQuestion {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.noteQuestionHide {
+  display: none;
+}
+.emptySidebarMsg {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: gray;
+}
+.emptySidebarMsg > .MuiSvgIcon-root {
+  height: 10%;
+  width: 77%;
+}
+.emptySidebarMsgContainer {
+  margin-left: 300px;
+  margin-top: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.queAnsDialog {
+  display: "flex"; /* block it was */
+  justify-content: "center";
+  align-items: "center";
+  height: 378px;
+  width: 530px;
+  margin-left: 375px;
+
+  /* margin-left: 400px; */
+  /* align-items: center; */
+}
+.queAnsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.qAndaTitle {
+  font-weight: bold;
+  cursor: pointer;
+}
+.queAnsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+}
+.noteQuesion {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  justify-content: center;
+  width: 500px;
+}
+
+@media screen and (width: 1024px) {
+  .allNotes_position {
+    width: 58%;
+    margin-left: 21%;
+    margin-right: 21%;
+  }
+}
+@media screen and (width: 768px) {
+  .allNotes_position {
+    width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+  .notesCard {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 22px;
+    inline-size: 250px;
+  }
+  .show {
+    display: flex;
+    position: relative;
+    margin-left: 220px;
+    margin-top: 25px;
+    box-shadow: 0px 0px 2px 1px gray;
+    inline-size: 250px;
+    border-radius: 5px;
+  }
+  .gridCard {
+    position: relative;
+    margin: 1%;
+    height: auto;
+    border-radius: 10px;
+    padding: 10px;
+    width: 135px;
+    justify-items: center;
+  }
+}

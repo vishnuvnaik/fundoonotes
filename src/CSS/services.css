@@ -1,0 +1,90 @@
+.fundoo_header {
+  background-color: rgba(255, 255, 0, 0.644);
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0px;
+  z-index: 986;
+  background-color: orange;
+}
+
+@media screen and (width: 320px) {
+  .fundoo_header {
+    width: 100%;
+  }
+}
+.fundoo_content {
+  /* padding-left: 20%; */
+  font-size: 25px;
+  align-items: flex-start;
+}
+
+.fundoo_header ~ h2 {
+  display: flex;
+  justify-content: center;
+  margin-top: 90px;
+}
+
+.services_card {
+  width: 217px;
+  height: 223px;
+  justify-content: center;
+  padding: 23px;
+}
+
+.front_card {
+  background-color: whitesmoke;
+  position: relative;
+  z-index: 3;
+  border-radius: 5px;
+  border: 2px black;
+}
+
+.back_card {
+  background-color: gray;
+  margin-left: 29px;
+  margin-top: -210px;
+  position: relative;
+  z-index: 2;
+  border-radius: 5px;
+  /* box-shadow: 12px 15px 20px -13px; */
+  display: flex;
+  align-items: flex-end;
+}
+
+#card1:hover {
+  margin: 0px 0px 15px 50px;
+}
+#card1:hover {
+  margin: 0px 0px 15px 50px;
+}
+#card1:hover > .back_card {
+  background-color: orange;
+}
+#card2:hover {
+  margin: 0px 0px 5px 80px;
+}
+#card2:hover > .back_card {
+  background-color: orange;
+}
+
+.servicecard_ul > li {
+  margin: 10px;
+}
+.header_footer {
+  width: 100%;
+  height: 100px;
+  text-align-last: center;
+  padding-top: 50px;
+  cursor: pointer;
+}
+.card_container {
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-flow: wrap;
+}

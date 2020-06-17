@@ -1,0 +1,73 @@
+.registration_Container {
+  background-color: white;
+  box-shadow: 0px 0px 10px 2px;
+  width: 30em;
+  padding: 50px;
+  height: 70vh;
+}
+
+.app_name {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.register_title {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.firstAndPass {
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.lastAndRePass {
+  margin-left: 20px;
+}
+.email {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+}
+.registration_Form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.set_Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.loginText {
+  display: flex;
+  margin-top: 20px;
+}
+
+.loginStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  cursor: pointer;
+  color: blue;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-top: 20px;
+}
+#message-id {
+  margin-left: 100px;
+  margin-right: 80px;
+}
+.login-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
