@@ -65,7 +65,7 @@ class ResetPassword extends Component {
   validator = () => {
     if (this.state.password !== "") {
       if (
-        /[\@\#\$\%\^\&\*\(\)\_\+\!]/.test(this.state.password) &&
+        /[@#$%^&*()_+!]/.test(this.state.password) &&
         /[a-z]/.test(this.state.password) &&
         /[0-9]/.test(this.state.password) &&
         /[A-Z]/.test(this.state.password)
@@ -77,7 +77,7 @@ class ResetPassword extends Component {
         });
       } else {
         this.setState({
-          helperTextpassowrd: "Min 8 char, at least 1 letter,1 no & 1 spl char",
+          helperTextpassowrd: "Min 8 character",
           error: true,
           password: this.state.password,
         });

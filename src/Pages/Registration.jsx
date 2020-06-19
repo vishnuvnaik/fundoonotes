@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import "../CSS/registration.css";
 import { withRouter } from "react-router-dom";
-import { TextField, Button, Card, Snackbar } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  TextField,
+  Button,
+  Card,
+  Snackbar,
+  CardContent,
+  CardActions,
+} from "@material-ui/core";
 import userServices from "../services/userServices";
 import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles((theme) => ({}));
 
 class Registration extends Component {
   constructor(props) {
@@ -17,7 +27,24 @@ class Registration extends Component {
       snackbarOpen: false,
       snackbarMessage: "",
       service: "",
+      advanceService: "ADD TO CART",
+      basicService: "ADD TO CART",
+      advanceBGcolor: "gray",
+      basicBGcolor: "gray",
     };
+    if (this.props.location.data) {
+      if (this.props.location.data.service === "advance") {
+        this.state.advanceService = "Selected";
+        this.state.advanceBGcolor = "orange";
+        this.state.basicBGcolor = "gray";
+        this.state.service = "advance";
+      } else if (this.props.location.data.service === "basic") {
+        this.state.basicService = "Selected";
+        this.state.basicBGcolor = "orange";
+        this.state.advanceBGcolor = "gray";
+        this.state.service = "basic";
+      }
+    }
   }
 
   onSubmit = () => {
@@ -34,7 +61,7 @@ class Registration extends Component {
       });
     } else {
       let data = {
-        service: "advance",
+        service: this.state.service,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
@@ -132,99 +159,163 @@ class Registration extends Component {
     this.props.history.push("/login");
   };
   render() {
+    const classes = {
+      useStyles,
+    };
     return (
       <div className="registration_Form">
         <Card className="registration_Container">
-          <Typography className="app_name" variant="h5" color="textSecondary">
-            <span style={{ color: "red" }}>F</span>
-            <span style={{ color: "blue" }}>U</span>
-            <span style={{ color: "green" }}>N</span>
-            <span style={{ color: "maroon" }}>D</span>
-            <span style={{ color: "red" }}>O</span>
-            <span style={{ color: "blue" }}>O</span>
-          </Typography>
-          <Typography
-            className="register_title"
-            variant="h6"
-            color="textSecondary"
-          >
-            <strong>Create Your Fundoo Account</strong>
-          </Typography>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            open={this.state.snackbarOpen}
-            autoHideDuration={3000}
-            onClose={() => this.setState({ snackbarOpen: false })}
-            message={this.state.snackbarMessage}
-          ></Snackbar>
-          <div className="firstAndPass">
-            <div>
-              <TextField
-                required
-                fullWidth
-                id="firstBut"
-                variant="outlined"
-                label="firstname"
-                type="text"
-                value={this.state.firstName}
-                onChange={this.onchangeFirstName}
-              />
-            </div>
-            <div className="lastAndRePass">
-              <TextField
-                fullWidth
-                required
-                id="lastBut"
-                label="lastname"
-                variant="outlined"
-                type="text"
-                value={this.state.lastName}
-                onChange={this.onchangeLastName}
-              />
-            </div>
-          </div>
+          <CardContent>
+            <Typography className="app_name" variant="h5" color="textSecondary">
+              <span style={{ color: "#0606f8" }}>F</span>
+              <span style={{ color: "#d10303" }}>u</span>
+              <span style={{ color: "#f0b000" }}>n</span>
+              <span style={{ color: "#0606f8" }}>d</span>
+              <span style={{ color: "green" }}>o</span>
+              <span style={{ color: "#d10303" }}>o</span>
+            </Typography>
+            <Typography
+              className="register_title"
+              variant="h6"
+              color="textPrimary"
+            >
+              <strong>Create Your Fundoo Account</strong>
+            </Typography>
+            <Typography variant="body2" component="p">
+              <form className={classes.root} noValidate autoComplete="off">
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={() => this.setState({ snackbarOpen: false })}
+                  message={this.state.snackbarMessage}
+                ></Snackbar>
 
-          <div className="email">
-            <TextField
-              required
-              label="email"
-              id="emailReg"
-              fullWidth
-              variant="outlined"
-              type="text"
-              value={this.state.email}
-              onChange={this.onchangeEmail}
-            />
+                <div className="form_row">
+                  <TextField
+                    className={classes.margin}
+                    id="input-with-icon-textfield"
+                    label="First Name"
+                    variant="outlined"
+                    value={this.state.firstName}
+                    onChange={this.onchangeFirstName}
+                  />
+                  <TextField
+                    className={classes.margin}
+                    id="input-with-icon-textfield"
+                    label="Last Name"
+                    variant="outlined"
+                    value={this.state.lastName}
+                    onChange={this.onchangeLastName}
+                  />
+                </div>
+                <div className="form_row">
+                  <TextField
+                    fullWidth
+                    className={classes.margin}
+                    value={this.state.email}
+                    onChange={this.onchangeEmail}
+                    id="input-with-icon-textfield"
+                    variant="outlined"
+                    label="Email"
+                    style={{
+                      maxWidth: "572px",
+                    }}
+                  />
+                </div>
+                <div className="form_row">
+                  <TextField
+                    className={classes.margin}
+                    id="input-with-icon-textfield"
+                    variant="outlined"
+                    type="password"
+                    label="Password"
+                    value={this.state.password}
+                    onChange={this.onchangePassword}
+                  />
+                  <TextField
+                    className={classes.margin}
+                    id="input-with-icon-textfield"
+                    variant="outlined"
+                    type="password"
+                    label="Confirm-Password"
+                    value={this.state.rePassword}
+                    onChange={this.onchangeRePassword}
+                  />
+                </div>
+              </form>
+            </Typography>
+          </CardContent>
+          <div className="register_services">
+            <div className="cardbox">
+              <div className="small_services_card front_card ">
+                <Typography>price: $99 per month</Typography>
+                <Typography
+                  style={{
+                    color: "blue",
+                  }}
+                >
+                  advance
+                </Typography>
+                <ul className="servicecard_ul">
+                  <li>$99/month</li>
+                  <li>
+                    Ability to add title, description, images, labels, checklist
+                    and colors
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="small_services_card back_card"
+                style={{
+                  backgroundColor: this.state.advanceBGcolor,
+                }}
+              >
+                {this.state.advanceService}
+              </div>
+            </div>
+
+            <div className="cardbox">
+              <div className="small_services_card front_card">
+                <Typography>price: $49 per month</Typography>
+                <Typography
+                  style={{
+                    color: "blue",
+                  }}
+                >
+                  basic
+                </Typography>
+                <ul className="servicecard_ul">
+                  <li>$49/month</li>
+                  <li>Ability to add only title and description</li>
+                </ul>
+              </div>
+              <div
+                className="small_services_card back_card"
+                style={{
+                  backgroundColor: this.state.basicBGcolor,
+                }}
+              >
+                {this.state.basicService}
+              </div>
+            </div>
           </div>
-          <div className="firstAndPass">
-            <div>
-              <TextField
-                required
-                id="passReg"
-                label="password"
-                fullWidth
-                variant="outlined"
-                type="password"
-                value={this.state.password}
-                onChange={this.onchangePassword}
-              />
-            </div>
-            <div className="lastAndRePass">
-              <TextField
-                required
-                label="Re-enter password"
-                fullWidth
-                variant="outlined"
-                type="password"
-                value={this.state.rePassword}
-                onChange={this.onchangeRePassword}
-              />
-            </div>
+          <div className="loginText" onClick={this.login}>
+            <span>Login instead</span>
           </div>
           <div className="set_Button">
+            {/*   <Button
+              form="styled_component"
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={this.login}
+            >
+              Login
+              </Button> */}
             <Button
               form="styled_component"
               type="submit"
@@ -234,16 +325,6 @@ class Registration extends Component {
             >
               SUBMIT
             </Button>
-          </div>
-          <div className="loginStyle" onClick={this.login}>
-            <Typography
-              className="register_title"
-              variant="h7"
-              color="textSecondary"
-            >
-              Existing user :
-            </Typography>
-            <span>Login</span>
           </div>
         </Card>
       </div>

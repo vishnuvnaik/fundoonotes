@@ -1,10 +1,9 @@
 import React from "react";
 import "../CSS/login.css";
-import { TextField, Card, IconButton } from "@material-ui/core";
+import { TextField, Card } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import userServices from "../services/userServices";
-import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 class Login extends React.Component {
@@ -92,7 +91,7 @@ class Login extends React.Component {
   };
 
   create = () => {
-    this.props.history.push("/registration");
+    this.props.history.push("/");
   };
   render() {
     return (
@@ -148,7 +147,7 @@ class Login extends React.Component {
             <div className="forget_style" onClick={this.forget}>
               <span>Forgot password</span>
             </div>
-            <div className="set_Button">
+            <div className="loginbutton">
               <Button
                 id="styled_component"
                 type="submit"
