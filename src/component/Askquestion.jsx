@@ -24,7 +24,7 @@ export default class QueAndAns extends Component {
       like: "",
       replyList: [],
       data: [],
-      profileImage: "",
+
       email: "",
       firstName: "",
       showQust: null,
@@ -257,8 +257,9 @@ export default class QueAndAns extends Component {
                     <div className="displayRepInner">
                       <label htmlFor="file-input" className="fileLabel">
                         <img
+                          alt="F"
                           src={
-                            this.state.profileImageFromRes == ""
+                            this.state.profileImageFromRes === ""
                               ? null
                               : "http://fundoonotes.incubation.bridgelabz.com/" +
                                 this.state.profileImage
@@ -291,6 +292,7 @@ export default class QueAndAns extends Component {
                         </div>
                         <div className="replyButt">
                           <img
+                          alt="rep"
                             src={reply_black}
                             onClick={() =>
                               this.replyButton(
@@ -306,6 +308,7 @@ export default class QueAndAns extends Component {
                           <div className="likerow">
                             <div className="likeRow1">
                               <img
+                              alt="rep"
                                 src={thumb_up}
                                 onClick={() =>
                                   this.dislikeButton(

@@ -97,7 +97,7 @@ class CollaboratorComponent extends Component {
                   <img
                     onClick={this.handleClick}
                     src={
-                      this.state.profileImage == ""
+                      this.state.profileImage === ""
                         ? null
                         : "http://fundoonotes.incubation.bridgelabz.com/" +
                           this.state.profileImage
@@ -108,6 +108,7 @@ class CollaboratorComponent extends Component {
                       backgroundColor: "black",
                       borderRadius: "50px",
                     }}
+                    alt="user"
                   />
                 </Avatar>
                 <div className="collaboratorDetails">

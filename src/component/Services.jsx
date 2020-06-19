@@ -28,7 +28,7 @@ class FundooService extends Component {
     return (
       <div>
         <div className="fundoo_header">
-          <div className="fundoo_content">fundoo Notes</div>
+          <div className="fundoo_content">fundooNotes</div>
         </div>
         <h2>fundooNotes offered. Choose below service to Register.</h2>
         <div className="card_container">
@@ -41,7 +41,7 @@ class FundooService extends Component {
             >
               <div className="services_card front_card ">
                 <Typography variant="h6">price: $99 per month</Typography>
-                <Typography style={{ color: "blue" }}>advance</Typography>
+                <Typography style={{ color: "blue" }}>Advance</Typography>
                 <ul className="servicecard_ul">
                   <li>$99/month</li>
                   <li>
@@ -62,7 +62,7 @@ class FundooService extends Component {
             >
               <div className="services_card front_card">
                 <Typography variant="h6">price: $49 per month</Typography>
-                <Typography style={{ color: "blue" }}>basic</Typography>
+                <Typography style={{ color: "blue" }}>Basic</Typography>
                 <ul className="servicecard_ul">
                   <li>$49/month</li>
                   <li>Ability to add only title and description</li>
