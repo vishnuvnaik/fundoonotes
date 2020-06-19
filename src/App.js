@@ -7,6 +7,8 @@ import ForgetPassword from "./Pages/Forgetpassword";
 import Dashboard from "./Pages/Dashboard";
 import ResetPassword from "./Pages/Resetpassword";
 import services from "./component/Services";
+import PrivateRoute from "./component/Privateroute";
+import Askquestion from "./component/Askquestion";
 
 class App extends React.Component {
   render() {
@@ -19,6 +21,7 @@ class App extends React.Component {
           <Route path="/forgetPassword" component={ForgetPassword}></Route>
           <Route path="/ResetPassword/" component={ResetPassword}></Route>
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/askquestion" component={Askquestion} />
         </Switch>
       </Router>
     );
