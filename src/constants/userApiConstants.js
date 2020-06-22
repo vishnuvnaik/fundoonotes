@@ -5,4 +5,5 @@ module.exports = {
   UploadProfileImage: "/user/uploadProfileImage",
   searchUserList: "/user/searchUserList",
   resetpassword: "/user/reset-password",
+  Productcarts: "/productcarts",
 };
