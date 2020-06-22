@@ -3,7 +3,6 @@ import noteApiConstants from "../constants/noteApiConstants";
 const userData = JSON.parse(localStorage.getItem("userDetails"));
 async function addnotes(notedata) {
   try {
-    console.log("notedata", notedata);
     let response = await axios.post(
       process.env.REACT_APP_BASE_URL + noteApiConstants.addNotes,
       notedata,

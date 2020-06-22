@@ -86,6 +86,44 @@ async function resetPassword(data, access_token) {
     return error;
   }
 }
+async function myCart() {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    const response = await axios.get(
+      process.env.REACT_APP_BASE_URL +
+        userApiConstants.Productcarts +
+        "/myCart",
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+async function placeOrder(cartId, address) {
+  let userData = JSON.parse(localStorage.getItem("userDetails"));
+  try {
+    const data = { cartId: cartId, address: address };
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL +
+        userApiConstants.Productcarts +
+        "/placeOrder",
+      data,
+      {
+        headers: {
+          Authorization: userData.id,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
 
 export default {
   userRegistration,
@@ -94,4 +132,6 @@ export default {
   uploadUserProfile,
   searchUserByWord,
   resetPassword,
+  myCart,
+  placeOrder,
 };
