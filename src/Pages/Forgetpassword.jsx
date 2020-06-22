@@ -36,7 +36,6 @@ class ForgetPassword extends React.Component {
       userServices
         .forgotPassword(sendData)
         .then((response) => {
-          console.log(response);
           if (response === undefined) {
             this.setState({
               snackbarOpen: true,

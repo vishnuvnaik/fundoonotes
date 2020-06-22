@@ -307,15 +307,6 @@ class Registration extends Component {
             <span>Login instead</span>
           </div>
           <div className="set_Button">
-            {/*   <Button
-              form="styled_component"
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={this.login}
-            >
-              Login
-              </Button> */}
             <Button
               form="styled_component"
               type="submit"

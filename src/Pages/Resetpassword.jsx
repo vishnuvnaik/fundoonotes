@@ -38,7 +38,6 @@ class ResetPassword extends Component {
     if (this.state.helperTextpassowrd === "") {
       if (this.state.pass === true) {
         userServices.resetPassword(data, id).then((response) => {
-          console.log(response);
           if (response.statusText === "No Content") {
             this.setState({
               snackbaropen: true,

@@ -22,12 +22,14 @@ import {
   Search,
   Close,
   NotificationsNone,
+  ShoppingCart,
 } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import SideMenu from "../component/Sidemenu";
 import keep from "../assets/keep.png";
 import Notes from "../component/Notescard";
 import "../CSS/dashboard.css";
+import Cart from "../component/Cart.jsx";
 import noteServices from "../services/noteServices";
 import AllNotes from "../component/Allnotes";
 import userServices from "../services/userServices";
@@ -68,6 +70,9 @@ export default class dashboard extends Component {
       labelIdList: [],
       Pinned: false,
       headerName: "",
+      snackbarMsg: "",
+      snackbarOpen: false,
+      snackbarMsgType: "",
       allNotes: [],
       labelNotes: [],
       listGrid: false,
@@ -75,7 +80,7 @@ export default class dashboard extends Component {
       menuAnchorEl: null,
       profileImage: localStorage.getItem("userProfileImage"),
       singleNoteData: [],
-      containerRender: "queAndAns",
+      containerRender: "",
       src: null,
       crop: {
         unit: "%",
@@ -94,6 +99,13 @@ export default class dashboard extends Component {
     }
     this.setState({ headerName: renderComponent });
   };
+  displaySnackbar = (open, type, msg) => {
+    this.setState({
+      snackbarOpen: open,
+      snackbarMsgType: type,
+      snackbarMsg: msg,
+    });
+  };
   handleDrawer() {
     this.setState({ open: !this.state.open });
   }
@@ -102,6 +114,7 @@ export default class dashboard extends Component {
     localStorage.removeItem("userDetails");
     this.props.history.push("/login");
   };
+
   handleClickProfile = (event) => {
     this.setState({
       menuOpen: true,
@@ -111,8 +124,6 @@ export default class dashboard extends Component {
   getLabel = async () => {
     let array = [];
     await noteServices.getNoteLabel().then((res) => {
-      console.log(res);
-
       res.data.data.details.forEach((element) => {
         array.push(element);
       });
@@ -215,8 +226,6 @@ export default class dashboard extends Component {
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
         if (!blob) {
-          //reject(new Error('Canvas is empty'));
-          console.error("Canvas is empty");
           return;
         }
         blob.name = fileName;
@@ -235,6 +244,7 @@ export default class dashboard extends Component {
       reader.readAsDataURL(e.target.files[0]);
     }
   };
+
   render() {
     const { croppedImageUrl } = this.state;
 
@@ -337,7 +347,10 @@ export default class dashboard extends Component {
                 </Tooltip>
                 <div className="nameAndlogo">
                   <img className="keep_img" src={keep} alt="F" />
-                  <div className="headerName">
+                  <div
+                    className="headerName"
+                    onClick={() => this.containerRendering("", "")}
+                  >
                     <Typography color="inherit" variant="h6">
                       Fundoo
                     </Typography>
@@ -366,6 +379,11 @@ export default class dashboard extends Component {
               ) : null}
 
               <div className="appicons">
+                <IconButton
+                  onClick={(e) => this.containerRendering(null, "cart")}
+                >
+                  <ShoppingCart />
+                </IconButton>
                 <div>
                   <Tooltip
                     title={this.state.listGrid ? "List view" : "Grid view"}
@@ -448,6 +466,10 @@ export default class dashboard extends Component {
                     </div>
                   ) : this.state.headerName === "Archive" ? (
                     <div className="allNotes_position">{arcObj}</div>
+                  ) : this.state.headerName === "cart" ? (
+                    <div>
+                      <Cart displaySnackbar={this.displaySnackbar.bind(this)} />
+                    </div>
                   ) : this.state.headerName === "queAndAns" ? (
                     <div>
                       <QueAndAns
