@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import AddAlert from "@material-ui/icons/AddAlert";
 import {
   IconButton,
   Card,
   Paper,
   MenuItem,
-  TextField,
-  Button,
   Popper,
 } from "@material-ui/core";
 import "../CSS/dashboard.css";
@@ -28,7 +25,6 @@ class ReminderComponent extends Component {
       open: !this.state.open,
       anchorEl: currentTarget,
     });
-    console.log("in reminder");
   };
 
   render() {
@@ -47,12 +43,12 @@ class ReminderComponent extends Component {
             <Paper>
               <div>
                 Reminders
-                <MenuItem onClick={(event) => this.today}>
+                <MenuItem onClick={() => this.today}>
                   Later today : 08:00 PM
                 </MenuItem>
               </div>
               <div>
-                <MenuItem onClick={(event) => this.tomorrow}>
+                <MenuItem onClick={() => this.tomorrow}>
                   Tomorrow : 08:00 AM
                 </MenuItem>
               </div>

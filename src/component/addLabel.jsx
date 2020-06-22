@@ -74,7 +74,7 @@ export default class AddLabelNote extends Component {
       const index = this.state.labelNotes.findIndex(
         (labelNotes) => labelNotes.id === labelId
       );
-      console.log(index, labelId);
+     
       if (index > -1) {
         this.state.labelNotes.splice(index, 1);
       }

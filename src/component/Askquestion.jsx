@@ -100,7 +100,6 @@ export default class QueAndAns extends Component {
       like: this.state.like,
     };
     noteServices.likeQuestion(data, id).then((response) => {
-      console.log(response);
       if (response.status === 200) {
         this.setState({ count: response.data.data.details.count });
         this.componentDidMount();
@@ -120,7 +119,6 @@ export default class QueAndAns extends Component {
     noteServices
       .replyQuestion(data, this.props.noteData.id)
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           this.setState({
             reply: false,
@@ -137,12 +135,9 @@ export default class QueAndAns extends Component {
     let data = {
       like: this.state.like,
     };
-    console.log(id, data);
-
     const form_data = new FormData();
     form_data.append("like", this.state.like);
     noteServices.likeQuestion(data, id).then((response) => {
-      console.log(response);
       if (response.status === 200) {
         this.setState({ count: response.data.data.details.count });
         this.componentDidMount();
@@ -292,7 +287,7 @@ export default class QueAndAns extends Component {
                         </div>
                         <div className="replyButt">
                           <img
-                          alt="rep"
+                            alt="rep"
                             src={reply_black}
                             onClick={() =>
                               this.replyButton(
@@ -308,7 +303,7 @@ export default class QueAndAns extends Component {
                           <div className="likerow">
                             <div className="likeRow1">
                               <img
-                              alt="rep"
+                                alt="rep"
                                 src={thumb_up}
                                 onClick={() =>
                                   this.dislikeButton(

@@ -81,7 +81,6 @@ class Notes extends Component {
 
   openCard = () => {
     this.setState({ open: !this.state.open });
-    console.log(this.state.open);
   };
   changeCard = () => {
     this.openCard();
@@ -96,7 +95,6 @@ class Notes extends Component {
   addNotes = () => {
     for (let i = 0; i < this.state.labelNotes.length; i++) {
       this.state.labelIdList.push(this.state.labelNotes[i].id);
-      console.log(this.state.labelNotes[i].id);
     }
     this.setState({ labelIdList: this.state.labelIdList });
     if (this.state.title !== "") {
@@ -175,11 +173,9 @@ class Notes extends Component {
     });
   };
   labelNotes = (value) => {
-    console.log(value);
     this.setState({ labelNotes: value });
   };
   remainderMain = (value) => {
-    console.log(value);
     this.setState({ remainderMain: value });
   };
   addUpdateReminder = (date) => {

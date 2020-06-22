@@ -231,7 +231,6 @@ class AllNotes extends Component {
       noteIdList: [this.state.noteIdList],
     };
     noteService.archiveNote(field).then((res) => {
-      console.log("done");
       this.props.getNote();
     });
     if (this.state.isArchived == true) {
@@ -339,7 +338,6 @@ class AllNotes extends Component {
       .removeNoteLabel(labelId, this.state.noteIdList)
       .then((response) => {
         if (response) {
-          console.log("done");
         }
       });
     this.props.getNote();
@@ -347,7 +345,6 @@ class AllNotes extends Component {
   };
 
   labelNotes = (value) => {
-    console.log(value);
     this.setState({ labelNotes: value });
   };
   handleClickMore = (event) => {
@@ -928,8 +925,6 @@ class AllNotes extends Component {
                       )}
                     </IconButton>
                   </Tooltip>
-
-                  {/* <div style={{ position: "relative" }}> */}
                   <Tooltip title="More" arrow>
                     <IconButton onClick={this.handleClickMore}>
                       <MoreVertOutlined fontSize="small" />
