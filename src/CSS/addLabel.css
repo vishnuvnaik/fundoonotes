@@ -9,11 +9,11 @@
   justify-content: space-evenly;
 }
 .lableList > *:hover {
-    background-color: #dfdfdf;
-    border-radius: 0px 30px 30px 0px;
-  }
-  .lablelistSelect {
-    display: flex;
-    align-items: center;
-    height: 20px;
-  }
+  background-color: #dfdfdf;
+  border-radius: 0px 30px 30px 0px;
+}
+.lablelistSelect {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}

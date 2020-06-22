@@ -1,0 +1,95 @@
+.shopping_cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.shopping_address {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.shopping_cart_service {
+  background-color: orange;
+  border-radius: 10px;
+  padding: 10px;
+  width: fit-content;
+}
+.shopping_cart > * {
+  margin: 10px;
+  font-size: small;
+}
+.shopping_cart_blueFont {
+  color: #00a1ff;
+}
+.service_card_subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: solid 1px;
+  padding: 10px;
+}
+.service_card_subtotal > * {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.MuiStep-root.MuiStep-horizontal .MuiStepIcon-active {
+  display: none;
+}
+
+.orderPlaced {
+  background-color: gray;
+  padding: 10px;
+  border-radius: 5px;
+}
+.cart_container .MuiStepLabel-root {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cart_container .MuiStepLabel-root > * {
+  margin-top: 10px;
+}
+.cart_container .MuiStepLabel-active {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cart_container .MuiStepLabel-active > * {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notes_container {
+  display: flex;
+  align-items: center;
+  place-content: stretch center;
+}
+.cart_container {
+  max-width: 700px;
+  padding: 10px 100px 100px 100px;
+}
+.cartStepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cartStepper > * {
+  width: 85%;
+}
+.cartStepper > span {
+  width: 15%;
+  background-color: cadetblue;
+  border-radius: 12px;
+  padding: 10px;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
