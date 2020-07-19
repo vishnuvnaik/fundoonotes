@@ -86,9 +86,9 @@ async function resetPassword(data, access_token) {
     return error;
   }
 }
-async function myCart() {
-  let userData = JSON.parse(localStorage.getItem("userDetails"));
+export async function myCart() {
   try {
+    let userData = JSON.parse(localStorage.getItem("userDetails"));
     const response = await axios.get(
       process.env.REACT_APP_BASE_URL +
         userApiConstants.Productcarts +
@@ -124,6 +124,18 @@ async function placeOrder(cartId, address) {
     return err;
   }
 }
+async function logout(data) {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_URL + userApiConstants.logout,
+      data,
+      { headers: { Authorization: localStorage.getItem("token") } }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 
 export default {
   userRegistration,
@@ -132,6 +144,6 @@ export default {
   uploadUserProfile,
   searchUserByWord,
   resetPassword,
-  myCart,
   placeOrder,
+  logout,
 };
