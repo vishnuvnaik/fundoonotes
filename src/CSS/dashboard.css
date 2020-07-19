@@ -186,7 +186,7 @@
   margin-top: 0px;
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 500px;
 }
 .chipLabel {
   display: flex;
@@ -827,6 +827,40 @@
   }
 }
 @media screen and (width: 768px) {
+  .allNotes_position {
+    width: 78%;
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+  .notesCard {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 22px;
+    inline-size: 250px;
+  }
+  .show {
+    display: flex;
+    position: relative;
+    margin-left: 220px;
+    margin-top: 25px;
+    box-shadow: 0px 0px 2px 1px gray;
+    inline-size: 250px;
+    border-radius: 5px;
+  }
+  .gridCard {
+    position: relative;
+    margin: 1%;
+    height: auto;
+    border-radius: 10px;
+    padding: 10px;
+    width: 135px;
+    justify-items: center;
+  }
+}
+
+@media screen and (max-width: 588px) {
   .allNotes_position {
     width: 78%;
     margin-left: 11%;

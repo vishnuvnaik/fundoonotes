@@ -25,8 +25,8 @@
 }
 .service_card_subtotal {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   flex-direction: column;
   border: solid 1px;
   padding: 10px;
@@ -83,7 +83,7 @@
 }
 .cartStepper > span {
   width: 15%;
-  background-color: cadetblue;
+  background-color: orange;
   border-radius: 12px;
   padding: 10px;
 }
@@ -92,4 +92,16 @@
 }
 .show {
   display: block;
+}
+.service_card_subtotal_media {
+  min-width: 100%;
+  margin: 0px;
+}
+
+.showAdd {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 213px;
 }
