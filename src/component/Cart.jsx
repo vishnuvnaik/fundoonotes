@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import CardStepper from "./Cardstepper";
 import { Divider, Button, IconButton } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { myCart } from "../services/userServices";
 import userServices from "../services/userServices";
 import "../CSS/cart.css";
+import Snackbar from "@material-ui/core/Snackbar";
 
 class Cart extends Component {
   constructor(props) {
@@ -15,19 +17,34 @@ class Cart extends Component {
       cartData: "",
       cartID: "",
       isOrderPlaced: "",
+      snackbarOpen: false,
+      snackbarMsg: "",
+      snackbarMsgType: "",
     };
   }
 
-  componentWillMount = () => {
-    userServices.myCart().then((res) => {
-      this.setState({ cartData: res.data.data[0].product });
-      this.setState({ cartID: res.data.data[0].id });
-      this.setState({ isOrderPlaced: res.data.data[0].isOrderPlaced });
-      this.setState({ cartStepper: res.data.data[0].isOrderPlaced ? 2 : 0 });
+  componentDidMount = () => {
+    myCart().then((response) => {
+      this.setState({ cartID: response.data.data[0].id });
+      this.setState({ cartData: response.data.data[0].product });
+      this.setState({ isOrderPlaced: response.data.data[0].isOrderPlaced });
+      this.setState({
+        cartStepper: response.data.data[0].isOrderPlaced ? 2 : 0,
+      });
     });
   };
   cartStepperChange = () => {
     this.setState({ cartStepper: this.state.cartStepper + 1 });
+  };
+  displaySnackbar = (open, type, msg) => {
+    this.setState({
+      snackbarOpen: open,
+      snackbarMsgType: type,
+      snackbarMsg: msg,
+    });
+  };
+  snackbarClose = () => {
+    this.setState({ snackbarOpen: false });
   };
   checkOutOrder = () => {
     this.setState({ addressBarView: true });
@@ -35,7 +52,10 @@ class Cart extends Component {
   };
   placeOrder = () => {
     if (!this.state.address) {
-      this.props.displaySnackbar(true, "error", "Fill your address");
+      this.setState({
+        snackbarOpen: true,
+        snackbarMsg: "Address should not be empty",
+      });
     } else {
       userServices
         .placeOrder(this.state.cartID, this.state.address)
@@ -83,7 +103,7 @@ class Cart extends Component {
                 ) : (
                   <div>
                     <div
-                      className={this.state.addressBarView ? "show" : "hide"}
+                      className={this.state.addressBarView ? "showAdd" : "hide"}
                     >
                       <Button
                         variant="contained"
@@ -94,7 +114,9 @@ class Cart extends Component {
                       </Button>
                     </div>
                     <div
-                      className={!this.state.addressBarView ? "show" : "hide"}
+                      className={
+                        !this.state.addressBarView ? "showAdd" : "hide"
+                      }
                     >
                       <Button
                         variant="contained"
@@ -116,7 +138,7 @@ class Cart extends Component {
           </div>
           <div
             className={
-              this.state.addressBarView ? "shopping_address show" : "hide"
+              this.state.addressBarView ? "shopping_address showAdd" : "hide"
             }
           >
             <div>
@@ -127,13 +149,23 @@ class Cart extends Component {
                 rowsMin={3}
                 placeholder="Enter Your Address"
               />
-            </div>
-            <div>
-              <p>payment method</p>
-              <h4 className="shopping_cart_buleFont">Cash on Delivery</h4>
+              <div>
+                <p>payment method</p>
+                <h4 className="shopping_cart_blueFont">Cash on Delivery</h4>
+              </div>
             </div>
           </div>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackbarOpen: false })}
+          message={this.state.snackbarMsg}
+        ></Snackbar>
       </div>
     );
   }

@@ -59,7 +59,7 @@ export default class AddLabelNote extends Component {
         });
         this.setState({ noteLabelList: this.state.noteLabelList });
         this.setState({ instanceLabel: "" });
-        this.state.labelIdListChange();
+        //this.setState({ labelIdListChange: this.state.labelIdListChange });
       });
     }
   };
@@ -74,7 +74,7 @@ export default class AddLabelNote extends Component {
       const index = this.state.labelNotes.findIndex(
         (labelNotes) => labelNotes.id === labelId
       );
-     
+
       if (index > -1) {
         this.state.labelNotes.splice(index, 1);
       }

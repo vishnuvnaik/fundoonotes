@@ -22,7 +22,7 @@ import {
 import noteServices from "../services/noteServices";
 import RemainderMenu from "./Remaindermenu";
 import pin from "../assets/pin.svg";
-import "../CSS/notesCard.css";
+import "../CSS/dashboard.css";
 import CollaboratorComponent from "./Collaborator";
 
 const color = [
@@ -129,8 +129,8 @@ class Notes extends Component {
     }
   };
 
-  onClickArchive = () => {
-    this.setState({ isArchived: true });
+  onClickArchive = async () => {
+    await this.setState({ isArchived: true });
     this.addNotes();
   };
   handleClickMore = (event) => {

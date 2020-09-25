@@ -659,6 +659,7 @@ class AllNotes extends Component {
                       }}
                       anchorEl={this.state.moreMenuAnchor}
                       keepMounted
+                      getContentAnchorEl={null}
                       open={this.state.moreMenuOpen}
                       onClose={this.moreClose}
                     >
